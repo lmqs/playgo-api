@@ -1,41 +1,40 @@
-import { Client, QueryResult } from 'pg';
-import { DatabaseClient } from '../../../core/data/adapter/database-client';
-import { ENVIRONMENT } from '../../../main/config';
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { Client, QueryResult } from 'pg'
+import { DatabaseClient } from '../../../core/data/adapter/database-client'
+import { ENVIRONMENT } from '../../../main/config'
 
-export class PostgresService implements DatabaseClient{
+export class PostgresService implements DatabaseClient {
+  private static instance: PostgresService
+  private readonly client: Client
 
-  private static instance: PostgresService;
-  private client: Client ;
-
-  constructor() { 
+  constructor () {
     this.client = new Client({
       host: ENVIRONMENT.database.host,
       user: ENVIRONMENT.database.user,
       database: ENVIRONMENT.database.database,
       password: ENVIRONMENT.database.password,
-      port: ENVIRONMENT.database.port,
-     });
+      port: ENVIRONMENT.database.port
+    })
   }
 
   static getInstance (): PostgresService {
-    if (!PostgresService.instance) PostgresService.instance =  new PostgresService()
+    if (!PostgresService.instance) PostgresService.instance = new PostgresService()
     return PostgresService.instance
   }
 
-  async connect() {
+  async connect (): Promise<void> {
     try {
-      await this.client.connect();
+      await this.client.connect()
     } catch (error) {
-      return Promise.reject(error);
+      return await Promise.reject(error)
     }
   }
 
-  async exec(query: string): Promise<QueryResult<any>> {
+  async exec (query: string): Promise<QueryResult<any>> {
     try {
-      return await this.client.query(query);
+      return await this.client.query(query)
     } catch (error) {
-      return Promise.reject(error);
+      return await Promise.reject(error)
     }
   }
- 
 }
