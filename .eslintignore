@@ -3,3 +3,4 @@ build/
 .env
 types/
 coverage/
+.husky/
