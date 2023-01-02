@@ -1,6 +1,19 @@
 import { AddAccount, AddAccountModel, AccountModel, HttpRequest } from './signup-protocols'
 import { MissingParamError, InvalidParamError, ServerError } from '../../errors'
 import { SignUpController } from './signup'
+import { ok, badRequest, serverError } from '../../../presentation/helpers/http-helper'
+
+const makeFakeAccount = (): AccountModel => ({
+  id: 'valid_id',
+  name: 'valid_name',
+  user: 'valid_user',
+  password: 'valid_password',
+  email: 'valid_email',
+  cityId: 1,
+  phoneNumber: 'valid_number',
+  photo: 'valid_photo',
+  deleted: true
+})
 
 interface SutTypes {
   sut: SignUpController
@@ -9,18 +22,7 @@ interface SutTypes {
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add (account: AddAccountModel): Promise<AccountModel> {
-      const fakeAccount = {
-        id: 'valid_id',
-        name: 'valid_name',
-        user: 'valid_user',
-        password: 'valid_password',
-        email: 'valid_email',
-        cityId: 1,
-        phoneNumber: 'valid_number',
-        photo: 'valid_photo',
-        deleted: true
-      }
-      return await new Promise(resolve => resolve(fakeAccount))
+      return await new Promise(resolve => resolve(makeFakeAccount()))
     }
   }
   return new AddAccountStub()
@@ -118,8 +120,7 @@ describe('SignUP Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('email'))
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('email')))
   })
 
   test('Should return 400 if no cityId is provider', async () => {
@@ -134,8 +135,7 @@ describe('SignUP Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('cityId'))
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('cityId')))
   })
 
   test('Should return 400 if no phoneNumber is provider', async () => {
@@ -169,8 +169,7 @@ describe('SignUP Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
+    expect(httpResponse).toEqual(badRequest(new InvalidParamError('passwordConfirmation')))
   })
 
   test('Should call AddAccount with correct values', async () => {
@@ -195,26 +194,13 @@ describe('SignUP Controller', () => {
     })
 
     const httpResponse = await sut.handle(httpRequestGenericMock)
-    expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse).toEqual(serverError(new ServerError()))
   })
 
   test('Should return 200 if valid data is provider', async () => {
     const { sut } = makeSut()
 
     const httpResponse = await sut.handle(httpRequestGenericMock)
-
-    expect(httpResponse.statusCode).toBe(200)
-    expect(httpResponse.body).toEqual({
-      id: 'valid_id',
-      name: 'valid_name',
-      user: 'valid_user',
-      password: 'valid_password',
-      email: 'valid_email',
-      cityId: 1,
-      phoneNumber: 'valid_number',
-      photo: 'valid_photo',
-      deleted: true
-    })
+    expect(httpResponse).toEqual(ok(makeFakeAccount()))
   })
 })
