@@ -32,8 +32,8 @@ export class SignUpController implements Controller {
         photo
       })
       return ok(account)
-    } catch (error) {
-      return serverError()
+    } catch (error: unknown) {
+      return serverError(error as Error)
     }
   }
 }
