@@ -1,0 +1,17 @@
+{
+  "env": {
+      "commonjs": true,
+      "es2019": true,
+      "node": true
+  },
+  "extends": "standard-with-typescript",
+  "parserOptions": {
+      "project": "./tsconfig.json",
+      "ecmaVersion": "latest"
+    },
+  "overrides": [
+  ],
+  "rules": {
+    "@typescript-eslint/strict-boolean-expressions": "off"
+  }
+}
