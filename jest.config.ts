@@ -1,10 +1,14 @@
 export default {
   roots: ['<rootDir>/src'],
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  tsconfigRootDir: __dirname,
+  project: ['./tsconfig.json'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**'
+  ],
   coverageDirectory: "coverage",
   testEnvironment:'node',
   clearMocks: true,
-  collectCoverage: true,
   transform: {
     '.+\\.ts$': 'ts-jest'
   },
