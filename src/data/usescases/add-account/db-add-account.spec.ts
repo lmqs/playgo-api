@@ -9,7 +9,7 @@ interface SutTypes {
 const makeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
     async encrypt (value: string): Promise<string> {
-      return await new Promise(resolve => resolve('hashed_password'))
+      return await new Promise(resolve => { resolve('hashed_password') })
     }
   }
   return new EncrypterStub()
@@ -69,7 +69,7 @@ describe('DbAddAccount UseCase', () => {
 
   test('Should throw if Encrypter throws', async () => {
     const { sut, encryptStub } = makeSut()
-    jest.spyOn(encryptStub, 'encrypt').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(encryptStub, 'encrypt').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
 
     const promise = sut.add(accountDataGenericMock)
     await expect(promise).rejects.toThrow()
@@ -94,7 +94,7 @@ describe('DbAddAccount UseCase', () => {
 
   test('Should throw if AddAccountRepository throws', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
-    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
 
     const promise = sut.add(accountDataGenericMock)
     await expect(promise).rejects.toThrow()
