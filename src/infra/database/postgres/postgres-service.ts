@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Client, QueryResult } from 'pg'
 import { DatabaseClient } from '../../../core/data/adapter/database-client'
 import { ENVIRONMENT } from '../../../main/config'
@@ -26,7 +25,7 @@ export class PostgresService implements DatabaseClient {
     try {
       await this.client.connect()
     } catch (error) {
-      return await Promise.reject(error)
+      await Promise.reject(error)
     }
   }
 
