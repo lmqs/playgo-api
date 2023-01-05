@@ -1,4 +1,3 @@
-import { InvalidParamError } from './../../errors'
 import { badRequest, serverError, ok } from './../../helpers/http-helper'
 import { HttpRequest, HttpResponse, AddAccount, Controller, Validation } from './signup-protocols'
 
@@ -17,10 +16,7 @@ export class SignUpController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { name, user, password, passwordConfirmation, email, cityId, phoneNumber, photo } = httpRequest.body
-      if (password !== passwordConfirmation) {
-        return badRequest(new InvalidParamError('passwordConfirmation'))
-      }
+      const { name, user, password, email, cityId, phoneNumber, photo } = httpRequest.body
 
       const account = await this.addAccount.add({
         name,
