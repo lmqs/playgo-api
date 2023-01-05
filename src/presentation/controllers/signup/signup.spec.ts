@@ -1,4 +1,4 @@
-import { AddAccount, AddAccountModel, AccountModel, HttpRequest } from './signup-protocols'
+import { AddAccount, AddAccountModel, AccountModel, HttpRequest, Validation } from './signup-protocols'
 import { MissingParamError, InvalidParamError, ServerError } from '../../errors'
 import { SignUpController } from './signup'
 import { ok, badRequest, serverError } from '../../../presentation/helpers/http-helper'
@@ -18,6 +18,15 @@ const makeFakeAccount = (): AccountModel => ({
 interface SutTypes {
   sut: SignUpController
   addAccountStub: AddAccount
+  validationStub: Validation
+}
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate (input: any): Error {
+      return null as unknown as Error
+    }
+  }
+  return new ValidationStub()
 }
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
@@ -30,10 +39,12 @@ const makeAddAccount = (): AddAccount => {
 
 const makeSut = (): SutTypes => {
   const addAccountStub = makeAddAccount()
-  const sut = new SignUpController(addAccountStub)
+  const validationStub = makeValidation()
+  const sut = new SignUpController(addAccountStub, validationStub)
   return {
     sut,
-    addAccountStub
+    addAccountStub,
+    validationStub
   }
 }
 
@@ -52,107 +63,6 @@ describe('SignUP Controller', () => {
         phoneNumber: 'valid_number'
       }
     }
-  })
-
-  test('Should return 400 if no user is provider', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'name',
-        password: 'password',
-        passwordConfirmation: 'password'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('user'))
-  })
-
-  test('Should return 400 if no name is provider', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        user: 'user',
-        password: 'password',
-        passwordConfirmation: 'password'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('name'))
-  })
-  test('Should return 400 if no password is provider', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        user: 'user',
-        name: 'name',
-        passwordConfirmation: 'passwordConfirmation'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('password'))
-  })
-
-  test('Should return 400 if no passwordConfirmation is provider', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        user: 'user',
-        name: 'name',
-        password: 'password'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'))
-  })
-
-  test('Should return 400 if no email is provider', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        user: 'user',
-        name: 'name',
-        password: 'password',
-        passwordConfirmation: 'passwordConfirmation'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('email')))
-  })
-
-  test('Should return 400 if no cityId is provider', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        user: 'user',
-        name: 'name',
-        password: 'password',
-        passwordConfirmation: 'passwordConfirmation',
-        email: 'email'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('cityId')))
-  })
-
-  test('Should return 400 if no phoneNumber is provider', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        user: 'user',
-        name: 'name',
-        password: 'password',
-        passwordConfirmation: 'passwordConfirmation',
-        email: 'email',
-        cityId: 'cityId'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('phoneNumber'))
   })
 
   test('Should return 400 if password confirmation fails', async () => {
@@ -202,5 +112,20 @@ describe('SignUP Controller', () => {
 
     const httpResponse = await sut.handle(httpRequestGenericMock)
     expect(httpResponse).toEqual(ok(makeFakeAccount()))
+  })
+
+  test('Should call validation.validate with correct values', async () => {
+    const { sut, validationStub } = makeSut()
+    const addSpy = jest.spyOn(validationStub, 'validate')
+
+    await sut.handle(httpRequestGenericMock)
+    expect(addSpy).toHaveBeenCalledWith(httpRequestGenericMock.body)
+  })
+
+  test('Should return 400 if Validation returns an error', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_filed'))
+    const httpResponse = await sut.handle(httpRequestGenericMock)
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('any_filed')))
   })
 })
