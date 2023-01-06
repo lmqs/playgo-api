@@ -1,8 +1,17 @@
 import { MissingParamError, ServerError, UnauthorizedError } from '../../errors'
 import { badRequest, serverError, ok } from '../../helpers/http-helper'
+import { Validation } from '../signup/signup-protocols'
 import { LoginController } from './login'
 import { HttpRequest, Authentication } from './login-protocols'
 
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate (input: any): Error {
+      return null as unknown as Error
+    }
+  }
+  return new ValidationStub()
+}
 const makeFakerRequest = (): HttpRequest => ({
   body: {
     user: 'valid_user',
@@ -13,6 +22,7 @@ const makeFakerRequest = (): HttpRequest => ({
 interface SutTypes {
   sut: LoginController
   authStub: Authentication
+  validationStub: Validation
 }
 
 const makeAuthentication = (): Authentication => {
@@ -25,36 +35,16 @@ const makeAuthentication = (): Authentication => {
 }
 const makeSut = (): SutTypes => {
   const authStub = makeAuthentication()
-  const sut = new LoginController(authStub)
+  const validationStub = makeValidation()
+  const sut = new LoginController(authStub, validationStub)
   return {
     sut,
-    authStub
+    authStub,
+    validationStub
   }
 }
 
 describe('SignUP Controller', () => {
-  test('Should return 400 if no user is provider', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        password: 'valid_password'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('user')))
-  })
-
-  test('Should return 400 if no password is provider', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        user: 'valid_user'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('password')))
-  })
-
   test('Should call Authentication with correct params', async () => {
     const { sut, authStub } = makeSut()
     const authSpy = jest.spyOn(authStub, 'auth')
@@ -86,5 +76,20 @@ describe('SignUP Controller', () => {
 
     const httpResponse = await sut.handle(makeFakerRequest())
     expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+  })
+
+  test('Should call validation.validate with correct values', async () => {
+    const { sut, validationStub } = makeSut()
+    const addSpy = jest.spyOn(validationStub, 'validate')
+
+    await sut.handle(makeFakerRequest())
+    expect(addSpy).toHaveBeenCalledWith(makeFakerRequest().body)
+  })
+
+  test('Should return 400 if Validation returns an error', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_filed'))
+    const httpResponse = await sut.handle(makeFakerRequest())
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('any_filed')))
   })
 })
