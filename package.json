@@ -5,8 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --passWithNoTests --runInBand",
-    "test:unit": "jest -c jest-unit-config.js --watch",
-    "test:integration": "npm test -- --watch -c jest-integration-config.js --testTimeout=10000",
     "test:watch": "jest --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
