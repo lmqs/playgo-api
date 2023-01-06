@@ -1,5 +1,5 @@
-import { Encrypter } from '../../data/usescases/add-account/db-add-account-protocols'
 import bcrypt from 'bcrypt'
+import { Encrypter } from '../../data/usescases/protocols/criptography/encrypter'
 
 export class BcryptAdapter implements Encrypter {
   private readonly salt: number
