@@ -3,17 +3,17 @@ import { Reader, Writer } from '../protocols/database'
 import { PostgresService } from './postgres-service'
 import Knex from 'knex'
 
-export abstract class BaseRepository<T, U> implements Reader<T>, Writer<T, U> {
+export abstract class BaseRepository<T, U> implements Reader<U>, Writer<T, U> {
   constructor (
     public readonly tableName: string,
     private readonly db: PostgresService = PostgresService.getInstance(),
     private readonly knex = Knex({ client: 'pg' })
   ) {}
 
-  async findOne (id: string): Promise<T> {
+  async findOne (field: string, value: string): Promise<U> {
     const query = this.knex(this.tableName)
       .select('*')
-      .where('id', id)
+      .where(field, value)
       .toString()
     const result = await this.runSql(query)
     return result[0]
@@ -22,6 +22,16 @@ export abstract class BaseRepository<T, U> implements Reader<T>, Writer<T, U> {
   async create (payload: T): Promise<U> {
     const query = this.knex(this.tableName)
       .insert(payload)
+      .returning('*')
+      .toString()
+    const result = await this.runSql(query)
+    return result[0]
+  }
+
+  async update (payload: any, whereFields: any): Promise<U> {
+    const query = this.knex(this.tableName)
+      .update(payload)
+      .where(whereFields)
       .returning('*')
       .toString()
     const result = await this.runSql(query)

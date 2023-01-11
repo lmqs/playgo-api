@@ -1,7 +1,8 @@
-export interface Reader<T> {
-  findOne: (id: string) => Promise<T>
+export interface Reader<U> {
+  findOne: (field: string, value: string) => Promise<U>
 }
 
 export interface Writer<T, U> {
   create: (item: T) => Promise<U>
+  update: (item: any, whereFields: any) => Promise<U>
 }
