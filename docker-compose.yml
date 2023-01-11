@@ -1,18 +1,21 @@
 version: '3.8'
 services:
- db:
-   container_name: postgres_container
-   image: postgres
-   restart: always
-   environment:
-     POSTGRES_DB: playgo
-     POSTGRES_USER: admin
-     POSTGRES_PASSWORD: admin
-     PGDATA: /var/lib/postgresql/data
-   ports:
-     - "5432:5432"
-   volumes:
-     - db-data:/var/lib/postgresql/data
+  db:
+    container_name: postgres_container
+    image: postgres
+    restart: always
+    env_file: .env.docker
+    ports:
+      - "4432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
 
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    env_file: .env.docker
+    ports:
+      - "5050:80"
 volumes:
  db-data:
