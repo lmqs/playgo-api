@@ -1,9 +1,9 @@
 import { AddAccountRepository } from 'data/usescases/add-account/db-add-account-protocols'
-import { AccountModel } from './../../../../domain/models/account'
+import { AccountModel } from '../../../../domain/models/account'
 
 import { AddAccountModel } from 'domain/usecases/add-account'
 import { BaseRepository } from '../base-repository'
-import { LoadAccountByUserRepository, UpdateAccessTokenRepository } from 'data/usescases/protocols/db'
+import { LoadAccountByUserRepository, UpdateAccessTokenRepository } from 'data/usescases/protocols/db/account'
 
 export class AccountPostgresRepository extends BaseRepository<AddAccountModel, AccountModel>
   implements AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository {
