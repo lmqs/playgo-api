@@ -3,8 +3,10 @@ import { AccountModel } from './../../../../domain/models/account'
 
 import { AddAccountModel } from 'domain/usecases/add-account'
 import { BaseRepository } from '../base-repository'
+import { LoadAccountByUserRepository, UpdateAccessTokenRepository } from 'data/usescases/protocols/db'
 
-export class AccountPostgresRepository extends BaseRepository<AddAccountModel, AccountModel> implements AddAccountRepository {
+export class AccountPostgresRepository extends BaseRepository<AddAccountModel, AccountModel>
+  implements AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository {
   constructor (
     public readonly tableName: string = 'users'
   ) {
@@ -14,5 +16,14 @@ export class AccountPostgresRepository extends BaseRepository<AddAccountModel, A
   async add (accountData: AddAccountModel): Promise<AccountModel> {
     const result = await this.create(accountData)
     return result
+  }
+
+  async loadByUser (user: string): Promise<AccountModel | undefined> {
+    const result = await this.findOne('user', user)
+    return result
+  }
+
+  async updateAccessToken (id: string, token: string): Promise<void> {
+    await this.update({ accessToken: token }, { id })
   }
 }
