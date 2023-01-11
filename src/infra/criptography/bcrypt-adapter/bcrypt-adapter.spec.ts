@@ -1,5 +1,5 @@
-import { BcryptAdapter } from './bcrypt-adapter'
 import bcrypt from 'bcrypt'
+import { BcryptAdapter } from './bcrypt-adapter'
 
 interface SutTypes {
   sut: BcryptAdapter
