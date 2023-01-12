@@ -85,56 +85,56 @@ describe('DbAddAccount UseCase', () => {
     await sut.auth(makeFakeAuthentication())
     expect(loadAccountByUserRepositorySpy).toHaveBeenCalledWith(makeFakeAuthentication().user)
   })
-  test('Sould throw if LoadAccountByUserRepository throws', async () => {
+  test('Should throw if LoadAccountByUserRepository throws', async () => {
     const { sut, loadAccountByUserRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow()
   })
 
-  test('Sould return null if LoadAccountByUserRepository returns null', async () => {
+  test('Should return null if LoadAccountByUserRepository returns null', async () => {
     const { sut, loadAccountByUserRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise((resolve) => { resolve(undefined) }))
     const accessToken = await sut.auth(makeFakeAuthentication())
     expect(accessToken).toBeUndefined()
   })
 
-  test('Sould call hashComparer with correct password', async () => {
+  test('Should call hashComparer with correct password', async () => {
     const { sut, hashComparerStub } = makeSut()
     const hashComparerStubSpy = jest.spyOn(hashComparerStub, 'compare')
     await sut.auth(makeFakeAuthentication())
     expect(hashComparerStubSpy).toHaveBeenCalledWith(makeFakeAuthentication().password, makeFakeAccount().password)
   })
 
-  test('Sould throw if hashComparer throws', async () => {
+  test('Should throw if hashComparer throws', async () => {
     const { sut, hashComparerStub } = makeSut()
     jest.spyOn(hashComparerStub, 'compare').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow()
   })
 
-  test('Sould return null if hashComparer returns null', async () => {
+  test('Should return null if hashComparer returns null', async () => {
     const { sut, hashComparerStub } = makeSut()
     jest.spyOn(hashComparerStub, 'compare').mockReturnValueOnce(new Promise((resolve) => { resolve(false) }))
     const accessToken = await sut.auth(makeFakeAuthentication())
     expect(accessToken).toBeUndefined()
   })
 
-  test('Sould call Encrypter with correct id', async () => {
+  test('Should call Encrypter with correct id', async () => {
     const { sut, encrypterStub } = makeSut()
     const tokenGeneratorSpy = jest.spyOn(encrypterStub, 'encrypt')
     await sut.auth(makeFakeAuthentication())
     expect(tokenGeneratorSpy).toHaveBeenCalledWith(makeFakeAccount().id)
   })
 
-  test('Sould throw if Encrypter throws', async () => {
+  test('Should throw if Encrypter throws', async () => {
     const { sut, encrypterStub } = makeSut()
     jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow()
   })
 
-  test('Sould return a token on success', async () => {
+  test('Should return a token on success', async () => {
     const { sut } = makeSut()
     const accessToken = await sut.auth(makeFakeAuthentication())
     expect(accessToken).toBe('any_token')

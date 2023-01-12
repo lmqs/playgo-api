@@ -1,4 +1,4 @@
-import { RequiredFieldValidation, CompareFieldsValidation, ValidationComposite } from '../../../presentation/helpers/validators'
+import { RequiredFieldValidation, CompareFieldsValidation, ValidationComposite } from '../../../validation/validators'
 import { Validation } from '../../../presentation/protocols/validation'
 
 export const makeSignUpValidation = (): ValidationComposite => {

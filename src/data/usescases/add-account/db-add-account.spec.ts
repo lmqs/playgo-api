@@ -1,10 +1,23 @@
+import { LoadAccountByUserRepository } from '../protocols/db/account'
 import { DbAddAccount } from './db-add-account'
 import { AccountModel, AddAccountModel, Hasher, AddAccountRepository } from './db-add-account-protocols'
 
+const makeFakeAccount = (): AccountModel => ({
+  id: 'valid_id',
+  name: 'valid_name',
+  user: 'valid_user',
+  password: 'hashed_password',
+  email: 'valid_email',
+  cityId: 1,
+  phoneNumber: 'valid_number',
+  photo: 'valid_photo',
+  deleted: true
+})
 interface SutTypes {
   sut: DbAddAccount
   hasherStub: Hasher
   addAccountRepositoryStub: AddAccountRepository
+  loadAccountByUserRepositoryStub: LoadAccountByUserRepository
 }
 const makeHasher = (): Hasher => {
   class HasherStub implements Hasher {
@@ -33,14 +46,24 @@ const makeAddAccountRepository = (): AddAccountRepository => {
   return new AddAccountRepositoryStub()
 }
 
+const makeLoadAccountByUserRepository = (): LoadAccountByUserRepository => {
+  class LoadAccountByUserRepository implements LoadAccountByUserRepository {
+    async loadByUser (user: string): Promise<AccountModel | undefined> {
+      return undefined
+    }
+  }
+  return new LoadAccountByUserRepository()
+}
 const makeSut = (): SutTypes => {
   const hasherStub = makeHasher()
   const addAccountRepositoryStub = makeAddAccountRepository()
-  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub)
+  const loadAccountByUserRepositoryStub = makeLoadAccountByUserRepository()
+  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub, loadAccountByUserRepositoryStub)
   return {
     sut,
     hasherStub,
-    addAccountRepositoryStub
+    addAccountRepositoryStub,
+    loadAccountByUserRepositoryStub
   }
 }
 
@@ -115,5 +138,20 @@ describe('DbAddAccount UseCase', () => {
       photo: 'valid_photo',
       deleted: true
     })
+  })
+
+  test('Sould call LoadAccountByUserRepository with correct user', async () => {
+    const { sut, loadAccountByUserRepositoryStub } = makeSut()
+    const loadAccountByUserRepositorySpy = jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser')
+    await sut.add(accountDataGenericMock)
+    expect(loadAccountByUserRepositorySpy).toHaveBeenCalledWith(accountDataGenericMock.user)
+  })
+
+  test('Should return undefined if LoadAccountByUserRepository not return empty', async () => {
+    const { sut, loadAccountByUserRepositoryStub } = makeSut()
+    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise(resolve => { resolve(makeFakeAccount()) }))
+    const accessToken = await sut.add(accountDataGenericMock)
+
+    expect(accessToken).toBeUndefined()
   })
 })
