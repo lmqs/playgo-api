@@ -52,7 +52,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('SignUP Controller', () => {
+describe('Category Controller', () => {
   test('Should call validation.validate with correct values', async () => {
     const { sut, validationStub } = makeSut()
     const addSpy = jest.spyOn(validationStub, 'validate')
