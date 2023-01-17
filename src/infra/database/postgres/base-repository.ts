@@ -19,6 +19,15 @@ export abstract class BaseRepository<T, U> implements Reader<U>, Writer<T, U> {
     return result[0]
   }
 
+  async findGeneric (whereFieldsAndValues: any): Promise<U[]> {
+    const query = this.knex(this.tableName)
+      .select('*')
+      .where(whereFieldsAndValues)
+      .toString()
+    const result = await this.runSql(query)
+    return result
+  }
+
   async create (payload: T): Promise<U> {
     const query = this.knex(this.tableName)
       .insert(payload)
