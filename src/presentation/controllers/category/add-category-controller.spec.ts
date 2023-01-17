@@ -1,5 +1,5 @@
-import { MissingParamError, ServerError } from '../../errors'
-import { badRequest, serverError, ok } from '../../helpers/http/http-helper'
+import { MissingParamError, ParamInUseError, ServerError } from '../../errors'
+import { badRequest, serverError, ok, forbidden } from '../../helpers/http/http-helper'
 import { AddCategoryController } from './add-category-controller'
 import { HttpRequest, Validation, AddCategory, AddCategoryModel, CategoryModel } from './add-category-controller-protocols'
 
@@ -88,6 +88,13 @@ describe('Category Controller', () => {
 
     const httpResponse = await sut.handle(makeFakerRequest())
     expect(httpResponse).toEqual(serverError(new ServerError()))
+  })
+
+  test('Should return 403 if addCategory returns null', async () => {
+    const { sut, addCategoryStub } = makeSut()
+    jest.spyOn(addCategoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { resolve(undefined) }))
+    const httpResponse = await sut.handle(makeFakerRequest())
+    expect(httpResponse).toEqual(forbidden(new ParamInUseError('description')))
   })
 
   test('Should return 200 if valid data is provider', async () => {
