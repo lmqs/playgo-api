@@ -1,5 +1,5 @@
 
-import { AddCategoryRepository, AddCategoryModel } from '../../../../data/usescases/add-category/db-add-category-protocols'
+import { AddCategoryRepository, AddCategoryModel } from '../../../../data/usescases/category/add-category/db-add-category-protocols'
 import { LoadCategoryByDescriptionAndIdRepository } from '../../../../data/usescases/protocols/db/category/load-category-by-description-and-id-repository'
 import { CategoryModel } from '../../../../domain/models/category'
 import { BaseRepository } from '../base-repository'

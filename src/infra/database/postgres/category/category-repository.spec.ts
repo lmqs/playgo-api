@@ -1,4 +1,4 @@
-import { AddCategoryModel } from 'domain/usecases/add-category'
+import { AddCategoryModel } from '../../../../domain/usecases/add-category'
 import { CategoryPostgresRepository } from './category-repository'
 
 interface SutTypes {

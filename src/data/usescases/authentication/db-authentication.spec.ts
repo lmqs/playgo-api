@@ -1,5 +1,5 @@
+import { AccountModel } from '../../../domain/models/account'
 import { AuthenticationModel } from '../../../domain/usecases/authentication'
-import { AccountModel } from '../add-account/db-add-account-protocols'
 import { HashComparer, Encrypter } from '../protocols/criptography'
 import { UpdateAccessTokenRepository, LoadAccountByUserRepository } from '../protocols/db/account'
 import { DbAuthentication } from './db-authentication'
