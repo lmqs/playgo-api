@@ -1,11 +1,12 @@
 import { AccountModel } from '../../../../domain/models/account'
 
-import { AddAccountModel } from 'domain/usecases/add-account'
+import { AddAccountModel } from '../../../../domain/usecases/add-account'
 import { BaseRepository } from '../base-repository'
-import { AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository } from 'data/usescases/protocols/db/account'
+import { AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository } from '../../../../data/usescases/protocols/db/account'
 
 export class AccountPostgresRepository extends BaseRepository<AddAccountModel, AccountModel>
-  implements AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository {
+  implements AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository,
+  LoadAccountByTokenRepository {
   constructor (
     public readonly tableName: string = 'users'
   ) {
@@ -24,5 +25,12 @@ export class AccountPostgresRepository extends BaseRepository<AddAccountModel, A
 
   async updateAccessToken (id: string, token: string): Promise<void> {
     await this.update({ accessToken: token }, { id })
+  }
+
+  async loadByToken (token: string, role?: string | undefined): Promise<AccountModel | undefined> {
+    const account = await this.findGeneric({ accessToken: token, role })
+    if (account.length) {
+      return account[0]
+    }
   }
 }
