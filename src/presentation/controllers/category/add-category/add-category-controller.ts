@@ -1,7 +1,7 @@
-import { AddCategory } from './../../../domain/usecases/add-category'
-import { badRequest, serverError, ok, forbidden } from '../../helpers/http/http-helper'
+import { AddCategory } from './../../../../domain/usecases/add-category'
+import { badRequest, serverError, ok, forbidden } from '../../../helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse, Validation } from './add-category-controller-protocols'
-import { ParamInUseError } from '../../../presentation/errors'
+import { ParamInUseError } from '../../../../presentation/errors'
 
 export class AddCategoryController implements Controller {
   constructor (

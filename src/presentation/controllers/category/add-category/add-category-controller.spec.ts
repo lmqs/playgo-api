@@ -1,5 +1,5 @@
-import { MissingParamError, ParamInUseError, ServerError } from '../../errors'
-import { badRequest, serverError, ok, forbidden } from '../../helpers/http/http-helper'
+import { MissingParamError, ParamInUseError, ServerError } from '../../../errors'
+import { badRequest, serverError, ok, forbidden } from '../../../helpers/http/http-helper'
 import { AddCategoryController } from './add-category-controller'
 import { HttpRequest, Validation, AddCategory, AddCategoryModel, CategoryModel } from './add-category-controller-protocols'
 
