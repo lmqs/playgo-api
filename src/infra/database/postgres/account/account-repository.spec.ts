@@ -116,5 +116,31 @@ describe('Account Postgres Repository', () => {
       const promise = sut.loadByToken('any_token')
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should return null on loadByToken with invalid role', async () => {
+      const { sut } = makeSut()
+      sut.findGeneric = jest.fn().mockReturnValue([])
+
+      const account = await sut.loadByToken('any_token', 'any_role')
+      expect(account).toBeUndefined()
+    })
+
+    test('Should return an account on loadByToken with if user is admin role', async () => {
+      const { sut } = makeSut()
+      const accountDataMock = [{ id: 'valid_id', role: 'admin', ...accountDataGenericMock }]
+      sut.findGeneric = jest.fn().mockReturnValue(accountDataMock)
+
+      const account = await sut.loadByToken('any_token')
+      expect(account).toEqual({
+        id: 'valid_id',
+        name: 'valid_name',
+        user: 'valid_user',
+        password: 'valid_password',
+        email: 'valid_email',
+        cityId: 1,
+        phoneNumber: 'valid_number',
+        role: 'admin'
+      })
+    })
   })
 })
