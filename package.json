@@ -10,7 +10,8 @@
     "test:ci": "npm test -- --coverage",
     "start:dev": "nodemon ./src/index.ts",
     "build": "npx tsc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
   },
   "author": "Luciana Queiroz",
   "license": "ISC",
@@ -25,6 +26,7 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.48.0",
     "@typescript-eslint/parser": "^5.48.0",
+    "coveralls": "^3.1.1",
     "eslint": "^8.31.0",
     "eslint-config-standard-with-typescript": "^26.0.0",
     "eslint-plugin-import": "^2.26.0",
