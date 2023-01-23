@@ -9,6 +9,7 @@ export interface AddAccountModel {
   phoneNumber: string
   photo?: string
   deleted?: boolean
+  role?: string
 }
 
 export interface AddAccount {

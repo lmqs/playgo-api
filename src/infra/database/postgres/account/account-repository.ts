@@ -27,7 +27,7 @@ export class AccountPostgresRepository extends BaseRepository<AddAccountModel, A
     await this.update({ accessToken: token }, { id })
   }
 
-  async loadByToken (token: string, role?: string | undefined): Promise<AccountModel | undefined> {
+  async loadByToken (token: string, role?: string): Promise<AccountModel | undefined> {
     const account = await this.findGeneric({ accessToken: token, role })
     if (account.length) {
       return account[0]
