@@ -10,8 +10,8 @@ jest.mock('jsonwebtoken', () => ({
     return await new Promise(resolve => { resolve('any_token') })
   },
 
-  async verify (): Promise<string> {
-    return await new Promise(resolve => { resolve('any_value') })
+  async verify (): Promise<any> {
+    return await new Promise(resolve => { resolve({ id: 'any_value' }) })
   }
 }))
 
