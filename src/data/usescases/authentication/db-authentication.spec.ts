@@ -1,7 +1,7 @@
 import { AccountModel } from '../../../domain/models/account'
 import { AuthenticationModel } from '../../../domain/usecases/authentication'
-import { HashComparer, Encrypter } from '../protocols/criptography'
-import { UpdateAccessTokenRepository, LoadAccountByUserRepository } from '../protocols/db/account'
+import { HashComparer, Encrypter } from '../../protocols/criptography'
+import { UpdateAccessTokenRepository, LoadAccountByUserRepository } from '../../protocols/db/account'
 import { DbAuthentication } from './db-authentication'
 
 const makeFakeAuthentication = (): AuthenticationModel => ({

@@ -1,4 +1,4 @@
-import { LoadCategoryByDescriptionAndIdRepository } from '../../../../data/usescases/protocols/db/category/load-category-by-description-and-id-repository'
+import { LoadCategoryByDescriptionAndIdRepository } from '../../../protocols/db/category/load-category-by-description-and-id-repository'
 import { DbAddCategory } from './db-add-category'
 import { AddCategory, AddCategoryModel, AddCategoryRepository, CategoryModel } from './db-add-category-protocols'
 
