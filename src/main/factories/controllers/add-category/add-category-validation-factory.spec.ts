@@ -1,8 +1,8 @@
-import { Validation } from '../../../presentation/protocols/validation'
-import { RequiredFieldValidation, ValidationComposite } from '../../../validation/validators'
+import { Validation } from '../../../../presentation/protocols/validation'
+import { RequiredFieldValidation, ValidationComposite } from '../../../../validation/validators'
 import { makeAddCategoryController } from './add-category-controller-factory'
 
-jest.mock('../../../validation/validators/validation-composite')
+jest.mock('../../../../validation/validators/validation-composite')
 
 describe('makeAddCategoryValidation ', () => {
   test('Sould call ValidationComposite with all validations', () => {
