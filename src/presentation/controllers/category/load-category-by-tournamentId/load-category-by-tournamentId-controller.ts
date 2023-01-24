@@ -15,7 +15,7 @@ export class LoadCategoriesByTournamentIdController implements Controller {
       }
       const { tournamentId } = httpRequest.body
       const categories = await this.loadCategoriesByTournamentId.load(tournamentId)
-      return categories.length ? ok(categories) : noContent()
+      return categories?.length ? ok(categories) : noContent()
     } catch (error: unknown) {
       return serverError(error as Error)
     }
