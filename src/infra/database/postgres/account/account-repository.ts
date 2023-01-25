@@ -1,6 +1,6 @@
 import { AccountModel } from '../../../../domain/models/account'
 
-import { AddAccountModel } from '../../../../domain/usecases/add-account'
+import { AddAccountModel } from '../../../../domain/usecases/account/add-account'
 import { BaseRepository } from '../base-repository'
 import { AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository } from '../../../../data/protocols/db/account'
 

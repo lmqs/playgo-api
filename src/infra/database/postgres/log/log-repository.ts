@@ -1,4 +1,4 @@
-import { AddLog } from '../../../../domain/usecases/add-log'
+import { AddLog } from '../../../../domain/usecases/log/add-log'
 import { LogErrorRepository } from '../../../../data/protocols/db/account'
 import { BaseRepository } from '../base-repository'
 

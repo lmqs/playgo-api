@@ -1,5 +1,5 @@
-import { CategoryModel } from 'domain/models/category'
-import { AddCategoryModel } from '../../../../domain/usecases/add-category'
+import { CategoryModel } from '../../../../domain/models/category'
+import { AddCategoryModel } from '../../../../domain/usecases/category/add-category'
 import { CategoryPostgresRepository } from './category-repository'
 
 type SutTypes = {

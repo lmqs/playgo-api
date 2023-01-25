@@ -1,4 +1,4 @@
-import { AddCategory } from './../../../../domain/usecases/add-category'
+import { AddCategory } from './../../../../domain/usecases/category/add-category'
 import { badRequest, serverError, ok, forbidden } from '../../../helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse, Validation } from './add-category-controller-protocols'
 import { ParamInUseError } from '../../../../presentation/errors'
