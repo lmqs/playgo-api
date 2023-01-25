@@ -9,11 +9,11 @@ export class LoadCategoriesByTournamentIdController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const error = this.validation.validate(httpRequest.query)
       if (error) {
         return badRequest(error)
       }
-      const { tournamentId } = httpRequest.body
+      const { tournamentId } = httpRequest.query
       const categories = await this.loadCategoriesByTournamentId.load(tournamentId)
       return categories?.length ? ok(categories) : noContent()
     } catch (error: unknown) {

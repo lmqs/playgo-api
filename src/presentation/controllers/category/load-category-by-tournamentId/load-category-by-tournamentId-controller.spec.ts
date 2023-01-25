@@ -12,7 +12,7 @@ const makeValidation = (): Validation => {
   return new ValidationStub()
 }
 const makeFakerRequest = (): HttpRequest => ({
-  body: {
+  query: {
     tournamentId: 'valid_tournamentId'
   }
 })
@@ -56,7 +56,7 @@ describe('LoadCategoriesByTournamentId Controller', () => {
     const addSpy = jest.spyOn(validationStub, 'validate')
 
     await sut.handle(makeFakerRequest())
-    expect(addSpy).toHaveBeenCalledWith(makeFakerRequest().body)
+    expect(addSpy).toHaveBeenCalledWith({ tournamentId: 'valid_tournamentId' })
   })
 
   test('Should return 400 if Validation returns an error', async () => {

@@ -7,5 +7,5 @@ import { auth } from '../middlewares/auth'
 
 export default (router: Router): void => {
   router.post('/category', adminAuth, adaptRoute(makeAddCategoryController()))
-  router.post('/loadCategoriesByTournamentId', auth, adaptRoute(makeLoadCategoriesByTournamentIdController()))
+  router.get('/loadCategoriesByTournamentId', auth, adaptRoute(makeLoadCategoriesByTournamentIdController()))
 }
