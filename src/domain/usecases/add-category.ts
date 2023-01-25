@@ -1,6 +1,6 @@
 import { CategoryModel } from '../../domain/models/category'
 
-export interface AddCategoryModel {
+export type AddCategoryModel = {
   description: string
   tournamentId: string
   numberAthletes?: string

@@ -1,4 +1,4 @@
 
-export interface AddLog {
+export type AddLog = {
   stack: string
 }

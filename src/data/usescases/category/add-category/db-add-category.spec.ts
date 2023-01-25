@@ -15,7 +15,7 @@ const makeFakeAddCategoryModel = (): AddCategoryModel => ({
   tournamentId: 'valid_tournamentId',
   numberAthletes: 'valid_numberAthletes'
 })
-interface SutTypes {
+type SutTypes = {
   sut: AddCategory
   addCategoryRepositoryStub: AddCategoryRepository
   loadCategoryByDescriptionAndIdRepositoryStub: LoadCategoryByDescriptionAndIdRepository

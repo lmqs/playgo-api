@@ -18,7 +18,7 @@ const makeFakerRequest = (): HttpRequest => ({
   }
 })
 
-interface SutTypes {
+type SutTypes = {
   sut: LoginController
   authStub: Authentication
   validationStub: Validation

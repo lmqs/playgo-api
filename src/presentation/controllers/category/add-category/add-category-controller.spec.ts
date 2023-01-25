@@ -26,7 +26,7 @@ const makeFakerCategoryModel = (): CategoryModel => ({
   numberAthletes: 'valid_numberAthletes'
 })
 
-interface SutTypes {
+type SutTypes = {
   sut: AddCategoryController
   validationStub: Validation
   addCategoryStub: AddCategory

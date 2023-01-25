@@ -24,7 +24,7 @@ const makeFakerCategoriesModel = (): CategoryModel => ({
   numberAthletes: 'valid_numberAthletes'
 })
 
-interface SutTypes {
+type SutTypes = {
   sut: LoadCategoriesByTournamentIdController
   validationStub: Validation
   loadCategoriesByTournamentIdStub: LoadCategoriesByTournamentId

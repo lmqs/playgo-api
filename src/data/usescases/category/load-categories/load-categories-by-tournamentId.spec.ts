@@ -13,7 +13,7 @@ const makeFakeCategoriesModel = (): CategoryModel[] => {
   }]
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: LoadCategoriesByTournamentId
   loadCategoryByTournamentIdRepositoryStub: LoadCategoryByTournamentIdRepository
 }

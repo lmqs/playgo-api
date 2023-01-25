@@ -1,4 +1,4 @@
-export interface AuthenticationModel {
+export type AuthenticationModel = {
   user: string
   password: string
 }

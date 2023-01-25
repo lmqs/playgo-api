@@ -1,6 +1,6 @@
 import { TournamentModel } from '../../domain/models/tournament'
 
-export interface AddTournamentModel {
+export type AddTournamentModel = {
   description: string
   cityId: string
   sportId: string

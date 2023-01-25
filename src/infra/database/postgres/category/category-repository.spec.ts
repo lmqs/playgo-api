@@ -2,7 +2,7 @@ import { CategoryModel } from 'domain/models/category'
 import { AddCategoryModel } from '../../../../domain/usecases/add-category'
 import { CategoryPostgresRepository } from './category-repository'
 
-interface SutTypes {
+type SutTypes = {
   sut: CategoryPostgresRepository
 }
 

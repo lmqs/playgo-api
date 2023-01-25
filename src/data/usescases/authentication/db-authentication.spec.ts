@@ -21,7 +21,7 @@ const makeFakeAccount = (): AccountModel => ({
   deleted: true
 })
 
-interface SutTypes {
+type SutTypes = {
   sut: DbAuthentication
   loadAccountByUserRepositoryStub: LoadAccountByUserRepository
   hashComparerStub: HashComparer

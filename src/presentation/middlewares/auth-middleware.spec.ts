@@ -21,7 +21,7 @@ const makeFakeRequest = (): HttpRequest => ({
   }
 })
 
-interface SutTypes {
+type SutTypes = {
   sut: Middleware
   loadAccountByTokenStub: LoadAccountByToken
 }

@@ -1,7 +1,7 @@
 import { AddAccountModel } from 'domain/usecases/add-account'
 import { AccountPostgresRepository } from './account-repository'
 
-interface SutTypes {
+type SutTypes = {
   sut: AccountPostgresRepository
 }
 

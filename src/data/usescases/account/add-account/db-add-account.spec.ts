@@ -13,7 +13,7 @@ const makeFakeAccount = (): AccountModel => ({
   photo: 'valid_photo',
   deleted: true
 })
-interface SutTypes {
+type SutTypes = {
   sut: DbAddAccount
   hasherStub: Hasher
   addAccountRepositoryStub: AddAccountRepository

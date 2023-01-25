@@ -1,5 +1,5 @@
 
-export interface CategoryModel {
+export type CategoryModel = {
   id: string
   description: string
   tournamentId: string
