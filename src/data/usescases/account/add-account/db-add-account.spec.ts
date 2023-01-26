@@ -35,7 +35,7 @@ const makeSut = (): SutTypes => {
 describe('DbAddAccount UseCase', () => {
   test('Should call Hasher with correct password', async () => {
     const { sut, hasherStub, loadAccountByUserRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise(resolve => { resolve(undefined) }))
+    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(undefined))
     const encryptSpy = jest.spyOn(hasherStub, 'hash')
     await sut.add(mockAddAccountParams())
     expect(encryptSpy).toHaveBeenCalledWith('valid_password')
@@ -43,8 +43,8 @@ describe('DbAddAccount UseCase', () => {
 
   test('Should throw if Hasher throws', async () => {
     const { sut, hasherStub, loadAccountByUserRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise(resolve => { resolve(undefined) }))
-    jest.spyOn(hasherStub, 'hash').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
+    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(hasherStub, 'hash').mockReturnValueOnce(Promise.reject(new Error()))
 
     const promise = sut.add(mockAddAccountParams())
     await expect(promise).rejects.toThrow()
@@ -52,7 +52,7 @@ describe('DbAddAccount UseCase', () => {
 
   test('Should call AddAccountRepository with correct values', async () => {
     const { sut, addAccountRepositoryStub, loadAccountByUserRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise(resolve => { resolve(undefined) }))
+    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(undefined))
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
 
     await sut.add(mockAddAccountParams())
@@ -69,8 +69,8 @@ describe('DbAddAccount UseCase', () => {
 
   test('Should throw if AddAccountRepository throws', async () => {
     const { sut, addAccountRepositoryStub, loadAccountByUserRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise(resolve => { resolve(undefined) }))
-    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
+    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(Promise.reject(new Error()))
 
     const promise = sut.add(mockAddAccountParams())
     await expect(promise).rejects.toThrow()
@@ -78,7 +78,7 @@ describe('DbAddAccount UseCase', () => {
 
   test('Should return an account on Sucess', async () => {
     const { sut, loadAccountByUserRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise(resolve => { resolve(undefined) }))
+    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(undefined))
 
     const account = await sut.add(mockAddAccountParams())
     expect(account).toEqual({
@@ -103,7 +103,7 @@ describe('DbAddAccount UseCase', () => {
 
   test('Should return undefined if LoadAccountByUserRepository not return empty', async () => {
     const { sut, loadAccountByUserRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise(resolve => { resolve(mockAccountModel()) }))
+    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(mockAccountModel()))
     const accessToken = await sut.add(mockAddAccountParams())
 
     expect(accessToken).toBeUndefined()
