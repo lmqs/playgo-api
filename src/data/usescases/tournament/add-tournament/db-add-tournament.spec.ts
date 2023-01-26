@@ -15,7 +15,7 @@ const makeFakeTournamentModel = (): TournamentModel => {
   }
 }
 
-const makeFakeSaveTournamentModel = (): AddTournamentModel => {
+const makeFakeAddTournamentModel = (): AddTournamentModel => {
   return {
     description: 'valid_description',
     cityId: 'valid_city',
@@ -63,12 +63,12 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('DbSaveTournament UseCase', () => {
+describe('DbAddTournament UseCase', () => {
   test('Should call LoadTournamentByDescriptionRepository with correct values', async () => {
     const { sut, loadTournamentByDescriptionRepositoryStub } = makeSut()
     const loadTournamentByIdRepositorySpy = jest.spyOn(loadTournamentByDescriptionRepositoryStub, 'loadByDescription')
 
-    await sut.add(makeFakeSaveTournamentModel())
+    await sut.add(makeFakeAddTournamentModel())
     expect(loadTournamentByIdRepositorySpy).toHaveBeenCalledWith('valid_description')
   })
 
@@ -76,7 +76,7 @@ describe('DbSaveTournament UseCase', () => {
     const { sut, loadTournamentByDescriptionRepositoryStub } = makeSut()
     jest.spyOn(loadTournamentByDescriptionRepositoryStub, 'loadByDescription').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
 
-    const promise = sut.add(makeFakeSaveTournamentModel())
+    const promise = sut.add(makeFakeAddTournamentModel())
     await expect(promise).rejects.toThrow()
   })
 
@@ -85,7 +85,7 @@ describe('DbSaveTournament UseCase', () => {
     jest.spyOn(loadTournamentByDescriptionRepositoryStub, 'loadByDescription').mockReturnValueOnce(new Promise(resolve => { resolve(makeFakeTournamentModel()) }))
     const addTournamentRepositorySpy = jest.spyOn(addTournamentRepositoryStub, 'add')
 
-    const tournament = await sut.add(makeFakeSaveTournamentModel())
+    const tournament = await sut.add(makeFakeAddTournamentModel())
     expect(tournament).toBeUndefined()
     expect(addTournamentRepositorySpy).not.toBeCalled()
   })
@@ -94,15 +94,15 @@ describe('DbSaveTournament UseCase', () => {
     const { sut, addTournamentRepositoryStub } = makeSut()
     const addTournamentRepositorySpy = jest.spyOn(addTournamentRepositoryStub, 'add')
 
-    await sut.add(makeFakeSaveTournamentModel())
-    expect(addTournamentRepositorySpy).toHaveBeenCalledWith(makeFakeSaveTournamentModel())
+    await sut.add(makeFakeAddTournamentModel())
+    expect(addTournamentRepositorySpy).toHaveBeenCalledWith(makeFakeAddTournamentModel())
   })
 
   test('Should throw if AddTournamentRepository throws', async () => {
     const { sut, addTournamentRepositoryStub } = makeSut()
     jest.spyOn(addTournamentRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
 
-    const promise = sut.add(makeFakeSaveTournamentModel())
+    const promise = sut.add(makeFakeAddTournamentModel())
     await expect(promise).rejects.toThrow()
   })
 })

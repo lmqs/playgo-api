@@ -1,6 +1,6 @@
-import { SaveTournamentModel } from 'domain/usecases/tournament/save-tournament'
+import { AddTournamentModel } from '../../../../domain/usecases/tournament/add-tournament'
 import { TournamentModel } from '../../../../domain/models/tournament'
 
 export interface AddTournamentRepository {
-  add: (data: SaveTournamentModel) => Promise<TournamentModel>
+  add: (data: AddTournamentModel) => Promise<TournamentModel>
 }

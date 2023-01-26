@@ -2,7 +2,7 @@
 import { BaseRepository } from '../base-repository'
 import { TournamentModel } from '../../../../domain/models/tournament'
 import { AddTournamentRepository, LoadTournamentByIdRepository, UpdateTournamentRepository } from '../../../../data/protocols/db/tournament'
-import { AddTournamentModel } from '../../../../domain/usecases/tournament/save-tournament'
+import { AddTournamentModel } from '../../../../domain/usecases/tournament/add-tournament'
 
 export class TournamentPostgresRepository extends BaseRepository<AddTournamentModel, TournamentModel>
   implements LoadTournamentByIdRepository, AddTournamentRepository, UpdateTournamentRepository {

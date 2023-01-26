@@ -1,4 +1,4 @@
-import { AddTournamentModel } from '../../../../domain/usecases/tournament/save-tournament'
+import { AddTournamentModel } from '../../../../domain/usecases/tournament/add-tournament'
 import { TournamentModel } from '../../../../domain/models/tournament'
 
 import { TournamentPostgresRepository } from './tournament-repository'
@@ -28,7 +28,7 @@ const makeFakeTournamentModel = (): TournamentModel => {
   }
 }
 
-const makeFakeSaveTournamentModelToAdd = (): AddTournamentModel => {
+const makeFakeAddTournamentModelToAdd = (): AddTournamentModel => {
   return {
     description: 'valid_description',
     cityId: 'valid_city',
@@ -41,8 +41,8 @@ const makeFakeSaveTournamentModelToAdd = (): AddTournamentModel => {
   }
 }
 
-const makeFakeSaveTournamentModelToUpdate = (): AddTournamentModel => Object.assign(
-  {}, makeFakeSaveTournamentModelToAdd(), { id: 'valid_id' }
+const makeFakeAddTournamentModelToUpdate = (): AddTournamentModel => Object.assign(
+  {}, makeFakeAddTournamentModelToAdd(), { id: 'valid_id' }
 )
 describe('Tournament Postgres Repository', () => {
   describe('add()', () => {
@@ -50,7 +50,7 @@ describe('Tournament Postgres Repository', () => {
       const { sut } = makeSut()
       sut.create = jest.fn().mockReturnValue(makeFakeTournamentModel())
 
-      const tournament = await sut.add(makeFakeSaveTournamentModelToAdd())
+      const tournament = await sut.add(makeFakeAddTournamentModelToAdd())
 
       expect(tournament).toEqual({
         id: 'valid_id',
@@ -70,7 +70,7 @@ describe('Tournament Postgres Repository', () => {
       sut.create = jest.fn().mockImplementationOnce(() => {
         throw new Error()
       })
-      const promise = sut.add(makeFakeSaveTournamentModelToAdd())
+      const promise = sut.add(makeFakeAddTournamentModelToAdd())
       await expect(promise).rejects.toThrow()
     })
   })
@@ -115,7 +115,7 @@ describe('Tournament Postgres Repository', () => {
   describe('update()', () => {
     test('Should return an Tournament on update success', async () => {
       const { sut } = makeSut()
-      sut.update = jest.fn().mockReturnValue(makeFakeSaveTournamentModelToUpdate())
+      sut.update = jest.fn().mockReturnValue(makeFakeAddTournamentModelToUpdate())
 
       const tournament = await sut.updateTournament(makeFakeTournamentModel())
 

@@ -63,7 +63,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe.only('SaveTournamentController Controller', () => {
+describe('AddTournamentController Controller', () => {
   test('Should call validation.validate with correct values', async () => {
     const { sut, validationStub } = makeSut()
     const addSpy = jest.spyOn(validationStub, 'validate')
@@ -81,10 +81,10 @@ describe.only('SaveTournamentController Controller', () => {
 
   test('Should call AddTournament with correct values', async () => {
     const { sut, addTournamentStub } = makeSut()
-    const saveTournamentSpy = jest.spyOn(addTournamentStub, 'add')
+    const addTournamentSpy = jest.spyOn(addTournamentStub, 'add')
 
     await sut.handle(makeFakerRequest())
-    expect(saveTournamentSpy).toHaveBeenCalledWith({
+    expect(addTournamentSpy).toHaveBeenCalledWith({
       description: 'valid_description',
       cityId: 'valid_city',
       sportId: 'valid_sportId',
