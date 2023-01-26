@@ -1,18 +1,8 @@
+import { mockAddAccountParams, mockAccountModel } from '../../../../domain/test'
 import { LoadAccountByUserRepository } from '../../../protocols/db/account'
 import { DbAddAccount } from './db-add-account'
 import { AccountModel, AddAccountParams, Hasher, AddAccountRepository } from './db-add-account-protocols'
 
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  user: 'valid_user',
-  password: 'hashed_password',
-  email: 'valid_email',
-  cityId: 1,
-  phoneNumber: 'valid_number',
-  photo: 'valid_photo',
-  deleted: true
-})
 type SutTypes = {
   sut: DbAddAccount
   hasherStub: Hasher
@@ -30,17 +20,7 @@ const makeHasher = (): Hasher => {
 const makeAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
     async add (addAccountParams: AddAccountParams): Promise<AccountModel> {
-      return {
-        id: 'valid_id',
-        name: 'valid_name',
-        user: 'valid_user',
-        password: 'hashed_password',
-        email: 'valid_email',
-        cityId: 1,
-        phoneNumber: 'valid_number',
-        photo: 'valid_photo',
-        deleted: true
-      }
+      return mockAccountModel()
     }
   }
   return new AddAccountRepositoryStub()
@@ -68,25 +48,10 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbAddAccount UseCase', () => {
-  let accountDataGenericMock: AddAccountParams
-
-  beforeEach(() => {
-    accountDataGenericMock = {
-      name: 'valid_name',
-      user: 'valid_user',
-      password: 'valid_password',
-      email: 'valid_email',
-      cityId: 1,
-      phoneNumber: 'valid_number',
-      photo: 'valid_photo',
-      deleted: true
-    }
-  })
-
   test('Should call Hasher with correct password', async () => {
     const { sut, hasherStub } = makeSut()
     const encryptSpy = jest.spyOn(hasherStub, 'hash')
-    await sut.add(accountDataGenericMock)
+    await sut.add(mockAddAccountParams())
     expect(encryptSpy).toHaveBeenCalledWith('valid_password')
   })
 
@@ -94,7 +59,7 @@ describe('DbAddAccount UseCase', () => {
     const { sut, hasherStub } = makeSut()
     jest.spyOn(hasherStub, 'hash').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
 
-    const promise = sut.add(accountDataGenericMock)
+    const promise = sut.add(mockAddAccountParams())
     await expect(promise).rejects.toThrow()
   })
 
@@ -102,7 +67,7 @@ describe('DbAddAccount UseCase', () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
 
-    await sut.add(accountDataGenericMock)
+    await sut.add(mockAddAccountParams())
     expect(addSpy).toHaveBeenCalledWith({
       name: 'valid_name',
       user: 'valid_user',
@@ -110,8 +75,7 @@ describe('DbAddAccount UseCase', () => {
       email: 'valid_email',
       cityId: 1,
       phoneNumber: 'valid_number',
-      photo: 'valid_photo',
-      deleted: true
+      photo: 'valid_photo'
     })
   })
 
@@ -119,14 +83,14 @@ describe('DbAddAccount UseCase', () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
 
-    const promise = sut.add(accountDataGenericMock)
+    const promise = sut.add(mockAddAccountParams())
     await expect(promise).rejects.toThrow()
   })
 
   test('Should return an account on Sucess', async () => {
     const { sut } = makeSut()
 
-    const account = await sut.add(accountDataGenericMock)
+    const account = await sut.add(mockAddAccountParams())
     expect(account).toEqual({
       id: 'valid_id',
       name: 'valid_name',
@@ -143,14 +107,14 @@ describe('DbAddAccount UseCase', () => {
   test('Sould call LoadAccountByUserRepository with correct user', async () => {
     const { sut, loadAccountByUserRepositoryStub } = makeSut()
     const loadAccountByUserRepositorySpy = jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser')
-    await sut.add(accountDataGenericMock)
-    expect(loadAccountByUserRepositorySpy).toHaveBeenCalledWith(accountDataGenericMock.user)
+    await sut.add(mockAddAccountParams())
+    expect(loadAccountByUserRepositorySpy).toHaveBeenCalledWith(mockAddAccountParams().user)
   })
 
   test('Should return undefined if LoadAccountByUserRepository not return empty', async () => {
     const { sut, loadAccountByUserRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise(resolve => { resolve(makeFakeAccount()) }))
-    const accessToken = await sut.add(accountDataGenericMock)
+    jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise(resolve => { resolve(mockAccountModel()) }))
+    const accessToken = await sut.add(mockAddAccountParams())
 
     expect(accessToken).toBeUndefined()
   })

@@ -1,4 +1,4 @@
-import { AddAccountParams } from '../../../../domain/usecases/account/add-account'
+import { mockAddAccountParams } from '../../../../domain/test'
 import { AccountPostgresRepository } from './account-repository'
 
 type SutTypes = {
@@ -13,26 +13,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Account Postgres Repository', () => {
-  let accountDataGenericMock: AddAccountParams
-
-  beforeEach(() => {
-    accountDataGenericMock = {
-      name: 'valid_name',
-      user: 'valid_user',
-      password: 'valid_password',
-      email: 'valid_email',
-      cityId: 1,
-      phoneNumber: 'valid_number'
-    }
-  })
   describe('add()', () => {
     test('Should return an account on add success', async () => {
       const { sut } = makeSut()
 
-      const accountDataMock = { id: 'valid_id', ...accountDataGenericMock }
+      const accountDataMock = { id: 'valid_id', ...mockAddAccountParams() }
       sut.create = jest.fn().mockReturnValue(accountDataMock)
 
-      const account = await sut.add(accountDataGenericMock)
+      const account = await sut.add(mockAddAccountParams())
 
       expect(account).toEqual({
         id: 'valid_id',
@@ -41,7 +29,8 @@ describe('Account Postgres Repository', () => {
         password: 'valid_password',
         email: 'valid_email',
         cityId: 1,
-        phoneNumber: 'valid_number'
+        phoneNumber: 'valid_number',
+        photo: 'valid_photo'
       })
     })
   })
@@ -49,7 +38,7 @@ describe('Account Postgres Repository', () => {
   describe('loadByUser()', () => {
     test('Should return an account on add success', async () => {
       const { sut } = makeSut()
-      const accountDataMock = { id: 'valid_id', ...accountDataGenericMock }
+      const accountDataMock = { id: 'valid_id', ...mockAddAccountParams() }
       sut.findOne = jest.fn().mockReturnValue(accountDataMock)
 
       const account = await sut.loadByUser('valid_user')
@@ -60,7 +49,8 @@ describe('Account Postgres Repository', () => {
         password: 'valid_password',
         email: 'valid_email',
         cityId: 1,
-        phoneNumber: 'valid_number'
+        phoneNumber: 'valid_number',
+        photo: 'valid_photo'
       })
     })
 
@@ -77,7 +67,7 @@ describe('Account Postgres Repository', () => {
   describe('loadByToken()', () => {
     test('Should return an account on loadByToken success whithout role', async () => {
       const { sut } = makeSut()
-      const accountDataMock = [{ id: 'valid_id', ...accountDataGenericMock }]
+      const accountDataMock = [{ id: 'valid_id', ...mockAddAccountParams() }]
       sut.findGeneric = jest.fn().mockReturnValue(accountDataMock)
 
       const account = await sut.loadByToken('any_token')
@@ -88,12 +78,13 @@ describe('Account Postgres Repository', () => {
         password: 'valid_password',
         email: 'valid_email',
         cityId: 1,
-        phoneNumber: 'valid_number'
+        phoneNumber: 'valid_number',
+        photo: 'valid_photo'
       })
     })
     test('Should return an account on loadByToken success with role', async () => {
       const { sut } = makeSut()
-      const accountDataMock = [{ id: 'valid_id', ...accountDataGenericMock }]
+      const accountDataMock = [{ id: 'valid_id', ...mockAddAccountParams() }]
       sut.findGeneric = jest.fn().mockReturnValue(accountDataMock)
 
       const account = await sut.loadByToken('any_token', 'any_role')
@@ -104,7 +95,8 @@ describe('Account Postgres Repository', () => {
         password: 'valid_password',
         email: 'valid_email',
         cityId: 1,
-        phoneNumber: 'valid_number'
+        phoneNumber: 'valid_number',
+        photo: 'valid_photo'
       })
     })
 
@@ -127,7 +119,7 @@ describe('Account Postgres Repository', () => {
 
     test('Should return an account on loadByToken with if user is admin role', async () => {
       const { sut } = makeSut()
-      const accountDataMock = [{ id: 'valid_id', role: 'admin', ...accountDataGenericMock }]
+      const accountDataMock = [{ id: 'valid_id', role: 'admin', ...mockAddAccountParams() }]
       sut.findGeneric = jest.fn().mockReturnValue(accountDataMock)
 
       const account = await sut.loadByToken('any_token')
@@ -139,7 +131,8 @@ describe('Account Postgres Repository', () => {
         email: 'valid_email',
         cityId: 1,
         phoneNumber: 'valid_number',
-        role: 'admin'
+        role: 'admin',
+        photo: 'valid_photo'
       })
     })
   })

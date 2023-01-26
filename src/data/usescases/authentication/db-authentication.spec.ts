@@ -1,4 +1,5 @@
 import { AccountModel } from '../../../domain/models/account'
+import { mockAccountModel } from '../../../domain/test'
 import { AuthenticationParams } from '../../../domain/usecases/authentication/authentication'
 import { HashComparer, Encrypter } from '../../protocols/criptography'
 import { UpdateAccessTokenRepository, LoadAccountByUserRepository } from '../../protocols/db/account'
@@ -7,18 +8,6 @@ import { DbAuthentication } from './db-authentication'
 const makeFakeAuthentication = (): AuthenticationParams => ({
   user: 'any_user',
   password: 'any_password'
-})
-
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  user: 'valid_user',
-  password: 'hashed_password',
-  email: 'valid_email',
-  cityId: 1,
-  phoneNumber: 'valid_number',
-  photo: 'valid_photo',
-  deleted: true
 })
 
 type SutTypes = {
@@ -48,7 +37,7 @@ const makeEncrypter = (): Encrypter => {
 const makeLoadAccountByUserRepository = (): LoadAccountByUserRepository => {
   class LoadAccountByUserRepository implements LoadAccountByUserRepository {
     async loadByUser (user: string): Promise<AccountModel> {
-      return makeFakeAccount()
+      return mockAccountModel()
     }
   }
   return new LoadAccountByUserRepository()
@@ -103,7 +92,7 @@ describe('DbAddAccount UseCase', () => {
     const { sut, hashComparerStub } = makeSut()
     const hashComparerStubSpy = jest.spyOn(hashComparerStub, 'compare')
     await sut.auth(makeFakeAuthentication())
-    expect(hashComparerStubSpy).toHaveBeenCalledWith(makeFakeAuthentication().password, makeFakeAccount().password)
+    expect(hashComparerStubSpy).toHaveBeenCalledWith(makeFakeAuthentication().password, mockAccountModel().password)
   })
 
   test('Should throw if hashComparer throws', async () => {
@@ -124,7 +113,7 @@ describe('DbAddAccount UseCase', () => {
     const { sut, encrypterStub } = makeSut()
     const tokenGeneratorSpy = jest.spyOn(encrypterStub, 'encrypt')
     await sut.auth(makeFakeAuthentication())
-    expect(tokenGeneratorSpy).toHaveBeenCalledWith(makeFakeAccount().id)
+    expect(tokenGeneratorSpy).toHaveBeenCalledWith(mockAccountModel().id)
   })
 
   test('Should throw if Encrypter throws', async () => {
@@ -144,7 +133,7 @@ describe('DbAddAccount UseCase', () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
     const tokenGeneratorSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken')
     await sut.auth(makeFakeAuthentication())
-    expect(tokenGeneratorSpy).toHaveBeenCalledWith(makeFakeAccount().id, 'any_token')
+    expect(tokenGeneratorSpy).toHaveBeenCalledWith(mockAccountModel().id, 'any_token')
   })
 
   test('Sould throw if UpdateAccessTokenRepository throws', async () => {
