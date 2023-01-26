@@ -1,8 +1,8 @@
-import { AccountModel } from '../../../domain/models/account'
 import { mockAccountModel } from '../../../domain/test'
 import { AuthenticationParams } from '../../../domain/usecases/authentication/authentication'
 import { HashComparer, Encrypter } from '../../protocols/criptography'
 import { UpdateAccessTokenRepository, LoadAccountByUserRepository } from '../../protocols/db/account'
+import { mockLoadAccountByUserRepository, mockUpdateAccessTokenRepository } from '../../test'
 import { DbAuthentication } from './db-authentication'
 
 const makeFakeAuthentication = (): AuthenticationParams => ({
@@ -18,14 +18,6 @@ type SutTypes = {
   updateAccessTokenRepositoryStub: UpdateAccessTokenRepository
 }
 
-const makeUpdateAccessTokenRepository = (): UpdateAccessTokenRepository => {
-  class UpdateAccessTokenRepositoryStub implements UpdateAccessTokenRepository {
-    async updateAccessToken (id: string, token: string): Promise<void> {
-      await new Promise<void>(resolve => { resolve() })
-    }
-  }
-  return new UpdateAccessTokenRepositoryStub()
-}
 const makeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
     async encrypt (id: string): Promise<string> {
@@ -33,14 +25,6 @@ const makeEncrypter = (): Encrypter => {
     }
   }
   return new EncrypterStub()
-}
-const makeLoadAccountByUserRepository = (): LoadAccountByUserRepository => {
-  class LoadAccountByUserRepository implements LoadAccountByUserRepository {
-    async loadByUser (user: string): Promise<AccountModel> {
-      return mockAccountModel()
-    }
-  }
-  return new LoadAccountByUserRepository()
 }
 
 const makeHashComparer = (): HashComparer => {
@@ -53,10 +37,10 @@ const makeHashComparer = (): HashComparer => {
 }
 
 const makeSut = (): SutTypes => {
-  const loadAccountByUserRepositoryStub = makeLoadAccountByUserRepository()
+  const loadAccountByUserRepositoryStub = mockLoadAccountByUserRepository()
   const hashComparerStub = makeHashComparer()
   const encrypterStub = makeEncrypter()
-  const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepository()
+  const updateAccessTokenRepositoryStub = mockUpdateAccessTokenRepository()
   const sut = new DbAuthentication(loadAccountByUserRepositoryStub, hashComparerStub, encrypterStub, updateAccessTokenRepositoryStub)
   return {
     sut,
