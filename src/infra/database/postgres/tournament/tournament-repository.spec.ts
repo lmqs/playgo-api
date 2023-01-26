@@ -1,4 +1,4 @@
-import { SaveTournamentModel } from '../../../../domain/usecases/tournament/save-tournament'
+import { AddTournamentModel } from '../../../../domain/usecases/tournament/save-tournament'
 import { TournamentModel } from '../../../../domain/models/tournament'
 
 import { TournamentPostgresRepository } from './tournament-repository'
@@ -28,7 +28,7 @@ const makeFakeTournamentModel = (): TournamentModel => {
   }
 }
 
-const makeFakeSaveTournamentModelToAdd = (): SaveTournamentModel => {
+const makeFakeSaveTournamentModelToAdd = (): AddTournamentModel => {
   return {
     description: 'valid_description',
     cityId: 'valid_city',
@@ -41,7 +41,7 @@ const makeFakeSaveTournamentModelToAdd = (): SaveTournamentModel => {
   }
 }
 
-const makeFakeSaveTournamentModelToUpdate = (): SaveTournamentModel => Object.assign(
+const makeFakeSaveTournamentModelToUpdate = (): AddTournamentModel => Object.assign(
   {}, makeFakeSaveTournamentModelToAdd(), { id: 'valid_id' }
 )
 describe('Tournament Postgres Repository', () => {

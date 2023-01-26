@@ -1,10 +1,10 @@
 
 import { BaseRepository } from '../base-repository'
-import { SaveTournamentModel } from '../../../../domain/usecases/tournament/save-tournament'
 import { TournamentModel } from '../../../../domain/models/tournament'
 import { AddTournamentRepository, LoadTournamentByIdRepository, UpdateTournamentRepository } from '../../../../data/protocols/db/tournament'
+import { AddTournamentModel } from '../../../../domain/usecases/tournament/save-tournament'
 
-export class TournamentPostgresRepository extends BaseRepository<SaveTournamentModel, TournamentModel>
+export class TournamentPostgresRepository extends BaseRepository<AddTournamentModel, TournamentModel>
   implements LoadTournamentByIdRepository, AddTournamentRepository, UpdateTournamentRepository {
   constructor (
     public readonly tableName: string = 'tournaments'
@@ -17,7 +17,7 @@ export class TournamentPostgresRepository extends BaseRepository<SaveTournamentM
     return tournaments[0]
   }
 
-  async add (data: SaveTournamentModel): Promise<TournamentModel> {
+  async add (data: AddTournamentModel): Promise<TournamentModel> {
     return await this.create(data)
   }
 
