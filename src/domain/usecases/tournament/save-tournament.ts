@@ -1,7 +1,6 @@
 import { TournamentModel } from '../../models/tournament'
 
-export type SaveTournamentModel = {
-  id?: string
+export type AddTournamentModel = {
   description: string
   cityId: string
   sportId: string
@@ -12,6 +11,6 @@ export type SaveTournamentModel = {
   deleted?: boolean
 }
 
-export interface SaveTournament {
-  save: (data: SaveTournamentModel) => Promise<TournamentModel | undefined>
+export interface AddTournament {
+  add: (data: AddTournamentModel) => Promise<TournamentModel | undefined>
 }
