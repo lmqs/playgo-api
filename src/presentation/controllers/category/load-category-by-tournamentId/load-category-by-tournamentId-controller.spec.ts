@@ -12,7 +12,7 @@ const makeValidation = (): Validation => {
   return new ValidationStub()
 }
 const makeFakerRequest = (): HttpRequest => ({
-  query: {
+  params: {
     tournamentId: 'valid_tournamentId'
   }
 })
