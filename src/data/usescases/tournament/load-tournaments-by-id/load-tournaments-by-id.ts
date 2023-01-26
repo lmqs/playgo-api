@@ -1,5 +1,4 @@
-import { LoadTournamentById } from 'domain/usecases/tournament/load-tournaments-by-id'
-import { LoadTournamentByIdRepository, TournamentModel } from './load-tournaments-by-id-protocols'
+import { LoadTournamentByIdRepository, TournamentModel, LoadTournamentById } from './load-tournaments-by-id-protocols'
 
 export class DbLoadTournamentById implements LoadTournamentById {
   constructor (
