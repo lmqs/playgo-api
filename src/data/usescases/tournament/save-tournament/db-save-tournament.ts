@@ -15,7 +15,7 @@ export class DbSaveTournament implements SaveTournament {
     }
     const tournament = await this.loadTournamentByIdRepository.loadById(data.id)
     if (tournament) {
-      return await this.updateTournamentRepository.update(data as TournamentModel)
+      return await this.updateTournamentRepository.updateTournament(data as TournamentModel)
     }
   }
 }
