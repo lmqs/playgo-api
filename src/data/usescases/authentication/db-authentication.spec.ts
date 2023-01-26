@@ -1,10 +1,10 @@
 import { AccountModel } from '../../../domain/models/account'
-import { AuthenticationModel } from '../../../domain/usecases/authentication/authentication'
+import { AuthenticationParams } from '../../../domain/usecases/authentication/authentication'
 import { HashComparer, Encrypter } from '../../protocols/criptography'
 import { UpdateAccessTokenRepository, LoadAccountByUserRepository } from '../../protocols/db/account'
 import { DbAuthentication } from './db-authentication'
 
-const makeFakeAuthentication = (): AuthenticationModel => ({
+const makeFakeAuthentication = (): AuthenticationParams => ({
   user: 'any_user',
   password: 'any_password'
 })

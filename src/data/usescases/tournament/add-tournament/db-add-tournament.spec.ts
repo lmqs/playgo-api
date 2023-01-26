@@ -1,5 +1,5 @@
 import { DbAddTournament } from './db-add-tournament'
-import { AddTournamentRepository, AddTournamentModel, TournamentModel, LoadTournamentByDescriptionRepository } from './db-add-tournament-protocols'
+import { AddTournamentRepository, AddTournamentParams, TournamentModel, LoadTournamentByDescriptionRepository } from './db-add-tournament-protocols'
 
 const makeFakeTournamentModel = (): TournamentModel => {
   return {
@@ -15,7 +15,7 @@ const makeFakeTournamentModel = (): TournamentModel => {
   }
 }
 
-const makeFakeAddTournamentModel = (): AddTournamentModel => {
+const makeFakeAddTournamentModel = (): AddTournamentParams => {
   return {
     description: 'valid_description',
     cityId: 'valid_city',
@@ -36,7 +36,7 @@ type SutTypes = {
 
 const makeAddTournamentRepositoryStub = (): AddTournamentRepository => {
   class AddTournamentRepositoryStub implements AddTournamentRepository {
-    async add (data: AddTournamentModel): Promise<TournamentModel> {
+    async add (data: AddTournamentParams): Promise<TournamentModel> {
       return makeFakeTournamentModel()
     }
   }

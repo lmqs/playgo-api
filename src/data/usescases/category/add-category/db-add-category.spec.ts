@@ -1,6 +1,6 @@
 import { LoadCategoryByDescriptionAndIdRepository } from '../../../protocols/db/category/load-category-by-description-and-id-repository'
 import { DbAddCategory } from './db-add-category'
-import { AddCategory, AddCategoryModel, AddCategoryRepository, CategoryModel } from './db-add-category-protocols'
+import { AddCategory, AddCategoryParams, AddCategoryRepository, CategoryModel } from './db-add-category-protocols'
 
 const makeFakeCategoryModel = (): CategoryModel => ({
   id: 'valid_id',
@@ -10,7 +10,7 @@ const makeFakeCategoryModel = (): CategoryModel => ({
   deleted: true
 })
 
-const makeFakeAddCategoryModel = (): AddCategoryModel => ({
+const makeFakeAddCategoryModel = (): AddCategoryParams => ({
   description: 'valid_description',
   tournamentId: 'valid_tournamentId',
   numberAthletes: 'valid_numberAthletes'
@@ -23,7 +23,7 @@ type SutTypes = {
 
 const makeAddCategoryRepository = (): AddCategoryRepository => {
   class AddCategoryRepositoryStub implements AddCategoryRepository {
-    async add (category: AddCategoryModel): Promise<CategoryModel | undefined> {
+    async add (category: AddCategoryParams): Promise<CategoryModel | undefined> {
       return makeFakeCategoryModel()
     }
   }

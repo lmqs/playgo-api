@@ -1,7 +1,7 @@
 import { MissingParamError, ParamInUseError, ServerError } from '../../../errors'
 import { badRequest, serverError, ok, forbidden } from '../../../helpers/http/http-helper'
 import { AddCategoryController } from './add-category-controller'
-import { HttpRequest, Validation, AddCategory, AddCategoryModel, CategoryModel } from './add-category-controller-protocols'
+import { HttpRequest, Validation, AddCategory, AddCategoryParams, CategoryModel } from './add-category-controller-protocols'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -34,7 +34,7 @@ type SutTypes = {
 
 const makeAddCategory = (): AddCategory => {
   class AddAccountStub implements AddCategory {
-    async add (account: AddCategoryModel): Promise<CategoryModel> {
+    async add (account: AddCategoryParams): Promise<CategoryModel> {
       return await new Promise(resolve => { resolve(makeFakerCategoryModel()) })
     }
   }

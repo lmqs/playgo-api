@@ -1,10 +1,10 @@
 
-import { AddCategoryRepository, AddCategoryModel } from '../../../../data/usescases/category/add-category/db-add-category-protocols'
+import { AddCategoryRepository, AddCategoryParams } from '../../../../data/usescases/category/add-category/db-add-category-protocols'
 import { LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository } from '../../../../data/protocols/db/category/'
 import { CategoryModel } from '../../../../domain/models/category'
 import { BaseRepository } from '../base-repository'
 
-export class CategoryPostgresRepository extends BaseRepository<AddCategoryModel, CategoryModel>
+export class CategoryPostgresRepository extends BaseRepository<AddCategoryParams, CategoryModel>
   implements AddCategoryRepository, LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository {
   constructor (
     public readonly tableName: string = 'categories'
@@ -12,7 +12,7 @@ export class CategoryPostgresRepository extends BaseRepository<AddCategoryModel,
     super(tableName)
   }
 
-  async add (categoryData: AddCategoryModel): Promise<CategoryModel> {
+  async add (categoryData: AddCategoryParams): Promise<CategoryModel> {
     const result = await this.create(categoryData)
     return result
   }

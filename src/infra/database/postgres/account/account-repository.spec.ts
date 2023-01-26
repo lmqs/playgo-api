@@ -1,4 +1,4 @@
-import { AddAccountModel } from '../../../../domain/usecases/account/add-account'
+import { AddAccountParams } from '../../../../domain/usecases/account/add-account'
 import { AccountPostgresRepository } from './account-repository'
 
 type SutTypes = {
@@ -13,7 +13,7 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Account Postgres Repository', () => {
-  let accountDataGenericMock: AddAccountModel
+  let accountDataGenericMock: AddAccountParams
 
   beforeEach(() => {
     accountDataGenericMock = {

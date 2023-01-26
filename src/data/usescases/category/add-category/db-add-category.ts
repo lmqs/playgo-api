@@ -1,5 +1,5 @@
 import { LoadCategoryByDescriptionAndIdRepository } from '../../../protocols/db/category/load-category-by-description-and-id-repository'
-import { AddCategory, AddCategoryModel, AddCategoryRepository, CategoryModel } from './db-add-category-protocols'
+import { AddCategory, AddCategoryParams, AddCategoryRepository, CategoryModel } from './db-add-category-protocols'
 
 export class DbAddCategory implements AddCategory {
   constructor (
@@ -7,7 +7,7 @@ export class DbAddCategory implements AddCategory {
     private readonly addCategoryRepository: AddCategoryRepository
   ) {}
 
-  async add (categoryData: AddCategoryModel): Promise<CategoryModel | undefined> {
+  async add (categoryData: AddCategoryParams): Promise<CategoryModel | undefined> {
     const isDescriptValid = await this.loadCategoryByDescriptionAndIdRepository.loadByDescriptionAndId(categoryData.description, categoryData.tournamentId)
     if (!isDescriptValid?.length) {
       const category = await this.addCategoryRepository.add(categoryData)

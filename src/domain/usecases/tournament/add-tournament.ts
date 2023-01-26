@@ -1,6 +1,6 @@
 import { TournamentModel } from '../../models/tournament'
 
-export type AddTournamentModel = {
+export type AddTournamentParams = {
   description: string
   cityId: string
   sportId: string
@@ -12,5 +12,5 @@ export type AddTournamentModel = {
 }
 
 export interface AddTournament {
-  add: (data: AddTournamentModel) => Promise<TournamentModel | undefined>
+  add: (data: AddTournamentParams) => Promise<TournamentModel | undefined>
 }

@@ -1,6 +1,6 @@
 import { LoadAccountByUserRepository } from '../../../protocols/db/account'
 import { DbAddAccount } from './db-add-account'
-import { AccountModel, AddAccountModel, Hasher, AddAccountRepository } from './db-add-account-protocols'
+import { AccountModel, AddAccountParams, Hasher, AddAccountRepository } from './db-add-account-protocols'
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -29,7 +29,7 @@ const makeHasher = (): Hasher => {
 }
 const makeAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
-    async add (addAccountModel: AddAccountModel): Promise<AccountModel> {
+    async add (addAccountParams: AddAccountParams): Promise<AccountModel> {
       return {
         id: 'valid_id',
         name: 'valid_name',
@@ -68,7 +68,7 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbAddAccount UseCase', () => {
-  let accountDataGenericMock: AddAccountModel
+  let accountDataGenericMock: AddAccountParams
 
   beforeEach(() => {
     accountDataGenericMock = {

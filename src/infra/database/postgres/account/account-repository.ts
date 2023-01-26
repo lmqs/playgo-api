@@ -1,10 +1,10 @@
 import { AccountModel } from '../../../../domain/models/account'
 
-import { AddAccountModel } from '../../../../domain/usecases/account/add-account'
+import { AddAccountParams } from '../../../../domain/usecases/account/add-account'
 import { BaseRepository } from '../base-repository'
 import { AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository } from '../../../../data/protocols/db/account'
 
-export class AccountPostgresRepository extends BaseRepository<AddAccountModel, AccountModel>
+export class AccountPostgresRepository extends BaseRepository<AddAccountParams, AccountModel>
   implements AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository,
   LoadAccountByTokenRepository {
   constructor (
@@ -13,7 +13,7 @@ export class AccountPostgresRepository extends BaseRepository<AddAccountModel, A
     super(tableName)
   }
 
-  async add (accountData: AddAccountModel): Promise<AccountModel> {
+  async add (accountData: AddAccountParams): Promise<AccountModel> {
     const result = await this.create(accountData)
     return result
   }

@@ -1,7 +1,7 @@
-export type AuthenticationModel = {
+export type AuthenticationParams = {
   user: string
   password: string
 }
 export interface Authentication {
-  auth: (authentication: AuthenticationModel) => Promise<string | undefined>
+  auth: (authentication: AuthenticationParams) => Promise<string | undefined>
 }
