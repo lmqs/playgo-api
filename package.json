@@ -9,7 +9,8 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "start:dev": "nodemon ./src/index.ts",
-    "build": "npx tsc",
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "postbuild": "copyfiles -u 1 public/**/* dist/static",
     "prepare": "husky install",
     "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
   },
