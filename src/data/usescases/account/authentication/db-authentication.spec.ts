@@ -1,8 +1,8 @@
-import { mockAccountModel } from '../../../domain/test'
-import { AuthenticationParams } from '../../../domain/usecases/authentication/authentication'
-import { HashComparer, Encrypter } from '../../protocols/criptography'
-import { UpdateAccessTokenRepository, LoadAccountByUserRepository } from '../../protocols/db/account'
-import { mockLoadAccountByUserRepository, mockUpdateAccessTokenRepository } from '../../test'
+import { mockAccountModel } from '../../../../domain/test'
+import { AuthenticationParams } from '../../../../domain/usecases/authentication/authentication'
+import { HashComparer, Encrypter } from '../../../protocols/criptography'
+import { UpdateAccessTokenRepository, LoadAccountByUserRepository } from '../../../protocols/db/account'
+import { mockLoadAccountByUserRepository, mockUpdateAccessTokenRepository } from '../../../test'
 import { DbAuthentication } from './db-authentication'
 
 const makeFakeAuthentication = (): AuthenticationParams => ({
@@ -68,8 +68,8 @@ describe('DbAddAccount UseCase', () => {
   test('Should return null if LoadAccountByUserRepository returns null', async () => {
     const { sut, loadAccountByUserRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(new Promise((resolve) => { resolve(undefined) }))
-    const accessToken = await sut.auth(makeFakeAuthentication())
-    expect(accessToken).toBeUndefined()
+    const model = await sut.auth(makeFakeAuthentication())
+    expect(model).toBeUndefined()
   })
 
   test('Should call hashComparer with correct password', async () => {
@@ -89,8 +89,8 @@ describe('DbAddAccount UseCase', () => {
   test('Should return null if hashComparer returns null', async () => {
     const { sut, hashComparerStub } = makeSut()
     jest.spyOn(hashComparerStub, 'compare').mockReturnValueOnce(new Promise((resolve) => { resolve(false) }))
-    const accessToken = await sut.auth(makeFakeAuthentication())
-    expect(accessToken).toBeUndefined()
+    const model = await sut.auth(makeFakeAuthentication())
+    expect(model).toBeUndefined()
   })
 
   test('Should call Encrypter with correct id', async () => {
@@ -109,8 +109,9 @@ describe('DbAddAccount UseCase', () => {
 
   test('Should return a token on success', async () => {
     const { sut } = makeSut()
-    const accessToken = await sut.auth(makeFakeAuthentication())
-    expect(accessToken).toBe('any_token')
+    const result = await sut.auth(makeFakeAuthentication())
+    expect(result?.accessToken).toBe('any_token')
+    expect(result?.name).toBe('valid_name')
   })
 
   test('Sould call UpdateAccessTokenRepository with correct values', async () => {

@@ -1,7 +1,7 @@
 import { MissingParamError, ServerError, UnauthorizedError } from '../../errors'
 import { badRequest, serverError, ok } from '../../helpers/http/http-helper'
 import { LoginController } from './login-controller'
-import { HttpRequest, Authentication, AuthenticationParams, Validation } from './login-controller-protocols'
+import { HttpRequest, Authentication, AuthenticationParams, Validation, AuthenticationModel } from './login-controller-protocols'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -26,12 +26,13 @@ type SutTypes = {
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationParams): Promise<string> {
-      return await new Promise(resolve => { resolve('any_token') })
+    async auth (authentication: AuthenticationParams): Promise<AuthenticationModel> {
+      return await new Promise(resolve => { resolve({ accessToken: 'any_token', name: 'any_name' }) })
     }
   }
   return new AuthenticationStub()
 }
+
 const makeSut = (): SutTypes => {
   const authStub = makeAuthentication()
   const validationStub = makeValidation()
@@ -54,7 +55,7 @@ describe('SignUP Controller', () => {
 
   test('Should return 401 if invalid credentials are provider', async () => {
     const { sut, authStub } = makeSut()
-    jest.spyOn(authStub, 'auth').mockReturnValueOnce(new Promise(resolve => { resolve('') }))
+    jest.spyOn(authStub, 'auth').mockReturnValueOnce(new Promise(resolve => { resolve(undefined) }))
 
     const httpResponse = await sut.handle(makeFakerRequest())
     expect(httpResponse).toEqual(badRequest(new UnauthorizedError()))
@@ -74,7 +75,7 @@ describe('SignUP Controller', () => {
     const { sut } = makeSut()
 
     const httpResponse = await sut.handle(makeFakerRequest())
-    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+    expect(httpResponse).toEqual(ok({ accessToken: 'any_token', name: 'any_name' }))
   })
 
   test('Should call validation.validate with correct values', async () => {

@@ -5,6 +5,7 @@ import { MissingParamError, ServerError, EmailInUseError } from '../../errors'
 import { SignUpController } from './signup-controller'
 import { ok, badRequest, serverError, forbidden } from '../../helpers/http/http-helper'
 import { mockAccountModel } from '../../../domain/test'
+import { AuthenticationModel } from '../login/login-controller-protocols'
 
 const makeFakerRequest = (): HttpRequest => ({
   body: {
@@ -15,8 +16,8 @@ const makeFakerRequest = (): HttpRequest => ({
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationParams): Promise<string> {
-      return await new Promise(resolve => { resolve('any_token') })
+    async auth (authentication: AuthenticationParams): Promise<AuthenticationModel> {
+      return await new Promise(resolve => { resolve({ accessToken: 'any_token', name: 'any_name' }) })
     }
   }
   return new AuthenticationStub()
@@ -103,7 +104,7 @@ describe('SignUP Controller', () => {
     const { sut } = makeSut()
 
     const httpResponse = await sut.handle(httpRequestGenericMock)
-    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+    expect(httpResponse).toEqual(ok({ accessToken: 'any_token', name: 'any_name' }))
   })
 
   test('Should call validation.validate with correct values', async () => {
