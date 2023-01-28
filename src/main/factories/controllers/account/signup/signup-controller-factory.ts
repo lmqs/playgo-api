@@ -2,8 +2,8 @@ import { SignUpController } from '@/presentation/controllers/signup/signup-contr
 import { Controller } from '@/presentation/protocols'
 import { LogPostgresRepository } from '@/infra/database/postgres/log/log-repository'
 import { makeSignUpValidation } from './signup-validation-factory'
-import { makeDbAuthentication } from '@/main/factories/usecases/account/authentication/db-authentication-factory'
-import { makeDbAddAccount } from '@/main/factories/usecases/account/add-account/db-add-account'
+import { makeDbAuthentication } from '@/main/factories/usecases/account/db-authentication-factory'
+import { makeDbAddAccount } from '@/main/factories/usecases/account/db-add-account'
 import { LogControllerDecorator } from '@/main/decorators/log-controller-decorator'
 
 export const makeSignUpController = (): Controller => {
