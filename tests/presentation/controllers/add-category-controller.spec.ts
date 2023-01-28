@@ -1,16 +1,14 @@
 import { MissingParamError, ParamInUseError, ServerError } from '@/presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { AddCategoryController } from '@/presentation/controllers/category/add-category/add-category-controller'
-import { HttpRequest, Validation, AddCategory } from '@/presentation/controllers/category/add-category/add-category-controller-protocols'
+import { Validation, AddCategory } from '@/presentation/controllers/category/add-category/add-category-controller-protocols'
 import { mockAddCategoryStub } from '@/tests/presentation/mocks/mock-account'
 import { mockValidationStub } from '@/tests/presentation/mocks/mock-validation'
 
-const makeFakerRequest = (): HttpRequest => ({
-  body: {
-    description: 'valid_user',
-    tournamentId: 'valid_password',
-    numberAthletes: 'valid_numberAthletes'
-  }
+const makeFakerRequest = (): AddCategoryController.Request => ({
+  description: 'valid_user',
+  tournamentId: 'valid_password',
+  numberAthletes: 'valid_numberAthletes'
 })
 
 type SutTypes = {
@@ -36,7 +34,7 @@ describe('Category Controller', () => {
     const addSpy = jest.spyOn(validationStub, 'validate')
 
     await sut.handle(makeFakerRequest())
-    expect(addSpy).toHaveBeenCalledWith(makeFakerRequest().body)
+    expect(addSpy).toHaveBeenCalledWith(makeFakerRequest())
   })
 
   test('Should return 400 if Validation returns an error', async () => {

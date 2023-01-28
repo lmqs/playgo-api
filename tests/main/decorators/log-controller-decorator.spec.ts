@@ -1,18 +1,16 @@
 import { LogErrorRepository } from '@/data/protocols/db/log/log-error-repository'
 import { serverError } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
+import { Controller, HttpResponse } from '@/presentation/protocols'
 import { LogControllerDecorator } from '@/main/decorators/log-controller-decorator'
 
-const makeFakeRequest = (): HttpRequest => ({
-  body: {
-    name: 'valid_name',
-    user: 'valid_user',
-    password: 'valid_password',
-    passwordConfirmation: 'valid_password',
-    email: 'valid_email',
-    cityId: 1,
-    phoneNumber: 'valid_number'
-  }
+const makeFakeRequest = (): any => ({
+  name: 'valid_name',
+  user: 'valid_user',
+  password: 'valid_password',
+  passwordConfirmation: 'valid_password',
+  email: 'valid_email',
+  cityId: 1,
+  phoneNumber: 'valid_number'
 })
 
 type SutTypes = {
@@ -31,7 +29,7 @@ const makeLogErrorRepository = (): LogErrorRepository => {
 }
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
-    async handle (request: HttpRequest): Promise<HttpResponse> {
+    async handle (request: any): Promise<HttpResponse> {
       const httpResponse: HttpResponse = {
         statusCode: 200,
         body: {

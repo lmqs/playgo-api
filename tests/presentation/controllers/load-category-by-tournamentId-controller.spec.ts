@@ -1,7 +1,7 @@
 import { MissingParamError, ServerError } from '@/presentation/errors'
 import { badRequest, serverError, ok, noContent } from '@/presentation/helpers/http/http-helper'
 import { LoadCategoriesByTournamentIdController } from '@/presentation/controllers/category/load-category-by-tournamentId/load-category-by-tournamentId-controller'
-import { HttpRequest, Validation, CategoryModel, LoadCategoriesByTournamentId } from '@/presentation/controllers/category/load-category-by-tournamentId/load-category-by-tournamentId-controller-protocols'
+import { Validation, CategoryModel, LoadCategoriesByTournamentId } from '@/presentation/controllers/category/load-category-by-tournamentId/load-category-by-tournamentId-controller-protocols'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -11,10 +11,8 @@ const makeValidation = (): Validation => {
   }
   return new ValidationStub()
 }
-const makeFakerRequest = (): HttpRequest => ({
-  query: {
-    tournamentId: 'valid_tournamentId'
-  }
+const makeFakerRequest = (): LoadCategoriesByTournamentIdController.Request => ({
+  tournamentId: 'valid_tournamentId'
 })
 
 const makeFakerCategoriesModel = (): CategoryModel => ({

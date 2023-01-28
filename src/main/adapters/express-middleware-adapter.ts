@@ -4,7 +4,8 @@ import { Middleware } from '@/presentation/protocols'
 export const adaptMiddleware = (middleware: Middleware) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const request = {
-      headers: req.headers
+      accessToken: req.headers?.['x-access-token'],
+      ...(req.headers || {})
     }
     const httpResponse = await middleware.handle(request)
     if (httpResponse.statusCode === 200) {

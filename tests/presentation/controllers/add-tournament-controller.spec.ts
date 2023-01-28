@@ -1,7 +1,7 @@
 import { MissingParamError, ParamInUseError, ServerError } from '@/presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { AddTournamentController } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller'
-import { HttpRequest, Validation, TournamentModel, AddTournament, AddTournamentParams } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller-protocols'
+import { Validation, TournamentModel, AddTournament, AddTournamentParams } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller-protocols'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -11,16 +11,14 @@ const makeValidation = (): Validation => {
   }
   return new ValidationStub()
 }
-const makeFakerRequest = (): HttpRequest => ({
-  body: {
-    description: 'valid_description',
-    cityId: 'valid_city',
-    sportId: 'valid_sportId',
-    dtTournament: 'valid_dtTournament',
-    registrationLimit: 'valid_registrationLimit',
-    registrationStartDate: 'valid_registrationStartDate',
-    registrationFinalDate: 'valid_registrationFinalDate'
-  }
+const makeFakerRequest = (): AddTournamentController.Request => ({
+  description: 'valid_description',
+  cityId: 'valid_city',
+  sportId: 'valid_sportId',
+  dtTournament: 'valid_dtTournament',
+  registrationLimit: 'valid_registrationLimit',
+  registrationStartDate: 'valid_registrationStartDate',
+  registrationFinalDate: 'valid_registrationFinalDate'
 })
 
 const makeFakeTournamentModel = (): TournamentModel => {
@@ -69,7 +67,7 @@ describe('AddTournamentController Controller', () => {
     const addSpy = jest.spyOn(validationStub, 'validate')
 
     await sut.handle(makeFakerRequest())
-    expect(addSpy).toHaveBeenCalledWith(makeFakerRequest().body)
+    expect(addSpy).toHaveBeenCalledWith(makeFakerRequest())
   })
 
   test('Should return 400 if Validation returns an error', async () => {

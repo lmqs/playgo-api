@@ -1,7 +1,7 @@
 import { MissingParamError, ServerError, UnauthorizedError } from '@/presentation/errors'
 import { badRequest, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { LoginController } from '@/presentation/controllers/login/login-controller'
-import { HttpRequest, Authentication, AuthenticationParams, Validation, AuthenticationModel } from '@/presentation/controllers/login/login-controller-protocols'
+import { Authentication, AuthenticationParams, Validation, AuthenticationModel } from '@/presentation/controllers/login/login-controller-protocols'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -11,11 +11,9 @@ const makeValidation = (): Validation => {
   }
   return new ValidationStub()
 }
-const makeFakerRequest = (): HttpRequest => ({
-  body: {
-    user: 'valid_user',
-    password: 'valid_password'
-  }
+const makeFakerRequest = (): LoginController.Request => ({
+  user: 'valid_user',
+  password: 'valid_password'
 })
 
 type SutTypes = {
@@ -83,7 +81,7 @@ describe('SignUP Controller', () => {
     const addSpy = jest.spyOn(validationStub, 'validate')
 
     await sut.handle(makeFakerRequest())
-    expect(addSpy).toHaveBeenCalledWith(makeFakerRequest().body)
+    expect(addSpy).toHaveBeenCalledWith(makeFakerRequest())
   })
 
   test('Should return 400 if Validation returns an error', async () => {

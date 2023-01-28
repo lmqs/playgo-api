@@ -1,6 +1,6 @@
 import { AddCategory } from '@/domain/usecases/category/add-category'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpRequest, HttpResponse, Validation } from './add-category-controller-protocols'
+import { Controller, HttpResponse, Validation } from './add-category-controller-protocols'
 import { ParamInUseError } from '@/presentation/errors'
 
 export class AddCategoryController implements Controller {
@@ -9,13 +9,13 @@ export class AddCategoryController implements Controller {
     private readonly addCategory: AddCategory
   ) {}
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (request: AddCategoryController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const error = this.validation.validate(request)
       if (error) {
         return badRequest(error)
       }
-      const { description, tournamentId, numberAthletes } = httpRequest.body
+      const { description, tournamentId, numberAthletes } = request
       const category = await this.addCategory.add({ description, tournamentId, numberAthletes })
       if (!category) {
         return forbidden(new ParamInUseError('description'))
@@ -24,5 +24,13 @@ export class AddCategoryController implements Controller {
     } catch (error: unknown) {
       return serverError(error as Error)
     }
+  }
+}
+
+export namespace AddCategoryController {
+  export type Request = {
+    description: string
+    tournamentId: string
+    numberAthletes: string
   }
 }

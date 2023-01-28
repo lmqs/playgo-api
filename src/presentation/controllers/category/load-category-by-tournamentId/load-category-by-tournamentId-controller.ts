@@ -1,22 +1,27 @@
 import { badRequest, serverError, ok, noContent } from '@/presentation/helpers/http/http-helper'
-import { LoadCategoriesByTournamentId, Controller, HttpRequest, HttpResponse, Validation } from '@/presentation/controllers/category/load-category-by-tournamentId/load-category-by-tournamentId-controller-protocols'
+import { LoadCategoriesByTournamentId, Controller, HttpResponse, Validation } from '@/presentation/controllers/category/load-category-by-tournamentId/load-category-by-tournamentId-controller-protocols'
 export class LoadCategoriesByTournamentIdController implements Controller {
   constructor (
     private readonly validation: Validation,
     private readonly loadCategoriesByTournamentId: LoadCategoriesByTournamentId
   ) {}
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (httpRequest: LoadCategoriesByTournamentIdController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.query)
+      const error = this.validation.validate(httpRequest)
       if (error) {
         return badRequest(error)
       }
-      const { tournamentId } = httpRequest.query
+      const { tournamentId } = httpRequest
       const categories = await this.loadCategoriesByTournamentId.load(tournamentId)
       return categories?.length ? ok(categories) : noContent()
     } catch (error: unknown) {
       return serverError(error as Error)
     }
+  }
+}
+export namespace LoadCategoriesByTournamentIdController {
+  export type Request = {
+    tournamentId: string
   }
 }
