@@ -1,5 +1,5 @@
 import { TournamentModel } from '@/domain/models/tournament'
-import { AddTournamentParams } from '@/domain/usecases/tournament/add-tournament'
+import { AddTournament } from '@/domain/usecases/tournament/add-tournament'
 
 export const mockTournamentModel = (): TournamentModel => {
   return {
@@ -15,7 +15,7 @@ export const mockTournamentModel = (): TournamentModel => {
   }
 }
 
-export const mockAddTournamentParams = (): AddTournamentParams => {
+export const mockAddTournamentParams = (): AddTournament.Params => {
   return {
     description: 'valid_description',
     cityId: 'valid_city',

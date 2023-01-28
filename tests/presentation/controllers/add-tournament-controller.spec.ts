@@ -1,7 +1,7 @@
 import { MissingParamError, ParamInUseError, ServerError } from '@/presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { AddTournamentController } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller'
-import { Validation, TournamentModel, AddTournament, AddTournamentParams } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller-protocols'
+import { Validation, TournamentModel, AddTournament } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller-protocols'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -43,7 +43,7 @@ type SutTypes = {
 
 const makeAddTournament = (): AddTournament => {
   class AddTournamentStub implements AddTournament {
-    async add (data: AddTournamentParams): Promise<TournamentModel> {
+    async add (data: AddTournament.Params): Promise<AddTournament.Result> {
       return await new Promise(resolve => { resolve(makeFakeTournamentModel()) })
     }
   }

@@ -1,7 +1,7 @@
 import { mockAddTournamentParams, mockTournamentModel } from '@/tests/domain/mocks'
 import { mockAddTournamentRepository } from '../../mocks'
 import { DbAddTournament } from '@/data/usescases/tournament/add-tournament/db-add-tournament'
-import { AddTournamentRepository, TournamentModel, LoadTournamentByDescriptionRepository } from '@/data/usescases/tournament/add-tournament/db-add-tournament-protocols'
+import { AddTournamentRepository, LoadTournamentByDescriptionRepository } from '@/data/usescases/tournament/add-tournament/db-add-tournament-protocols'
 
 type SutTypes = {
   sut: DbAddTournament
@@ -11,7 +11,7 @@ type SutTypes = {
 
 const makeLoadTournamentByDescriptionRepositoryStub = (): LoadTournamentByDescriptionRepository => {
   class LoadTournamentByDescriptionRepositoryStub implements LoadTournamentByDescriptionRepository {
-    async loadByDescription (id: string): Promise<TournamentModel | undefined> {
+    async loadByDescription (id: string): Promise<LoadTournamentByDescriptionRepository.Result | undefined> {
       return undefined
     }
   }

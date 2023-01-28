@@ -1,5 +1,10 @@
-import { TournamentModel } from '../../../../domain/models/tournament'
+import { TournamentModel } from '@/domain/models/tournament'
 
 export interface UpdateTournamentRepository {
-  updateTournament: (data: TournamentModel) => Promise<TournamentModel>
+  updateTournament: (data: UpdateTournamentRepository.Params) => Promise<UpdateTournamentRepository.Result>
+}
+
+export namespace UpdateTournamentRepository {
+  export type Params = TournamentModel
+  export type Result = TournamentModel
 }

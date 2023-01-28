@@ -1,5 +1,5 @@
 import {
-  AddTournamentRepository, AddTournament, AddTournamentParams, TournamentModel, LoadTournamentByDescriptionRepository
+  AddTournamentRepository, AddTournament, LoadTournamentByDescriptionRepository
 } from './db-add-tournament-protocols'
 
 export class DbAddTournament implements AddTournament {
@@ -8,7 +8,7 @@ export class DbAddTournament implements AddTournament {
     private readonly addTournamentRepository: AddTournamentRepository
   ) {}
 
-  async add (data: AddTournamentParams): Promise<TournamentModel | undefined> {
+  async add (data: AddTournament.Params): Promise<AddTournament.Result | undefined> {
     const isValid = await this.loadTournamentByDescriptionRepository.loadByDescription(data.description)
     if (!isValid) {
       return await this.addTournamentRepository.add(data)

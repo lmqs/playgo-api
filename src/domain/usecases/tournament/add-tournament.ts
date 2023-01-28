@@ -1,16 +1,19 @@
-import { TournamentModel } from '../../models/tournament'
-
-export type AddTournamentParams = {
-  description: string
-  cityId: string
-  sportId: string
-  dtTournament: string
-  registrationLimit: string
-  registrationStartDate: string
-  registrationFinalDate: string
-  deleted?: boolean
-}
+import { TournamentModel } from '@/domain/models/tournament'
 
 export interface AddTournament {
-  add: (data: AddTournamentParams) => Promise<TournamentModel | undefined>
+  add: (data: AddTournament.Params) => Promise<AddTournament.Result | undefined>
+}
+
+export namespace AddTournament {
+  export type Params = {
+    description: string
+    cityId: string
+    sportId: string
+    dtTournament: string
+    registrationLimit: string
+    registrationStartDate: string
+    registrationFinalDate: string
+    deleted?: boolean
+  }
+  export type Result = TournamentModel
 }

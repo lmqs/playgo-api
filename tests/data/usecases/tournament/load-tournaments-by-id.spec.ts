@@ -22,7 +22,7 @@ type SutTypes = {
 
 const makeLoadTournamentByIdRepository = (): LoadTournamentByIdRepository => {
   class LoadTournamentByIdRepositoryStub implements LoadTournamentByIdRepository {
-    async loadById (id: string): Promise<TournamentModel | undefined> {
+    async loadById (id: string): Promise<LoadTournamentByIdRepository.Result | undefined> {
       return await new Promise(resolve => { resolve(makeFakeTournamentModel()) })
     }
   }
