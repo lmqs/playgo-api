@@ -21,7 +21,7 @@ export class CategoryPostgresRepository extends BaseRepository<AddCategory.Param
     return categories
   }
 
-  async loadByTournamentId (tournamentId: string): Promise<CategoryModel[] | undefined> {
+  async loadByTournamentId (tournamentId: string): Promise<LoadCategoryByTournamentIdRepository.Result | undefined> {
     const categories = await this.findGeneric({ tournamentId })
     return categories
   }

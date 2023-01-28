@@ -30,7 +30,7 @@ type SutTypes = {
 
 const makeLoadCategoriesByTournamentIdStub = (): LoadCategoriesByTournamentId => {
   class LoadCategoriesByTournamentIdStub implements LoadCategoriesByTournamentId {
-    async load (tournamentId: string): Promise<CategoryModel[]> {
+    async load (tournamentId: string): Promise<LoadCategoriesByTournamentId.Result> {
       return await new Promise(resolve => { resolve([makeFakerCategoriesModel(), makeFakerCategoriesModel()]) })
     }
   }
