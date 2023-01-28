@@ -1,6 +1,5 @@
 import { AddCategoryRepository, AddCategory } from '@/data/usescases/category/add-category/db-add-category-protocols'
 import { LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository } from '@/data/protocols/db/category'
-import { CategoryModel } from '@/domain/models/category'
 import { BaseRepository } from '@/infra/database/postgres/base-repository'
 
 export class CategoryPostgresRepository extends BaseRepository<AddCategory.Params, AddCategory.Result>
@@ -16,7 +15,7 @@ export class CategoryPostgresRepository extends BaseRepository<AddCategory.Param
     return result
   }
 
-  async loadByDescriptionAndId (description: string, id: string): Promise<CategoryModel[] | undefined> {
+  async loadByDescriptionAndId (description: string, id: string): Promise<LoadCategoryByDescriptionAndIdRepository.Result | undefined> {
     const categories = await this.findGeneric({ description, tournamentId: id })
     return categories
   }

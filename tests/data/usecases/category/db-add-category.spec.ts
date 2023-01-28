@@ -32,7 +32,7 @@ const makeAddCategoryRepository = (): AddCategoryRepository => {
 
 const makeLoadTournamentByDescriptionAndIdRepository = (): LoadCategoryByDescriptionAndIdRepository => {
   class LoadCategoryByDescriptionAndIdRepositoryStub implements LoadCategoryByDescriptionAndIdRepository {
-    async loadByDescriptionAndId (description: string, id: string): Promise<CategoryModel[] | undefined> {
+    async loadByDescriptionAndId (description: string, id: string): Promise<LoadCategoryByDescriptionAndIdRepository.Result | undefined> {
       return undefined
     }
   }
