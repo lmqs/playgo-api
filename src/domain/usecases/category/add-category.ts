@@ -7,5 +7,14 @@ export type AddCategoryParams = {
 }
 
 export interface AddCategory {
-  add: (category: AddCategoryParams) => Promise<CategoryModel | undefined>
+  add: (category: AddCategory.Params) => Promise<AddCategory.Result | undefined>
+}
+
+export namespace AddCategory {
+  export type Params = {
+    description: string
+    tournamentId: string
+    numberAthletes?: string
+  }
+  export type Result = CategoryModel
 }

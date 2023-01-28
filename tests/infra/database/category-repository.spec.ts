@@ -1,5 +1,5 @@
 import { CategoryModel } from '@/domain/models/category'
-import { AddCategoryParams } from '@/domain/usecases/category/add-category'
+import { AddCategory } from '@/domain/usecases/category/add-category'
 import { CategoryPostgresRepository } from '@/infra/database/postgres/category/category-repository'
 
 type SutTypes = {
@@ -13,7 +13,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const makeFakeAddCategoryModel = (): AddCategoryParams => ({
+const makeFakeAddCategoryModel = (): AddCategory.Params => ({
   description: 'valid_description',
   tournamentId: 'valid_tournamentId',
   numberAthletes: 'valid_numberAthletes'
