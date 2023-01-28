@@ -1,8 +1,7 @@
-
-import { AddCategoryRepository, AddCategoryParams } from '../../../../data/usescases/category/add-category/db-add-category-protocols'
-import { LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository } from '../../../../data/protocols/db/category/'
-import { CategoryModel } from '../../../../domain/models/category'
-import { BaseRepository } from '../base-repository'
+import { AddCategoryRepository, AddCategoryParams } from '@/data/usescases/category/add-category/db-add-category-protocols'
+import { LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository } from '@/data/protocols/db/category'
+import { CategoryModel } from '@/domain/models/category'
+import { BaseRepository } from '@/infra/database/postgres/base-repository'
 
 export class CategoryPostgresRepository extends BaseRepository<AddCategoryParams, CategoryModel>
   implements AddCategoryRepository, LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository {

@@ -1,6 +1,6 @@
+import { ENVIRONMENT } from '@/main/config'
+import { DatabaseClient } from '@/core/data/adapter/database-client'
 import { Client, QueryResult } from 'pg'
-import { DatabaseClient } from '../../../core/data/adapter/database-client'
-import { ENVIRONMENT } from '../../../main/config'
 
 export class PostgresService implements DatabaseClient {
   private static instance: PostgresService
@@ -17,7 +17,9 @@ export class PostgresService implements DatabaseClient {
   }
 
   static getInstance (): PostgresService {
-    if (!PostgresService.instance) PostgresService.instance = new PostgresService()
+    if (!PostgresService.instance) {
+      PostgresService.instance = new PostgresService()
+    }
     return PostgresService.instance
   }
 

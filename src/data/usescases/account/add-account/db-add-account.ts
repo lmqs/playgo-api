@@ -1,5 +1,5 @@
-import { LoadAccountByUserRepository } from '../../../protocols/db/account'
-import { AddAccount, AddAccountParams, AccountModel, Hasher, AddAccountRepository } from './db-add-account-protocols'
+import { LoadAccountByUserRepository } from '@/data/usescases/account/authentication/db-authentication-protocols'
+import { AddAccount, AddAccountParams, AccountModel, Hasher, AddAccountRepository } from '@/data/usescases/account/add-account/db-add-account-protocols'
 
 export class DbAddAccount implements AddAccount {
   constructor (

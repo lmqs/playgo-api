@@ -1,9 +1,9 @@
-import { DbAuthentication } from '../../../../../data/usescases/account/authentication/db-authentication'
-import { AccountPostgresRepository } from '../../../../../infra/database/postgres/account/account-repository'
-import { BcryptAdapter } from '../../../../../infra/criptography/bcrypt-adapter/bcrypt-adapter'
-import { JwtAdapter } from '../../../../../infra/criptography/jwt-adapter/jwt-adapter'
+import { DbAuthentication } from '@/data/usescases/account/authentication/db-authentication'
+import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
+import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter'
+import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'
 import { ENVIRONMENT } from '../../../../config/env'
-import { Authentication } from '../../../../../domain/usecases/authentication/authentication'
+import { Authentication } from '@/domain/usecases/authentication/authentication'
 
 export const makeDbAuthentication = (): Authentication => {
   const accountRepository = new AccountPostgresRepository()
