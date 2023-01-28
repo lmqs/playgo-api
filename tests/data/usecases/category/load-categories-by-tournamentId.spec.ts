@@ -1,5 +1,5 @@
 import { LoadCategoryByTournamentIdRepository } from '@/data/protocols/db/category'
-import { DbLoadCategories } from '@/data/usescases/category/load-categories/load-categories-by-tournamentId'
+import { DbLoadCategories } from '@/data/usescases/category/load-categories-by-tournamentId'
 import { CategoryModel } from '@/domain/models/category'
 import { LoadCategoriesByTournamentId } from '@/domain/usecases/category/load-categories-by-tournamentId'
 

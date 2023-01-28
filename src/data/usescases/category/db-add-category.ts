@@ -1,5 +1,5 @@
 import { LoadCategoryByDescriptionAndIdRepository } from '@/data/protocols/db/category/load-category-by-description-and-id-repository'
-import { AddCategory, AddCategoryRepository } from './db-add-category-protocols'
+import { AddCategory, AddCategoryRepository } from '.'
 
 export class DbAddCategory implements AddCategory {
   constructor (

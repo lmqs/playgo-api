@@ -1,6 +1,7 @@
 import { LoadCategoryByDescriptionAndIdRepository } from '../../protocols/db/category/load-category-by-description-and-id-repository'
-import { AddCategory, AddCategoryRepository, CategoryModel } from '@/data/usescases/category/add-category/db-add-category-protocols'
-import { DbAddCategory } from '@/data/usescases/category/add-category/db-add-category'
+import { CategoryModel } from '@/domain/models/category'
+import { DbAddCategory } from '@/data/usescases/category/db-add-category'
+import { AddCategory, AddCategoryRepository } from '@/data/usescases/category'
 
 const makeFakeCategoryModel = (): CategoryModel => ({
   id: 'valid_id',
