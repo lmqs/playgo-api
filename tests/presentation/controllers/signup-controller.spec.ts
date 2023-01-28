@@ -1,5 +1,5 @@
 import {
-  AddAccount, AddAccountParams, AccountModel, Validation, Authentication, AuthenticationParams
+  AddAccount, Validation, Authentication, AuthenticationParams
 } from '@/presentation/controllers/signup/signup-controller-protocols'
 import { MissingParamError, ServerError, EmailInUseError } from '@/presentation/errors'
 import { SignUpController } from '@/presentation/controllers/signup/signup-controller'
@@ -41,7 +41,7 @@ const makeValidation = (): Validation => {
 }
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add (account: AddAccountParams): Promise<AccountModel> {
+    async add (account: AddAccount.Params): Promise<AddAccount.Result> {
       return await new Promise(resolve => { resolve(mockAccountModel()) })
     }
   }

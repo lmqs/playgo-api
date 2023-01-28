@@ -1,5 +1,5 @@
 import { AccountModel } from '@/domain/models/account'
-import { AddAccountParams } from '@/domain/usecases/account/add-account'
+import { AddAccount } from '@/domain/usecases/account/add-account'
 
 export const mockAccountModel = (): AccountModel => ({
   id: 'valid_id',
@@ -13,7 +13,7 @@ export const mockAccountModel = (): AccountModel => ({
   deleted: true
 })
 
-export const mockAddAccountParams = (): AddAccountParams => ({
+export const mockAddAccountParams = (): AddAccount.Params => ({
   name: 'valid_name',
   user: 'valid_user',
   password: 'valid_password',
