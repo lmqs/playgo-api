@@ -1,7 +1,7 @@
 import { AccountPostgresRepository } from '../../../../../infra/database/postgres/account/account-repository'
 import { JwtAdapter } from '../../../../../infra/criptography/jwt-adapter/jwt-adapter'
 import { ENVIRONMENT } from '../../../../config/env'
-import { DbLoadAccountByToken } from '../../../../../data/usescases/account/load-account-by-token/db-load-account-by-token'
+import { DbLoadAccountByToken } from '../../../../../data/usescases/account/db-load-account-by-token'
 import { LoadAccountByToken } from '../../../../../domain/usecases/account/load-account-by-token'
 
 export const makeDbLoadAccountByToken = (): LoadAccountByToken => {

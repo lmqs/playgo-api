@@ -1,7 +1,7 @@
 import { mockAddAccountParams, mockAccountModel } from '@/tests/domain/mocks'
 import { LoadAccountByUserRepository } from '@/data/protocols/db/account'
-import { DbAddAccount } from '@/data/usescases/account/add-account/db-add-account'
-import { Hasher, AddAccountRepository } from '@/data/usescases/account/add-account/db-add-account-protocols'
+import { DbAddAccount } from '@/data/usescases/account/db-add-account'
+import { Hasher, AddAccountRepository } from '@/data/usescases/account'
 import { mockAddAccountRepository, mockLoadAccountByUserRepository } from '../../mocks'
 
 type SutTypes = {

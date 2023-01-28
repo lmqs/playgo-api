@@ -1,4 +1,4 @@
-import { DbAuthentication } from '@/data/usescases/account/authentication/db-authentication'
+import { DbAuthentication } from '@/data/usescases/account/db-authentication'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
 import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter'
 import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'

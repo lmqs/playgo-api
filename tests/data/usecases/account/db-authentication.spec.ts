@@ -3,7 +3,7 @@ import { Authentication } from '@/domain/usecases/authentication/authentication'
 import { HashComparer, Encrypter } from '@/data/protocols/criptography'
 import { UpdateAccessTokenRepository, LoadAccountByUserRepository } from '@/data/protocols/db/account'
 import { mockLoadAccountByUserRepository, mockUpdateAccessTokenRepository } from '../../mocks'
-import { DbAuthentication } from '@/data/usescases/account/authentication/db-authentication'
+import { DbAuthentication } from '@/data/usescases/account/db-authentication'
 
 const makeFakeAuthentication = (): Authentication.Params => ({
   user: 'any_user',

@@ -1,9 +1,9 @@
 import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
 import { Decrypter } from '@/data/protocols/criptography/decrypter'
 import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
-import { DbLoadAccountByToken } from '@/data/usescases/account/load-account-by-token/db-load-account-by-token'
 import { mockAccountModel } from '@/tests/domain/mocks'
 import { mockLoadAccountByTokenRepository } from '../../mocks'
+import { DbLoadAccountByToken } from '@/data/usescases/account/db-load-account-by-token'
 
 type SutTypes = {
   sut: LoadAccountByToken

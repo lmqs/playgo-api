@@ -1,5 +1,4 @@
-import { LoadAccountByUserRepository } from '@/data/usescases/account/authentication/db-authentication-protocols'
-import { AddAccount, Hasher, AddAccountRepository } from '@/data/usescases/account/add-account/db-add-account-protocols'
+import { AddAccount, Hasher, AddAccountRepository, LoadAccountByUserRepository } from '@/data/usescases/account'
 
 export class DbAddAccount implements AddAccount {
   constructor (

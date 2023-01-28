@@ -1,4 +1,4 @@
-import { LoadAccountByUserRepository, UpdateAccessTokenRepository, HashComparer, Encrypter, Authentication } from './db-authentication-protocols'
+import { LoadAccountByUserRepository, UpdateAccessTokenRepository, HashComparer, Authentication, Encrypter } from '.'
 
 export class DbAuthentication implements Authentication {
   constructor (
