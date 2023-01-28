@@ -25,7 +25,7 @@ export class AccountPostgresRepository extends BaseRepository<AddAccountReposito
     await this.update({ accessToken: token }, { id })
   }
 
-  async loadByToken (token: string, role?: string): Promise<AccountModel | undefined> {
+  async loadByToken (token: string, role?: string): Promise<LoadAccountByTokenRepository.Result | undefined> {
     const whereFields = { accessToken: token }
     Object.assign(whereFields, role ? { role } : {})
 

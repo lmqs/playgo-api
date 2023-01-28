@@ -22,7 +22,7 @@ export const mockLoadAccountByUserRepository = (): LoadAccountByUserRepository =
 
 export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
-    async loadByToken (token: string, role?: string): Promise<AccountModel | undefined> {
+    async loadByToken (token: string, role?: string): Promise<LoadAccountByTokenRepository.Result | undefined> {
       return await new Promise(resolve => { resolve(mockAccountModel()) })
     }
   }
