@@ -1,7 +1,7 @@
 import { MissingParamError, ServerError } from '@/presentation/errors'
 import { badRequest, serverError, ok, noContent } from '@/presentation/helpers/http/http-helper'
-import { LoadCategoriesByTournamentIdController } from '@/presentation/controllers/category/load-category-by-tournamentId/load-category-by-tournamentId-controller'
-import { Validation, CategoryModel, LoadCategoriesByTournamentId } from '@/presentation/controllers/category/load-category-by-tournamentId/load-category-by-tournamentId-controller-protocols'
+import { LoadCategoriesByTournamentIdController } from '@/presentation/controllers/category/load-category-by-tournamentId-controller'
+import { Validation, CategoryModel, LoadCategoriesByTournamentId } from './category'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {

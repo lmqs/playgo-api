@@ -1,5 +1,5 @@
 import { mockCategoryModel } from '@/tests/domain/mocks/mock-category'
-import { AddCategory } from '@/presentation/controllers/category/add-category/add-category-controller-protocols'
+import { AddCategory } from '@/presentation/controllers/category'
 
 export const mockAddCategoryStub = (): AddCategory => {
   class AddAccountStub implements AddCategory {

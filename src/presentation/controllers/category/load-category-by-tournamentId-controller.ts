@@ -1,5 +1,5 @@
 import { badRequest, serverError, ok, noContent } from '@/presentation/helpers/http/http-helper'
-import { LoadCategoriesByTournamentId, Controller, HttpResponse, Validation } from '@/presentation/controllers/category/load-category-by-tournamentId/load-category-by-tournamentId-controller-protocols'
+import { LoadCategoriesByTournamentId, Controller, HttpResponse, Validation } from '@/presentation/controllers/category'
 export class LoadCategoriesByTournamentIdController implements Controller {
   constructor (
     private readonly validation: Validation,

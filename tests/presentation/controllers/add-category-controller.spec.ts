@@ -1,7 +1,7 @@
 import { MissingParamError, ParamInUseError, ServerError } from '@/presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { AddCategoryController } from '@/presentation/controllers/category/add-category/add-category-controller'
-import { Validation, AddCategory } from '@/presentation/controllers/category/add-category/add-category-controller-protocols'
+import { AddCategoryController } from '@/presentation/controllers/category/add-category-controller'
+import { Validation, AddCategory } from '@/presentation/controllers/category'
 import { mockAddCategoryStub } from '@/tests/presentation/mocks/mock-account'
 import { mockValidationStub } from '@/tests/presentation/mocks/mock-validation'
 
