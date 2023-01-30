@@ -1,3 +1,6 @@
+export * from './api-key-auth-schema'
 export * from './account-schemas'
 export * from './error-schema'
 export * from './login-params-schema'
+export * from './category-schemas'
+export * from './categories-schemas'

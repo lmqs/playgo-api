@@ -1,6 +1,7 @@
-import { loginPath } from '@/main/docs/paths'
-import { loginParamsSchema, accountSchema, errorSchema } from '@/main/docs/schemas'
+import { loginPath, categoryPath } from '@/main/docs/paths'
+import { loginParamsSchema, accountSchema, errorSchema, categorySchema, apiKeyAuthSchema } from '@/main/docs/schemas'
 import { badRequest, unauthorized, serverError, forbidden, notFound } from '@/main/docs/components'
+import { categoriesSchema } from './schemas/categories-schemas'
 
 export default {
   openapi: '3.0.0',
@@ -17,18 +18,24 @@ export default {
       name: 'Login'
     },
     {
-      name: 'Category'
+      name: 'Categoria'
     }
   ],
   paths: {
-    '/login': loginPath
+    '/login': loginPath,
+    '/loadCategoriesByTournamentId': categoryPath
   },
   schemas: {
     account: accountSchema,
     loginParams: loginParamsSchema,
-    error: errorSchema
+    error: errorSchema,
+    category: categorySchema,
+    categories: categoriesSchema
   },
   components: {
+    securitySchemes: {
+      apiKeyAuth: apiKeyAuthSchema
+    },
     badRequest,
     unauthorized,
     forbidden,
