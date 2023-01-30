@@ -2,12 +2,14 @@ import {
   loginPath,
   signupPath,
   loadCategoryPath,
-  addCategoryPath
+  addCategoryPath,
+  tournamentPath
 } from './paths/'
 
 export default {
   '/login': loginPath,
   '/signup': signupPath,
   '/loadCategoriesByTournamentId': loadCategoryPath,
-  '/category': addCategoryPath
+  '/category': addCategoryPath,
+  '/tournament': tournamentPath
 }
