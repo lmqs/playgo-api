@@ -8,7 +8,7 @@ export const mockTournamentModel = (): TournamentModel => {
     cityId: 'valid_city',
     sportId: 'valid_sportId',
     dtTournament: 'valid_dtTournament',
-    registrationLimit: 'valid_registrationLimit',
+    registrationLimit: 1000,
     registrationStartDate: 'valid_registrationStartDate',
     registrationFinalDate: 'valid_registrationFinalDate',
     deleted: true
@@ -21,7 +21,7 @@ export const mockAddTournamentParams = (): AddTournament.Params => {
     cityId: 'valid_city',
     sportId: 'valid_sportId',
     dtTournament: 'valid_dtTournament',
-    registrationLimit: 'valid_registrationLimit',
+    registrationLimit: 1000,
     registrationStartDate: 'valid_registrationStartDate',
     registrationFinalDate: 'valid_registrationFinalDate',
     deleted: true

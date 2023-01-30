@@ -32,7 +32,7 @@ export namespace AddTournamentController {
     cityId: string
     sportId: string
     dtTournament: string
-    registrationLimit: string
+    registrationLimit?: number
     registrationStartDate: string
     registrationFinalDate: string
   }

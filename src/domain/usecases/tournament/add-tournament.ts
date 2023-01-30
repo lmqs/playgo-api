@@ -10,7 +10,7 @@ export namespace AddTournament {
     cityId: string
     sportId: string
     dtTournament: string
-    registrationLimit: string
+    registrationLimit?: number
     registrationStartDate: string
     registrationFinalDate: string
     deleted?: boolean
