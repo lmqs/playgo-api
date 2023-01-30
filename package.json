@@ -10,6 +10,7 @@
     "test:ci": "npm test -- --coverage",
     "start:dev": "nodemon ./src/index.ts",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "start:build": "npm run build && nodemon ./src/index.ts",
     "prepare": "husky install",
     "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
   },
