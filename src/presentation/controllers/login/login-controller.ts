@@ -1,5 +1,4 @@
-import { UnauthorizedError } from '@/presentation/errors'
-import { badRequest, serverError, ok } from '@/presentation/helpers/http/http-helper'
+import { badRequest, serverError, ok, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 import { Authentication } from './login-controller-protocols'
 
@@ -19,7 +18,7 @@ export class LoginController implements Controller {
       const authenticationModel = await this.authentication.auth({ user, password })
 
       if (!authenticationModel) {
-        return badRequest(new UnauthorizedError())
+        return unauthorized()
       }
       return ok(authenticationModel)
     } catch (error: unknown) {
