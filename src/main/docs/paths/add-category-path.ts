@@ -1,27 +1,28 @@
-export const categoryPath = {
-  get: {
+export const addCategoryPath = {
+  post: {
     security: [{
       apiKeyAuth: []
     }],
     tags: ['Categoria'],
-    summary: 'Api para listar categorias',
+    summary: 'Api para criar uma categoria',
     description: 'Essa rota só pode ser executada por **usuários autenticados**',
-    parameters: [{
-      in: 'query',
-      name: 'tournamentId',
-      description: 'ID do torneio',
+    requestBody: {
       required: true,
-      schema: {
-        type: 'string'
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#schemas/categoryParams'
+          }
+        }
       }
-    }],
+    },
     responses: {
       200: {
         description: 'Sucesso',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/categories'
+              $ref: '#/schemas/category'
             }
           }
         }

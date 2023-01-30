@@ -1,5 +1,5 @@
-import { loginPath, categoryPath, signupPath } from '@/main/docs/paths'
-import { loginParamsSchema, accountSchema, errorSchema, categorySchema, apiKeyAuthSchema, signupParamsSchema } from '@/main/docs/schemas'
+import { addCategoryPath, loadCategoryPath, loginPath, signupPath } from '@/main/docs/paths'
+import { loginParamsSchema, accountSchema, errorSchema, categorySchema, apiKeyAuthSchema, signupParamsSchema, categoryParamsSchema } from '@/main/docs/schemas'
 import { badRequest, unauthorized, serverError, forbidden, notFound } from '@/main/docs/components'
 import { categoriesSchema } from './schemas/categories-schemas'
 
@@ -23,8 +23,9 @@ export default {
   ],
   paths: {
     '/login': loginPath,
-    '/loadCategoriesByTournamentId': categoryPath,
-    '/signup': signupPath
+    '/signup': signupPath,
+    '/loadCategoriesByTournamentId': loadCategoryPath,
+    '/category': addCategoryPath
   },
   schemas: {
     account: accountSchema,
@@ -32,7 +33,8 @@ export default {
     error: errorSchema,
     category: categorySchema,
     categories: categoriesSchema,
-    signupParams: signupParamsSchema
+    signupParams: signupParamsSchema,
+    categoryParams: categoryParamsSchema
   },
   components: {
     securitySchemes: {
