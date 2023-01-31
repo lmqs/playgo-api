@@ -8,6 +8,7 @@ import {
   categoryParamsSchema,
   tournamentParamsSchema,
   tournamentSchema,
+  tournamentsSchema,
   sportSchema,
   sportParamsSchema
 } from './schemas/'
@@ -23,6 +24,7 @@ export default {
   categoryParams: categoryParamsSchema,
   tournamentParams: tournamentParamsSchema,
   tournament: tournamentSchema,
+  tournaments: tournamentsSchema,
   sport: sportSchema,
   sportParams: sportParamsSchema,
   sports: sportsSchema

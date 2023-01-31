@@ -3,7 +3,8 @@ import {
   signupPath,
   loadCategoryPath,
   addCategoryPath,
-  tournamentPath,
+  addTournamentPath,
+  loadTournamentPath,
   addSportPath,
   sportPath
 } from './paths/'
@@ -13,7 +14,8 @@ export default {
   '/signup': signupPath,
   '/loadCategoriesByTournamentId': loadCategoryPath,
   '/category': addCategoryPath,
-  '/tournament': tournamentPath,
+  '/tournament': addTournamentPath,
+  '/tournaments': loadTournamentPath,
   '/sport': addSportPath,
   '/sports': sportPath
 }
