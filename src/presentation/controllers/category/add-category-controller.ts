@@ -11,7 +11,7 @@ export class AddCategoryController implements Controller {
 
   async handle (request: AddCategoryController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(request)
+      const error = await this.validation.validate(request)
       if (error) {
         return badRequest(error)
       }

@@ -8,13 +8,13 @@ export class AddTournamentController implements Controller {
     private readonly addTournament: AddTournament
   ) {}
 
-  async handle (httpRequest: AddTournamentController.Request): Promise<HttpResponse> {
+  async handle (request: AddTournamentController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest)
+      const error = await this.validation.validate(request)
       if (error) {
         return badRequest(error)
       }
-      const { description, cityId, sportId, dtTournament, registrationLimit, registrationStartDate, registrationFinalDate } = httpRequest
+      const { description, cityId, sportId, dtTournament, registrationLimit, registrationStartDate, registrationFinalDate } = request
       const tournament = await this.addTournament.add({ description, cityId, sportId, dtTournament, registrationLimit, registrationStartDate, registrationFinalDate })
       if (!tournament) {
         return forbidden(new ParamInUseError('description'))

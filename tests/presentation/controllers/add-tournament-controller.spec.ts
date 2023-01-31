@@ -1,16 +1,10 @@
 import { MissingParamError, ParamInUseError, ServerError } from '@/presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { AddTournamentController } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller'
-import { Validation, TournamentModel, AddTournament } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller-protocols'
+import { Validation, AddTournament } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller-protocols'
+import { mockValidationStub } from '../mocks/mock-validation'
+import { mockAddTournament } from '../mocks/mock-tournament'
 
-const makeValidation = (): Validation => {
-  class ValidationStub implements Validation {
-    validate (input: any): Error {
-      return null as unknown as Error
-    }
-  }
-  return new ValidationStub()
-}
 const makeFakerRequest = (): AddTournamentController.Request => ({
   description: 'valid_description',
   cityId: 'valid_city',
@@ -21,38 +15,15 @@ const makeFakerRequest = (): AddTournamentController.Request => ({
   registrationFinalDate: 'valid_registrationFinalDate'
 })
 
-const makeFakeTournamentModel = (): TournamentModel => {
-  return {
-    id: 'valid_id',
-    description: 'valid_description',
-    cityId: 'valid_city',
-    sportId: 'valid_sportId',
-    dtTournament: 'valid_dtTournament',
-    registrationLimit: 1000,
-    registrationStartDate: 'valid_registrationStartDate',
-    registrationFinalDate: 'valid_registrationFinalDate',
-    deleted: false
-  }
-}
-
 type SutTypes = {
   sut: AddTournamentController
   validationStub: Validation
   addTournamentStub: AddTournament
 }
 
-const makeAddTournament = (): AddTournament => {
-  class AddTournamentStub implements AddTournament {
-    async add (data: AddTournament.Params): Promise<AddTournament.Result> {
-      return await new Promise(resolve => { resolve(makeFakeTournamentModel()) })
-    }
-  }
-  return new AddTournamentStub()
-}
-
 const makeSut = (): SutTypes => {
-  const validationStub = makeValidation()
-  const addTournamentStub = makeAddTournament()
+  const validationStub = mockValidationStub()
+  const addTournamentStub = mockAddTournament()
   const sut = new AddTournamentController(validationStub, addTournamentStub)
   return {
     sut,
@@ -72,7 +43,7 @@ describe('AddTournamentController Controller', () => {
 
   test('Should return 400 if Validation returns an error', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_filed'))
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(Promise.resolve(new MissingParamError('any_filed')))
     const httpResponse = await sut.handle(makeFakerRequest())
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_filed')))
   })
@@ -115,7 +86,7 @@ describe('AddTournamentController Controller', () => {
       registrationLimit: 1000,
       registrationStartDate: 'valid_registrationStartDate',
       registrationFinalDate: 'valid_registrationFinalDate',
-      deleted: false
+      deleted: true
     }))
   })
 

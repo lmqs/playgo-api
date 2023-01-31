@@ -5,7 +5,7 @@ import { Authentication, Validation } from '@/presentation/controllers/login/log
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
-    validate (input: any): Error {
+    async validate (input: any): Promise<Error> {
       return null as unknown as Error
     }
   }
@@ -86,7 +86,7 @@ describe('SignUP Controller', () => {
 
   test('Should return 400 if Validation returns an error', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_filed'))
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(Promise.resolve(new MissingParamError('any_filed')))
     const httpResponse = await sut.handle(makeFakerRequest())
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_filed')))
   })

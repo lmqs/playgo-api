@@ -8,14 +8,14 @@ const makeSut = (): Validation => {
 }
 
 describe('RequiredFieldValidation', () => {
-  test('Should return a MissingParamError if validation fails', () => {
+  test('Should return a MissingParamError if validation fails', async () => {
     const sut = makeSut()
-    const error = sut.validate({ name: 'email' })
+    const error = await sut.validate({ name: 'email' })
     expect(error).toEqual(new MissingParamError('field'))
   })
-  test('Should not return if validation success', () => {
+  test('Should not return if validation success', async () => {
     const sut = makeSut()
-    const error = sut.validate({ field: 'any_field' })
+    const error = await sut.validate({ field: 'any_field' })
     expect(error).toBeFalsy()
   })
 })

@@ -8,7 +8,7 @@ export class LoadCategoriesByTournamentIdController implements Controller {
 
   async handle (httpRequest: LoadCategoriesByTournamentIdController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest)
+      const error = await this.validation.validate(httpRequest)
       if (error) {
         return badRequest(error)
       }

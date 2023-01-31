@@ -10,7 +10,7 @@ export class AddSportController implements Controller {
 
   async handle (request: AddSportController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(request)
+      const error = await this.validation.validate(request)
       if (error) {
         return badRequest(error)
       }
