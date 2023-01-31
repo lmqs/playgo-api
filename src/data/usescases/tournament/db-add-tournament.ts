@@ -1,6 +1,5 @@
-import {
-  AddTournamentRepository, AddTournament, LoadTournamentByDescriptionRepository
-} from './db-add-tournament-protocols'
+import { AddTournamentRepository, LoadTournamentByDescriptionRepository } from '@/data/protocols/db/tournament'
+import { AddTournament } from '@/domain/usecases/tournament/add-tournament'
 
 export class DbAddTournament implements AddTournament {
   constructor (

@@ -1,5 +1,6 @@
-import { DbLoadTournamentById } from '@/data/usescases/tournament/load-tournaments-by-id/load-tournaments-by-id'
-import { LoadTournamentByIdRepository, TournamentModel } from '@/data/usescases/tournament/load-tournaments-by-id/load-tournaments-by-id-protocols'
+import { LoadTournamentByIdRepository } from '@/data/protocols/db/tournament'
+import { DbLoadTournamentById } from '@/data/usescases/tournament/load-tournament-by-id'
+import { TournamentModel } from '@/domain/models/tournament'
 
 const makeFakeTournamentModel = (): TournamentModel => {
   return {

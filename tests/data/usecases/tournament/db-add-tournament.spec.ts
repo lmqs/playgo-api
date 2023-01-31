@@ -1,7 +1,7 @@
 import { mockAddTournamentParams, mockTournamentModel } from '@/tests/domain/mocks'
 import { mockAddTournamentRepository } from '../../mocks'
-import { DbAddTournament } from '@/data/usescases/tournament/add-tournament/db-add-tournament'
-import { AddTournamentRepository, LoadTournamentByDescriptionRepository } from '@/data/usescases/tournament/add-tournament/db-add-tournament-protocols'
+import { DbAddTournament } from '@/data/usescases/tournament/db-add-tournament'
+import { LoadTournamentByDescriptionRepository, AddTournamentRepository } from '@/data/protocols/db/tournament'
 
 type SutTypes = {
   sut: DbAddTournament
