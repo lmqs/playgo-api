@@ -1,15 +1,12 @@
-import { LoadTournamentByIdRepository } from '@/data/protocols/db/tournament'
-import { LoadTournamentById } from '@/domain/usecases/tournament/load-tournaments-by-id'
+import { LoadTournamentsRepository } from '@/data/protocols/db/tournament'
+import { LoadTournaments } from '@/domain/usecases/tournament/load-tournaments'
 
-export class DbLoadTournamentById implements LoadTournamentById {
+export class DbLoadTournaments implements LoadTournaments {
   constructor (
-    private readonly loadTournamentByIdRepository: LoadTournamentByIdRepository
+    private readonly loadTournamentsRepository: LoadTournamentsRepository
   ) {}
 
-  async load (id: string): Promise<LoadTournamentById.Result | undefined> {
-    const tournament = await this.loadTournamentByIdRepository.loadById(id)
-    if (tournament) {
-      return tournament
-    }
+  async load (): Promise<LoadTournamentsRepository.Result | undefined> {
+    return await this.loadTournamentsRepository.loadAll()
   }
 }

@@ -1,5 +1,5 @@
 import { LoadTournamentByIdRepository } from '@/data/protocols/db/tournament'
-import { LoadTournamentById } from '@/domain/usecases/tournament/load-tournaments-by-id'
+import { LoadTournamentById } from '@/domain/usecases/tournament/load-tournament-by-id'
 
 export class DbLoadTournamentById implements LoadTournamentById {
   constructor (

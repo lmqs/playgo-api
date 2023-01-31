@@ -1,10 +1,10 @@
 
 import { BaseRepository } from '@/infra/database/postgres/base-repository'
-import { AddTournamentRepository, LoadTournamentByDescriptionRepository, LoadTournamentByIdRepository, UpdateTournamentRepository } from '@/data/protocols/db/tournament'
+import { AddTournamentRepository, LoadTournamentByDescriptionRepository, LoadTournamentByIdRepository, LoadTournamentsRepository, UpdateTournamentRepository } from '@/data/protocols/db/tournament'
 import { AddTournament } from '@/domain/usecases/tournament/add-tournament'
 
 export class TournamentPostgresRepository extends BaseRepository<AddTournamentRepository.Params, AddTournamentRepository.Result>
-  implements LoadTournamentByIdRepository, AddTournamentRepository, UpdateTournamentRepository, LoadTournamentByDescriptionRepository {
+  implements LoadTournamentByIdRepository, AddTournamentRepository, UpdateTournamentRepository, LoadTournamentByDescriptionRepository, LoadTournamentsRepository {
   constructor (
     public readonly tableName: string = 'tournaments'
   ) {
@@ -27,5 +27,9 @@ export class TournamentPostgresRepository extends BaseRepository<AddTournamentRe
   async loadByDescription (description: string): Promise<LoadTournamentByDescriptionRepository.Result | undefined> {
     const tournaments = await this.findGeneric({ description })
     return tournaments[0]
+  }
+
+  async loadAll (): Promise<LoadTournamentsRepository.Result | undefined> {
+    return await this.findAll()
   }
 }
