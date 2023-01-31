@@ -18,6 +18,9 @@ export default {
     },
     {
       name: 'Categoria'
+    },
+    {
+      name: 'Esporte'
     }
   ],
   paths,

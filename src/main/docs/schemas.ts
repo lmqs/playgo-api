@@ -7,8 +7,11 @@ import {
   signupParamsSchema,
   categoryParamsSchema,
   tournamentParamsSchema,
-  tournamentSchema
+  tournamentSchema,
+  sportSchema,
+  sportParamsSchema
 } from './schemas/'
+import { sportsSchema } from './schemas/sports-schemas'
 
 export default {
   account: accountSchema,
@@ -19,5 +22,8 @@ export default {
   signupParams: signupParamsSchema,
   categoryParams: categoryParamsSchema,
   tournamentParams: tournamentParamsSchema,
-  tournament: tournamentSchema
+  tournament: tournamentSchema,
+  sport: sportSchema,
+  sportParams: sportParamsSchema,
+  sports: sportsSchema
 }
