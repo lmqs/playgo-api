@@ -1,5 +1,5 @@
-import { mockTournamentModel } from '@/tests/domain/mocks'
-import { AddTournamentRepository } from '@/data/protocols/db/tournament'
+import { mockTournamentModel, mockTournamentsModel } from '@/tests/domain/mocks'
+import { AddTournamentRepository, LoadTournamentsRepository } from '@/data/protocols/db/tournament'
 import { AddTournament } from '@/domain/usecases/tournament/add-tournament'
 
 export const mockAddTournamentRepository = (): AddTournamentRepository => {
@@ -9,4 +9,13 @@ export const mockAddTournamentRepository = (): AddTournamentRepository => {
     }
   }
   return new AddTournamentRepositoryStub()
+}
+
+export const mockLoadTournamentsRepository = (): LoadTournamentsRepository => {
+  class LoadTournamentsRepositoryStub implements LoadTournamentsRepository {
+    async loadAll (): Promise<LoadTournamentsRepository.Result | undefined> {
+      return await new Promise(resolve => { resolve(mockTournamentsModel()) })
+    }
+  }
+  return new LoadTournamentsRepositoryStub()
 }

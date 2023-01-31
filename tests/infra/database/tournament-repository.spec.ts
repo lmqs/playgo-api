@@ -1,4 +1,4 @@
-import { mockAddTournamentParams, mockTournamentModel } from '@/tests/domain/mocks'
+import { mockAddTournamentParams, mockTournamentModel, mockTournamentsModel } from '@/tests/domain/mocks'
 import { TournamentPostgresRepository } from '@/infra/database/postgres/tournament/tournament-repository'
 
 type SutTypes = {
@@ -106,6 +106,45 @@ describe('Tournament Postgres Repository', () => {
         throw new Error()
       })
       const promise = sut.updateTournament(mockTournamentModel())
+      await expect(promise).rejects.toThrow()
+    })
+  })
+  describe('loadAll()', () => {
+    test('Should return a tournament list on loadAll', async () => {
+      const { sut } = makeSut()
+      sut.findAll = jest.fn().mockReturnValue(mockTournamentsModel())
+
+      const tournaments = await sut.loadAll()
+      expect(tournaments).toEqual([{
+        id: 'valid_id',
+        description: 'valid_description',
+        cityId: 'valid_city',
+        sportId: 'valid_sportId',
+        dtTournament: 'valid_dtTournament',
+        registrationLimit: 1000,
+        registrationStartDate: 'valid_registrationStartDate',
+        registrationFinalDate: 'valid_registrationFinalDate',
+        deleted: true
+      },
+      {
+        id: 'valid__other_id',
+        description: 'valid_description',
+        cityId: 'valid_city',
+        sportId: 'valid_sportId',
+        dtTournament: 'valid_dtTournament',
+        registrationLimit: 1000,
+        registrationStartDate: 'valid_registrationStartDate',
+        registrationFinalDate: 'valid_registrationFinalDate',
+        deleted: true
+      }])
+    })
+
+    test('Should return throws if loadTournamentsRepository fails', async () => {
+      const { sut } = makeSut()
+      sut.findAll = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.loadAll()
       await expect(promise).rejects.toThrow()
     })
   })
