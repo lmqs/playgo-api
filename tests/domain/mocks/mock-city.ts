@@ -11,7 +11,7 @@ export const mockCityModel = (): CityModel => {
   }
 }
 
-export const mocCitiesModel = (): CityModel[] => {
+export const mockCitiesModel = (): CityModel[] => {
   return [{
     id: 'any_id',
     name: 'any_name',
