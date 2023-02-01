@@ -2,7 +2,8 @@
 import { RequiredFieldValidation, ValidationComposite } from '@/validation/validators'
 import { Validation } from '@/presentation/protocols/validation'
 import { makeDbLoadSportById } from '@/main/factories/usecases/sport/db-load-by-ids'
-import { SportDatabaseValidation } from '@/validation/database'
+import { CityDatabaseValidation, SportDatabaseValidation } from '@/validation/database'
+import { makeDbLoadCityById } from '@/main/factories/usecases/city/db-load-by-id'
 
 export const makeAddTournamentValidation = (): ValidationComposite => {
   const validations: Validation[] = []
@@ -11,7 +12,11 @@ export const makeAddTournamentValidation = (): ValidationComposite => {
   for (const field of requiredFields) {
     validations.push(new RequiredFieldValidation(field))
   }
-  const loadSportByIdRepository = makeDbLoadSportById()
-  validations.push(new SportDatabaseValidation(loadSportByIdRepository, 'sportId'))
+  const loadSportById = makeDbLoadSportById()
+  validations.push(new SportDatabaseValidation(loadSportById, 'sportId'))
+
+  const dbLoadCityById = makeDbLoadCityById()
+  validations.push(new CityDatabaseValidation(dbLoadCityById, 'cityId'))
+
   return new ValidationComposite(validations)
 }
