@@ -13,9 +13,6 @@ export const tournamentParamsSchema = {
     dtTournament: {
       type: 'string'
     },
-    registrationLimit: {
-      type: 'number'
-    },
     registrationStartDate: {
       type: 'string'
     },
@@ -23,5 +20,5 @@ export const tournamentParamsSchema = {
       type: 'string'
     }
   },
-  required: ['description', 'cityId', 'sportId', 'dtTournament', 'registrationLimit', 'registrationStartDate', 'registrationFinalDate']
+  required: ['description', 'cityId', 'sportId', 'dtTournament', 'registrationStartDate', 'registrationFinalDate']
 }

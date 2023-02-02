@@ -14,8 +14,8 @@ export class AddTournamentController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { description, cityId, sportId, dtTournament, registrationLimit, registrationStartDate, registrationFinalDate } = request
-      const tournament = await this.addTournament.add({ description, cityId, sportId, dtTournament, registrationLimit, registrationStartDate, registrationFinalDate })
+      const { description, cityId, sportId, dtTournament, registrationStartDate, registrationFinalDate } = request
+      const tournament = await this.addTournament.add({ description, cityId, sportId, dtTournament, registrationStartDate, registrationFinalDate })
       if (!tournament) {
         return forbidden(new ParamInUseError('description'))
       }
@@ -32,7 +32,6 @@ export namespace AddTournamentController {
     cityId: string
     sportId: string
     dtTournament: string
-    registrationLimit?: number
     registrationStartDate: string
     registrationFinalDate: string
   }

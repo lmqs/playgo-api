@@ -16,9 +16,6 @@ export const tournamentSchema = {
     dtTournament: {
       type: 'string'
     },
-    registrationLimit: {
-      type: 'number'
-    },
     registrationStartDate: {
       type: 'string'
     },
@@ -29,5 +26,5 @@ export const tournamentSchema = {
       type: 'boolean'
     }
   },
-  required: ['id', 'description', 'sportId', 'cityId', 'dtTournament', 'registrationLimit', 'registrationStartDate', 'registrationFinalDate']
+  required: ['id', 'description', 'sportId', 'cityId', 'dtTournament', 'registrationStartDate', 'registrationFinalDate']
 }
