@@ -1,7 +1,8 @@
-import { CompareFieldsValidation, RequiredFieldValidation, ValidationComposite } from '@/validation/validators'
-import { EmailValidation } from '@/validation/validators/email-validation'
-import { EmailValidatorAdapter } from '@/infra/validators/email-validator-adapter'
 import { Validation } from '@/presentation/protocols'
+import { CompareFieldsValidation, RequiredFieldValidation, ValidationComposite, EmailValidation } from '@/validation/validators'
+import { CityDatabaseValidation } from '@/validation/database'
+import { EmailValidatorAdapter } from '@/infra/validators/email-validator-adapter'
+import { makeDbLoadCityById } from '@/main/factories/usecases/city/db-load-by-id'
 
 export const makeSignUpValidation = (): ValidationComposite => {
   const validations: Validation[] = []
@@ -12,5 +13,9 @@ export const makeSignUpValidation = (): ValidationComposite => {
   }
   validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
   validations.push(new EmailValidation('email', new EmailValidatorAdapter()))
+
+  const dbLoadCityById = makeDbLoadCityById()
+  validations.push(new CityDatabaseValidation(dbLoadCityById, 'cityId'))
+
   return new ValidationComposite(validations)
 }
