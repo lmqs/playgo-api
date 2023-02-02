@@ -1,5 +1,5 @@
 export const CONSTANTS = Object.freeze({
   category: {
-    numberAthletesDefaul: null
+    numberAthletesDefault: null ?? undefined
   }
 })
