@@ -1,10 +1,10 @@
 
 import { BaseRepository } from '@/infra/database/postgres/base-repository'
-import { AddTournamentRepository, LoadTournamentByDescriptionRepository, LoadTournamentByIdRepository, LoadTournamentsRepository, UpdateTournamentRepository } from '@/data/protocols/db/tournament'
+import { AddTournamentRepository, LoadTournamentByDescriptionRepository, LoadTournamentByIdRepository, LoadTournamentsRepository, RemoveTournamentRepository, UpdateTournamentRepository } from '@/data/protocols/db/tournament'
 import { AddTournament } from '@/domain/usecases/tournament/add-tournament'
 
 export class TournamentPostgresRepository extends BaseRepository<AddTournamentRepository.Params, AddTournamentRepository.Result>
-  implements LoadTournamentByIdRepository, AddTournamentRepository, UpdateTournamentRepository, LoadTournamentByDescriptionRepository, LoadTournamentsRepository {
+  implements LoadTournamentByIdRepository, AddTournamentRepository, UpdateTournamentRepository, LoadTournamentByDescriptionRepository, LoadTournamentsRepository, RemoveTournamentRepository {
   constructor (
     public readonly tableName: string = 'tournaments'
   ) {
@@ -31,5 +31,9 @@ export class TournamentPostgresRepository extends BaseRepository<AddTournamentRe
 
   async loadAll (): Promise<LoadTournamentsRepository.Result | undefined> {
     return await this.findAll()
+  }
+
+  async remove (id: string): Promise<void> {
+    await this.update({ deleted: true }, { id })
   }
 }

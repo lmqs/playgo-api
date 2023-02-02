@@ -5,6 +5,7 @@ import {
   addCategoryPath,
   addTournamentPath,
   loadTournamentPath,
+  removeTournamentPath,
   addSportPath,
   sportPath
 } from './paths/'
@@ -16,6 +17,7 @@ export default {
   '/category': addCategoryPath,
   '/tournament': addTournamentPath,
   '/tournaments': loadTournamentPath,
+  '/tournament/{id}': removeTournamentPath,
   '/sport': addSportPath,
   '/sports': sportPath
 }
