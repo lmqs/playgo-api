@@ -1,4 +1,3 @@
-import { EmailInUseError } from '../../../presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '../../helpers/http/http-helper'
 import { HttpResponse, AddAccount, Controller, Validation, Authentication } from './signup-controller-protocols'
 
@@ -16,10 +15,10 @@ export class SignUpController implements Controller {
         return badRequest(error)
       }
       const { name, user, password, email, cityId, phoneNumber, photo } = request
-      const account = await this.addAccount.add({ name, user, password, email, cityId, phoneNumber, photo })
+      const result = await this.addAccount.add({ name, user, password, email, cityId, phoneNumber, photo })
 
-      if (!account) {
-        return forbidden(new EmailInUseError())
+      if (result instanceof Error) {
+        return forbidden(result)
       }
       const authenticationModel = await this.authentication.auth({ user, password })
 

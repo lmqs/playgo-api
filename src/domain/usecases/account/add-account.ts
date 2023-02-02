@@ -1,7 +1,7 @@
 import { AccountModel } from '../../models/account'
 
 export interface AddAccount {
-  add: (account: AddAccount.Params) => Promise<AddAccount.Result | undefined>
+  add: (account: AddAccount.Params) => Promise<AddAccount.Result | Error>
 }
 
 export namespace AddAccount {

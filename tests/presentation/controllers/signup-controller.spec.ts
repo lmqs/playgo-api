@@ -123,9 +123,9 @@ describe('SignUP Controller', () => {
     expect(httpResponse).toEqual(serverError(new ServerError()))
   })
 
-  test('Should return 403 if addAccount returns null', async () => {
+  test('Should return 403 if addAccount returns custom error', async () => {
     const { sut, addAccountStub } = makeSut()
-    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { resolve(undefined) }))
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { resolve(new EmailInUseError()) }))
     const httpResponse = await sut.handle(makeFakerRequest())
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })

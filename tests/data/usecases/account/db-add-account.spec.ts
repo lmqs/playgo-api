@@ -3,6 +3,7 @@ import { LoadAccountByUserRepository } from '@/data/protocols/db/account'
 import { DbAddAccount } from '@/data/usescases/account/db-add-account'
 import { Hasher, AddAccountRepository } from '@/data/usescases/account'
 import { mockAddAccountRepository, mockLoadAccountByUserRepository } from '../../mocks'
+import { EmailInUseError } from '@/presentation/errors'
 
 type SutTypes = {
   sut: DbAddAccount
@@ -101,11 +102,11 @@ describe('DbAddAccount UseCase', () => {
     expect(loadAccountByUserRepositorySpy).toHaveBeenCalledWith(mockAddAccountParams().user)
   })
 
-  test('Should return undefined if LoadAccountByUserRepository not return empty', async () => {
+  test('Should return custom error if LoadAccountByUserRepository not return empty', async () => {
     const { sut, loadAccountByUserRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(mockAccountModel()))
-    const accessToken = await sut.add(mockAddAccountParams())
+    const result = await sut.add(mockAddAccountParams())
 
-    expect(accessToken).toBeUndefined()
+    expect(result).toEqual(new EmailInUseError())
   })
 })

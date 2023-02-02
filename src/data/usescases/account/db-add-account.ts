@@ -1,4 +1,5 @@
 import { AddAccount, Hasher, AddAccountRepository, LoadAccountByUserRepository } from '@/data/usescases/account'
+import { EmailInUseError } from '@/presentation/errors'
 
 export class DbAddAccount implements AddAccount {
   constructor (
@@ -8,12 +9,11 @@ export class DbAddAccount implements AddAccount {
 
   ) { }
 
-  async add (accountData: AddAccount.Params): Promise<AddAccount.Result | undefined> {
+  async add (accountData: AddAccount.Params): Promise<AddAccount.Result | Error > {
     const account = await this.loadAccountByUserRepository.loadByUser(accountData.user)
-    if (!account) {
-      const passwordHashed = await this.hasher.hash(accountData.password)
-      const newAccount = await this.addAccountRepository.add(Object.assign({}, accountData, { password: passwordHashed }))
-      return newAccount
-    }
+    if (account) return new EmailInUseError()
+
+    const passwordHashed = await this.hasher.hash(accountData.password)
+    return await this.addAccountRepository.add(Object.assign({}, accountData, { password: passwordHashed }))
   }
 }
