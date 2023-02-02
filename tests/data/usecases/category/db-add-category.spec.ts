@@ -1,34 +1,14 @@
 import { LoadCategoryByDescriptionAndIdRepository } from '../../protocols/db/category/load-category-by-description-and-id-repository'
-import { CategoryModel } from '@/domain/models/category'
 import { DbAddCategory } from '@/data/usescases/category/db-add-category'
-import { AddCategory, AddCategoryRepository } from '@/data/usescases/category'
+import { AddCategory } from '@/presentation/controllers/category'
+import { AddCategoryRepository } from '@/data/protocols/db/category'
+import { mockAddCategoryModel, mockCategoryModel } from '@/../tests/domain/mocks/mock-category'
+import { mockAddCategoryRepository } from '@/tests/data/mocks/mock-db-category'
 
-const makeFakeCategoryModel = (): CategoryModel => ({
-  id: 'valid_id',
-  description: 'valid_description',
-  tournamentId: 'valid_tournamentId',
-  numberAthletes: 'valid_numberAthletes',
-  deleted: true
-})
-
-const makeFakeAddCategoryModel = (): AddCategory.Params => ({
-  description: 'valid_description',
-  tournamentId: 'valid_tournamentId',
-  numberAthletes: 'valid_numberAthletes'
-})
 type SutTypes = {
   sut: AddCategory
   addCategoryRepositoryStub: AddCategoryRepository
   loadCategoryByDescriptionAndIdRepositoryStub: LoadCategoryByDescriptionAndIdRepository
-}
-
-const makeAddCategoryRepository = (): AddCategoryRepository => {
-  class AddCategoryRepositoryStub implements AddCategoryRepository {
-    async add (category: AddCategory.Params): Promise<AddCategory.Result | undefined> {
-      return makeFakeCategoryModel()
-    }
-  }
-  return new AddCategoryRepositoryStub()
 }
 
 const makeLoadTournamentByDescriptionAndIdRepository = (): LoadCategoryByDescriptionAndIdRepository => {
@@ -41,7 +21,7 @@ const makeLoadTournamentByDescriptionAndIdRepository = (): LoadCategoryByDescrip
 }
 
 const makeSut = (): SutTypes => {
-  const addCategoryRepositoryStub = makeAddCategoryRepository()
+  const addCategoryRepositoryStub = mockAddCategoryRepository()
   const loadCategoryByDescriptionAndIdRepositoryStub = makeLoadTournamentByDescriptionAndIdRepository()
   const sut = new DbAddCategory(loadCategoryByDescriptionAndIdRepositoryStub, addCategoryRepositoryStub)
   return {
@@ -56,14 +36,14 @@ describe('DbAddCategory UseCase', () => {
     const { sut, loadCategoryByDescriptionAndIdRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(loadCategoryByDescriptionAndIdRepositoryStub, 'loadByDescriptionAndId')
 
-    await sut.add(makeFakeAddCategoryModel())
+    await sut.add(mockAddCategoryModel())
     expect(addSpy).toHaveBeenCalledWith('valid_description', 'valid_tournamentId')
   })
 
   test('Should return undefined if LoadCategoryByDescriptionAndIdRepository not return empty', async () => {
     const { sut, loadCategoryByDescriptionAndIdRepositoryStub } = makeSut()
-    jest.spyOn(loadCategoryByDescriptionAndIdRepositoryStub, 'loadByDescriptionAndId').mockReturnValueOnce(new Promise(resolve => { resolve([makeFakeCategoryModel(), makeFakeCategoryModel()]) }))
-    const accessToken = await sut.add(makeFakeAddCategoryModel())
+    jest.spyOn(loadCategoryByDescriptionAndIdRepositoryStub, 'loadByDescriptionAndId').mockReturnValueOnce(new Promise(resolve => { resolve([mockCategoryModel(), mockCategoryModel()]) }))
+    const accessToken = await sut.add(mockAddCategoryModel())
 
     expect(accessToken).toBeUndefined()
   })
@@ -72,7 +52,7 @@ describe('DbAddCategory UseCase', () => {
     const { sut, addCategoryRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addCategoryRepositoryStub, 'add')
 
-    await sut.add(makeFakeAddCategoryModel())
+    await sut.add(mockAddCategoryModel())
     expect(addSpy).toHaveBeenCalledWith({
       description: 'valid_description',
       tournamentId: 'valid_tournamentId',
@@ -84,14 +64,14 @@ describe('DbAddCategory UseCase', () => {
     const { sut, addCategoryRepositoryStub } = makeSut()
     jest.spyOn(addCategoryRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
 
-    const promise = sut.add(makeFakeAddCategoryModel())
+    const promise = sut.add(mockAddCategoryModel())
     await expect(promise).rejects.toThrow()
   })
 
   test('Should return an category on Sucess', async () => {
     const { sut } = makeSut()
 
-    const account = await sut.add(makeFakeAddCategoryModel())
-    expect(account).toEqual(makeFakeCategoryModel())
+    const account = await sut.add(mockAddCategoryModel())
+    expect(account).toEqual(mockCategoryModel())
   })
 })

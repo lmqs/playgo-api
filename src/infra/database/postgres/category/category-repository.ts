@@ -1,6 +1,6 @@
-import { LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository } from '@/data/protocols/db/category'
+import { AddCategoryRepository, LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository } from '@/data/protocols/db/category'
 import { BaseRepository } from '@/infra/database/postgres/base-repository'
-import { AddCategory, AddCategoryRepository } from '@/data/usescases/category'
+import { AddCategory } from '@/presentation/controllers/category'
 
 export class CategoryPostgresRepository extends BaseRepository<AddCategory.Params, AddCategory.Result>
   implements AddCategoryRepository, LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository {
