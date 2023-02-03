@@ -13,7 +13,12 @@
 ## Execute
 1. Run DB using docker compose. `$ docker-compose --env-file=.env.docker up -d ` 
 2. Run the server. `$ npm run dev`
+    - Access: http://localhost:{portNumber}
 3. Run Jest Tests `$ npm run test`
+
+
+## Documentation
+1. Access Swagger `http://localhost:{portNumber}/api-docs ` 
 
 ### Configure pgAdmin
 
