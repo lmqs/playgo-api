@@ -22,12 +22,13 @@
 
 ### Configure pgAdmin
 
-1. Get Docker postgres_contaier IP address `$ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres_container ` 
+1. Get Docker postgres_contaier IP address `$ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres_container ` and changed DB_HOST variable in .env
 2. Access: http://localhost:5050/
 3. Create the server according to your environment variables
 
 ### Access RabbitMQ
 
-1. Access: http://localhost:15672/
+1. Get Docker rabbitmq IP address `$ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rabbitmq_management `  and changed RABBITMQ_HOST variable in .env
+2. Access: http://localhost:15672/
 
 
