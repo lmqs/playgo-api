@@ -4,6 +4,7 @@ import { DbAddAccount } from '@/data/usescases/account/db-add-account'
 import { Hasher, AddAccountRepository } from '@/data/usescases/account'
 import { mockAddAccountRepository, mockLoadAccountByUserRepository } from '../../mocks'
 import { EmailInUseError } from '@/presentation/errors'
+import RabbitmqService from '@/infra/queue/rabbitmq-service'
 
 type SutTypes = {
   sut: DbAddAccount
@@ -36,6 +37,7 @@ const makeSut = (): SutTypes => {
 describe('DbAddAccount UseCase', () => {
   test('Should call Hasher with correct password', async () => {
     const { sut, hasherStub, loadAccountByUserRepositoryStub } = makeSut()
+    jest.spyOn(RabbitmqService.getInstance(), 'publishInExchange').mockReturnValue(new Promise(resolve => { resolve(true) }))
     jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(undefined))
     const encryptSpy = jest.spyOn(hasherStub, 'hash')
     await sut.add(mockAddAccountParams())
@@ -54,6 +56,7 @@ describe('DbAddAccount UseCase', () => {
   test('Should call AddAccountRepository with correct values', async () => {
     const { sut, addAccountRepositoryStub, loadAccountByUserRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(RabbitmqService.getInstance(), 'publishInExchange').mockReturnValue(new Promise(resolve => { resolve(true) }))
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
 
     await sut.add(mockAddAccountParams())
@@ -80,6 +83,7 @@ describe('DbAddAccount UseCase', () => {
   test('Should return an account on Sucess', async () => {
     const { sut, loadAccountByUserRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByUserRepositoryStub, 'loadByUser').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(RabbitmqService.getInstance(), 'publishInExchange').mockReturnValue(new Promise(resolve => { resolve(true) }))
 
     const account = await sut.add(mockAddAccountParams())
     expect(account).toEqual({
