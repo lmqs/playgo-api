@@ -1,4 +1,4 @@
-import { Connection, Channel, connect, Message, Replies, ConsumeMessage } from 'amqplib'
+import { Connection, Channel, connect, Replies } from 'amqplib'
 import { ENVIRONMENT } from '@/main/config'
 
 export default class RabbitmqService {
@@ -32,20 +32,6 @@ export default class RabbitmqService {
     message: string
   ): Promise<boolean> {
     return this.channel.publish(exchange, routingKey, Buffer.from(message))
-  }
-
-  async consume2 (queue: string, callback: (message: ConsumeMessage | null) => void): Promise<Replies.Consume> {
-    return await this.channel.consume(
-      queue,
-      async (data: Message | null) => {
-        if (data) {
-          const msg = JSON.parse(data.content.toString())
-          console.log(msg)
-          this.channel.ack(data)
-        }
-      },
-      { noAck: true }
-    )
   }
 
   async consume (queue: string, callback: any): Promise<Replies.Consume> {
