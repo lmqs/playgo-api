@@ -19,6 +19,8 @@ export const ENVIRONMENT = Object.freeze({
     host: env.get('RABBITMQ_HOST').required().asString(),
     port: env.get('RABBITMQ_PORT').required().asPortNumber(),
     user: env.get('RABBITMQ_USER').required().asString(),
-    password: env.get('RABBITMQ_PASSWORD').required().asString()
+    password: env.get('RABBITMQ_PASSWORD').required().asString(),
+    exchangeSignup: env.get('RABBITMQ_EXCHANGE_SIGNUP').asString(),
+    routingKeySignup: env.get('RABBITMQ_ROUTINGKEY_SIGNUP').asString()
   }
 })
