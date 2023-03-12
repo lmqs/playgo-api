@@ -21,7 +21,9 @@ export class DbAddAccount implements AddAccount {
 
     try {
       if (this.exchangeSignup && this.routingKeySignup) {
-        await RabbitmqService.getInstance().publishInExchange(this.exchangeSignup, this.routingKeySignup, accountData.id.toString())
+        await RabbitmqService.getInstance().publishInExchange(this.exchangeSignup, this.routingKeySignup,
+          JSON.stringify({ id: accountData.id.toString(), email: accountData.email })
+        )
       }
     } catch (error) {
     }
