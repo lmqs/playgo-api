@@ -9,7 +9,11 @@ PostgresService.getInstance().connect().then(
     const app = await setupApp()
 
     app.listen(ENVIRONMENT.server.port, async () => {
-      await RabbitmqService.getInstance().start()
+      try {
+        await RabbitmqService.getInstance().start()
+      } catch (e) {
+        console.log('RabbitMQ host not found!')
+      }
       console.log(`Server running at PORT ${ENVIRONMENT.server.port}!`)
     })
   }
