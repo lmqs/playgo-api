@@ -12,7 +12,8 @@ export class PostgresService implements DatabaseClient {
       user: ENVIRONMENT.database.user,
       database: ENVIRONMENT.database.database,
       password: ENVIRONMENT.database.password,
-      port: ENVIRONMENT.database.port
+      port: ENVIRONMENT.database.port,
+      ssl: ENVIRONMENT.database.ssl ? { rejectUnauthorized: false } : false
     })
   }
 

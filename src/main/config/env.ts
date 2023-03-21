@@ -13,7 +13,8 @@ export const ENVIRONMENT = Object.freeze({
     user: env.get('DB_USER').required().asString(),
     database: env.get('DB_NAME').required().asString(),
     password: env.get('DB_PASSWORD').required().asString(),
-    port: env.get('DB_PORT').required().asPortNumber()
+    port: env.get('DB_PORT').required().asPortNumber(),
+    ssl: env.get('DB_SSL').required().asBool()
   },
   rabbit: {
     host: env.get('RABBITMQ_HOST').asString(),
