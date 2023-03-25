@@ -9,7 +9,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "dev": "nodemon ./src/index.ts",
-    "start": "node ./build/index.js",
+    "start": "node build/index.js",
     "build": "rimraf build && tsc -p tsconfig-build.json",
     "start:build": "npm run build && nodemon ./src/index.ts",
     "prepare": "husky install"
@@ -51,7 +51,6 @@
     "dotenv": "^16.0.3",
     "env-var": "^7.3.0",
     "express": "^4.18.2",
-    "fast-glob": "^3.2.12",
     "jsonwebtoken": "^9.0.0",
     "knex": "^2.3.0",
     "module-alias": "^2.2.2",
