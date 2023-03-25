@@ -2,14 +2,15 @@
   "name": "playgo-api",
   "version": "1.0.0",
   "description": "API from playgo app",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "jest --passWithNoTests --runInBand",
     "test:watch": "jest --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "dev": "nodemon ./src/index.ts",
-    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "start": "node ./build/index.js",
+    "build": "rimraf build && tsc -p tsconfig-build.json",
     "start:build": "npm run build && nodemon ./src/index.ts",
     "prepare": "husky install"
   },
