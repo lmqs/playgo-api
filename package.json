@@ -2,7 +2,7 @@
   "name": "playgo-api",
   "version": "1.0.0",
   "description": "API from playgo app",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "jest --passWithNoTests --runInBand",
     "test:watch": "jest --watch",
