@@ -9,7 +9,8 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "dev": "nodemon ./src/index.ts",
-    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "start": "node ./build/index.js",
+    "build": "rimraf build && tsc -p tsconfig-build.json",
     "start:build": "npm run build && nodemon ./src/index.ts",
     "prepare": "husky install"
   },
