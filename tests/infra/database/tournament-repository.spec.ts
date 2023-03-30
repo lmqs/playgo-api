@@ -1,12 +1,13 @@
 import { mockAddTournamentParams, mockTournamentModel, mockTournamentsModel } from '@/tests/domain/mocks'
 import { TournamentPostgresRepository } from '@/infra/database/postgres/tournament/tournament-repository'
+import { mockLoadCityByIdRepository } from '../../data/mocks/mock-db-city'
 
 type SutTypes = {
   sut: TournamentPostgresRepository
 }
 
 const makeSut = (): SutTypes => {
-  const sut = new TournamentPostgresRepository()
+  const sut = new TournamentPostgresRepository(mockLoadCityByIdRepository())
   return {
     sut
   }
@@ -115,7 +116,15 @@ describe('Tournament Postgres Repository', () => {
       expect(tournaments).toEqual([{
         id: 'valid_id',
         description: 'valid_description',
-        cityId: 'valid_city',
+        cityId: {
+          area: 'any',
+          codeIbge: 'any_code',
+          deleted: true,
+          gentilic: 'any_gentilic',
+          id: 'any_id',
+          name: 'any_name',
+          stateId: 'any_stateId'
+        },
         sportId: 'valid_sportId',
         dtTournament: 'valid_dtTournament',
         registrationStartDate: 'valid_registrationStartDate',
@@ -125,7 +134,15 @@ describe('Tournament Postgres Repository', () => {
       {
         id: 'valid__other_id',
         description: 'valid_description',
-        cityId: 'valid_city',
+        cityId: {
+          area: 'any',
+          codeIbge: 'any_code',
+          deleted: true,
+          gentilic: 'any_gentilic',
+          id: 'any_id',
+          name: 'any_name',
+          stateId: 'any_stateId'
+        },
         sportId: 'valid_sportId',
         dtTournament: 'valid_dtTournament',
         registrationStartDate: 'valid_registrationStartDate',

@@ -7,7 +7,8 @@ export const mockCityModel = (): CityModel => {
     codeIbge: 'any_code',
     stateId: 'any_stateId',
     gentilic: 'any_gentilic',
-    deleted: true
+    deleted: true,
+    area: 'any'
   }
 }
 
@@ -18,7 +19,8 @@ export const mockCitiesModel = (): CityModel[] => {
     codeIbge: 'any_code',
     stateId: 'any_stateId',
     gentilic: 'any_gentilic',
-    deleted: true
+    deleted: true,
+    area: 'any'
   },
   {
     id: 'any_other_id',
@@ -26,6 +28,7 @@ export const mockCitiesModel = (): CityModel[] => {
     codeIbge: 'any_code',
     stateId: 'any_stateId',
     gentilic: 'any_gentilic',
-    deleted: true
+    deleted: true,
+    area: 'any'
   }]
 }

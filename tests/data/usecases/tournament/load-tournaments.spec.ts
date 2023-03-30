@@ -1,7 +1,7 @@
-import { mockTournamentsModel } from '@/../tests/domain/mocks'
+import { mockLoadTournamentsModel } from '@/tests/domain/mocks'
 import { LoadTournamentsRepository } from '@/data/protocols/db/tournament'
 import { DbLoadTournaments } from '@/data/usescases/tournament/load-tournaments'
-import { mockLoadTournamentsRepository } from '../../mocks'
+import { mockLoadTournamentsRepository } from '@/tests/data/mocks'
 
 type SutTypes = {
   sut: DbLoadTournaments
@@ -38,6 +38,6 @@ describe('DbLoadTournaments UseCase', () => {
     const { sut } = makeSut()
 
     const account = await sut.load()
-    expect(account).toEqual(mockTournamentsModel())
+    expect(account).toEqual(mockLoadTournamentsModel())
   })
 })

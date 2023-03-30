@@ -25,7 +25,8 @@ describe('City Postgres Repository', () => {
         codeIbge: 'any_code',
         stateId: 'any_stateId',
         gentilic: 'any_gentilic',
-        deleted: true
+        deleted: true,
+        area: 'any'
       })
     })
 
@@ -51,7 +52,8 @@ describe('City Postgres Repository', () => {
         codeIbge: 'any_code',
         stateId: 'any_stateId',
         gentilic: 'any_gentilic',
-        deleted: true
+        deleted: true,
+        area: 'any'
       },
       {
         id: 'any_other_id',
@@ -59,7 +61,8 @@ describe('City Postgres Repository', () => {
         codeIbge: 'any_code',
         stateId: 'any_stateId',
         gentilic: 'any_gentilic',
-        deleted: true
+        deleted: true,
+        area: 'any'
       }])
     })
 
