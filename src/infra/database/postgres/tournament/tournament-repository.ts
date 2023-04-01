@@ -4,11 +4,13 @@ import { AddTournamentRepository, LoadTournamentByDescriptionRepository, LoadTou
 import { AddTournament } from '@/domain/usecases/tournament/add-tournament'
 import { TournamentModel } from '@/domain/models/tournament'
 import { LoadCityByIdRepository } from '@/data/protocols/db/city'
+import { LoadSportByIdRepository } from '@/data/protocols/db/sport'
 
 export class TournamentPostgresRepository extends BaseRepository<AddTournamentRepository.Params, TournamentModel>
   implements LoadTournamentByIdRepository, AddTournamentRepository, UpdateTournamentRepository, LoadTournamentByDescriptionRepository, LoadTournamentsRepository, RemoveTournamentRepository {
   constructor (
     public readonly loadCityByIdRepository: LoadCityByIdRepository,
+    public readonly loadSportByIdRepository: LoadSportByIdRepository,
     public readonly tableName: string = 'tournaments'
   ) {
     super(tableName)
@@ -34,17 +36,21 @@ export class TournamentPostgresRepository extends BaseRepository<AddTournamentRe
 
   async loadAll (): Promise<LoadTournamentsRepository.Result | undefined> {
     const items = await this.findAll()
-    const promises = items.map(async (item) => {
+    const promisesCities = items.map(async (item) => {
       return await this.loadCityByIdRepository.loadById(item.cityId)
     })
+    const promisesSports = items.map(async (item) => {
+      return await this.loadSportByIdRepository.loadById(item.sportId)
+    })
 
-    const cities = await Promise.all(promises)
+    const cities = await Promise.all(promisesCities)
+    const sports = await Promise.all(promisesSports)
 
     return items.map((item, index) => {
       return {
         id: item.id,
         description: item.description,
-        sportId: item.sportId,
+        sportId: sports[index],
         dtTournament: item.dtTournament,
         registrationStartDate: item.registrationStartDate,
         registrationFinalDate: item.registrationFinalDate,

@@ -63,7 +63,11 @@ export const mockLoadTournamentsModel = (): LoadTournaments.Result => {
       area: 'valid_area',
       deleted: false
     },
-    sportId: 'valid_sportId',
+    sportId: {
+      id: 'valid_sportId',
+      description: 'valid_description',
+      deleted: false
+    },
     dtTournament: 'valid_dtTournament',
     registrationStartDate: 'valid_registrationStartDate',
     registrationFinalDate: 'valid_registrationFinalDate',
@@ -81,7 +85,11 @@ export const mockLoadTournamentsModel = (): LoadTournaments.Result => {
       area: 'valid_area',
       deleted: false
     },
-    sportId: 'valid_sportId',
+    sportId: {
+      id: 'valid_sportId',
+      description: 'valid_description',
+      deleted: false
+    },
     dtTournament: 'valid_dtTournament',
     registrationStartDate: 'valid_registrationStartDate',
     registrationFinalDate: 'valid_registrationFinalDate',
