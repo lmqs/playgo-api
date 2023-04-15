@@ -1,3 +1,4 @@
 import login from './login'
+import tournament from './tournament'
 
-export default [login]
+export default [login, tournament]
