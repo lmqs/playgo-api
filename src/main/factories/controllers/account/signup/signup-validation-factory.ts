@@ -1,6 +1,6 @@
 import { Validation } from '@/presentation/protocols'
-import { CompareFieldsValidation, RequiredFieldValidation, ValidationComposite, EmailValidation } from '@/validation/validators'
-import { CityDatabaseValidation } from '@/validation/database'
+import { CompareFieldsValidation, RequiredFieldValidation, ValidationComposite, EmailValidation } from '@/presentation/validation/validators'
+import { CityDatabaseValidation } from '@/presentation/validation/database'
 import { EmailValidatorAdapter } from '@/infra/validators/email-validator-adapter'
 import { makeDbLoadCityById } from '@/main/factories/usecases/city/db-load-by-id'
 

@@ -1,5 +1,5 @@
 
-import { RequiredFieldValidation, ValidationComposite } from '@/validation/validators'
+import { RequiredFieldValidation, ValidationComposite } from '@/presentation/validation/validators'
 import { Validation } from '@/presentation/protocols/validation'
 
 export const makeLoadCategoriesByTournamentIdValidation = (): ValidationComposite => {

@@ -1,8 +1,8 @@
 
-import { RequiredFieldValidation, ValidationComposite } from '@/validation/validators'
+import { RequiredFieldValidation, ValidationComposite } from '@/presentation/validation/validators'
 import { Validation } from '@/presentation/protocols/validation'
 import { makeDbLoadTournamentById } from '@/main/factories/usecases/tournament/db-load-tournament-by-id'
-import { TournamentDatabaseValidation } from '@/validation/database/tournament-database-validation'
+import { TournamentDatabaseValidation } from '@/presentation/validation/database/tournament-database-validation'
 
 export const makeAddCategoryValidation = (): ValidationComposite => {
   const validations: Validation[] = []
