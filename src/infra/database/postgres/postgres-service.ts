@@ -1,5 +1,5 @@
 import { ENVIRONMENT } from '@/main/config'
-import { DatabaseClient } from '@/core/data/adapter/database-client'
+import { DatabaseClient } from '@/infra/database/protocols/database-client'
 import { Client, QueryResult } from 'pg'
 
 export class PostgresService implements DatabaseClient {
