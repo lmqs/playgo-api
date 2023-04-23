@@ -1,4 +1,6 @@
-import { AddAccount, Hasher, AddAccountRepository, LoadAccountByUserRepository } from '@/data/usescases/account'
+import { Hasher } from '@/data/protocols/criptography'
+import { AddAccountRepository, LoadAccountByUserRepository } from '@/data/protocols/db/account'
+import { AddAccount } from '@/domain/usecases/account/add-account'
 import RabbitmqService from '@/infra/queue/rabbitmq-service'
 import { ENVIRONMENT } from '@/main/config'
 import { EmailInUseError } from '@/presentation/errors'

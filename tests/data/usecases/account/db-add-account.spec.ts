@@ -1,10 +1,10 @@
 import { mockAddAccountParams, mockAccountModel } from '@/tests/domain/mocks'
-import { LoadAccountByUserRepository } from '@/data/protocols/db/account'
+import { AddAccountRepository, LoadAccountByUserRepository } from '@/data/protocols/db/account'
 import { DbAddAccount } from '@/data/usescases/account/db-add-account'
-import { Hasher, AddAccountRepository } from '@/data/usescases/account'
 import { mockAddAccountRepository, mockLoadAccountByUserRepository } from '../../mocks'
 import { EmailInUseError } from '@/presentation/errors'
 import RabbitmqService from '@/infra/queue/rabbitmq-service'
+import { Hasher } from '@/data/protocols/criptography'
 
 type SutTypes = {
   sut: DbAddAccount
