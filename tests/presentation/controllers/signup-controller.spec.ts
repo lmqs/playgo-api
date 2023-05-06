@@ -6,9 +6,8 @@ import { mockAccountModel } from '@/tests/domain/mocks'
 
 const makeFakerRequest = (): SignUpController.Request => ({
   name: 'valid_name',
-  user: 'valid_user',
+  gender: 'valid_gender',
   password: 'valid_password',
-  passwordConfirmation: 'valid_password',
   email: 'valid_email',
   cityId: 1,
   phoneNumber: 'valid_number'
@@ -66,7 +65,7 @@ describe('SignUP Controller', () => {
     await sut.handle(makeFakerRequest())
     expect(addSpy).toHaveBeenCalledWith({
       name: 'valid_name',
-      user: 'valid_user',
+      gender: 'valid_gender',
       password: 'valid_password',
       email: 'valid_email',
       cityId: 1,
@@ -111,7 +110,7 @@ describe('SignUP Controller', () => {
     const authSpy = jest.spyOn(authStub, 'auth')
 
     await sut.handle(makeFakerRequest())
-    expect(authSpy).toHaveBeenCalledWith({ user: 'valid_user', password: 'valid_password' })
+    expect(authSpy).toHaveBeenCalledWith({ email: 'valid_email', password: 'valid_password' })
   })
 
   test('Should return 500 if Authentication throws', async () => {

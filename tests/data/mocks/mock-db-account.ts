@@ -1,6 +1,6 @@
 import { AccountModel } from '@/domain/models/account'
 import { mockAccountModel } from '@/tests/domain/mocks'
-import { AddAccountRepository, LoadAccountByUserRepository, LoadAccountByTokenRepository, UpdateAccessTokenRepository } from '../protocols/db/account'
+import { AddAccountRepository, LoadAccountByEmailRepository, LoadAccountByTokenRepository, UpdateAccessTokenRepository } from '../protocols/db/account'
 
 export const mockAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
@@ -11,13 +11,13 @@ export const mockAddAccountRepository = (): AddAccountRepository => {
   return new AddAccountRepositoryStub()
 }
 
-export const mockLoadAccountByUserRepository = (): LoadAccountByUserRepository => {
-  class LoadAccountByUserRepository implements LoadAccountByUserRepository {
-    async loadByUser (user: string): Promise<AccountModel> {
+export const mockLoadAccountByUserRepository = (): LoadAccountByEmailRepository => {
+  class LoadAccountByEmailRepository implements LoadAccountByEmailRepository {
+    async loadByEmail (user: string): Promise<AccountModel> {
       return mockAccountModel()
     }
   }
-  return new LoadAccountByUserRepository()
+  return new LoadAccountByEmailRepository()
 }
 
 export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {

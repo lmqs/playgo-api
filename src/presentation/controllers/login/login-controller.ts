@@ -14,8 +14,8 @@ export class LoginController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { user, password } = httpRequest
-      const authenticationModel = await this.authentication.auth({ user, password })
+      const { email, password } = httpRequest
+      const authenticationModel = await this.authentication.auth({ email, password })
 
       if (!authenticationModel) {
         return unauthorized()
@@ -29,7 +29,7 @@ export class LoginController implements Controller {
 
 export namespace LoginController {
   export type Request = {
-    user: string
+    email: string
     password: string
   }
 }

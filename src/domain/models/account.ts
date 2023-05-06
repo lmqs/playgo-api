@@ -1,7 +1,7 @@
 export type AccountModel = {
   id: string
   name: string
-  user: string
+  gender: string
   password: string
   email: string
   cityId: number

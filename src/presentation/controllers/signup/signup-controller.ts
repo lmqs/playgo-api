@@ -14,13 +14,13 @@ export class SignUpController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { name, user, password, email, cityId, phoneNumber, photo } = request
-      const result = await this.addAccount.add({ name, user, password, email, cityId, phoneNumber, photo })
+      const { name, gender, password, email, cityId, phoneNumber, photo } = request
+      const result = await this.addAccount.add({ name, gender, password, email, cityId, phoneNumber, photo })
 
       if (result instanceof Error) {
         return forbidden(result)
       }
-      const authenticationModel = await this.authentication.auth({ user, password })
+      const authenticationModel = await this.authentication.auth({ email, password })
 
       return ok(authenticationModel)
     } catch (error: unknown) {
@@ -31,9 +31,8 @@ export class SignUpController implements Controller {
 export namespace SignUpController {
   export type Request = {
     name: string
-    user: string
     password: string
-    passwordConfirmation: string
+    gender: string
     email: string
     cityId: number
     phoneNumber: string

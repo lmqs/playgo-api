@@ -12,7 +12,7 @@ const makeValidation = (): Validation => {
   return new ValidationStub()
 }
 const makeFakerRequest = (): LoginController.Request => ({
-  user: 'valid_user',
+  email: 'valid_email',
   password: 'valid_password'
 })
 
@@ -48,7 +48,7 @@ describe('SignUP Controller', () => {
     const authSpy = jest.spyOn(authStub, 'auth')
 
     await sut.handle(makeFakerRequest())
-    expect(authSpy).toHaveBeenCalledWith({ user: 'valid_user', password: 'valid_password' })
+    expect(authSpy).toHaveBeenCalledWith({ email: 'valid_email', password: 'valid_password' })
   })
 
   test('Should return 401 if invalid credentials are provider', async () => {

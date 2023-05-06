@@ -25,7 +25,7 @@ describe('Account Postgres Repository', () => {
       expect(account).toEqual({
         id: 'valid_id',
         name: 'valid_name',
-        user: 'valid_user',
+        gender: 'valid_gender',
         password: 'valid_password',
         email: 'valid_email',
         cityId: 1,
@@ -35,17 +35,17 @@ describe('Account Postgres Repository', () => {
     })
   })
 
-  describe('loadByUser()', () => {
+  describe('loadByEmail()', () => {
     test('Should return an account on add success', async () => {
       const { sut } = makeSut()
       const accountDataMock = { id: 'valid_id', ...mockAddAccountParams() }
       sut.findOne = jest.fn().mockReturnValue(accountDataMock)
 
-      const account = await sut.loadByUser('valid_user')
+      const account = await sut.loadByEmail('valid_gender')
       expect(account).toEqual({
         id: 'valid_id',
         name: 'valid_name',
-        user: 'valid_user',
+        gender: 'valid_gender',
         password: 'valid_password',
         email: 'valid_email',
         cityId: 1,
@@ -54,12 +54,12 @@ describe('Account Postgres Repository', () => {
       })
     })
 
-    test('Should return undefined if loadByUser fails', async () => {
+    test('Should return undefined if loadByEmail fails', async () => {
       const { sut } = makeSut()
       sut.findOne = jest.fn().mockImplementationOnce(() => {
         throw new Error()
       })
-      const promise = sut.loadByUser('valid_user')
+      const promise = sut.loadByEmail('valid_gender')
       await expect(promise).rejects.toThrow()
     })
   })
@@ -74,7 +74,7 @@ describe('Account Postgres Repository', () => {
       expect(account).toEqual({
         id: 'valid_id',
         name: 'valid_name',
-        user: 'valid_user',
+        gender: 'valid_gender',
         password: 'valid_password',
         email: 'valid_email',
         cityId: 1,
@@ -91,7 +91,7 @@ describe('Account Postgres Repository', () => {
       expect(account).toEqual({
         id: 'valid_id',
         name: 'valid_name',
-        user: 'valid_user',
+        gender: 'valid_gender',
         password: 'valid_password',
         email: 'valid_email',
         cityId: 1,
@@ -117,7 +117,7 @@ describe('Account Postgres Repository', () => {
       expect(account).toBeUndefined()
     })
 
-    test('Should return an account on loadByToken with if user is admin role', async () => {
+    test('Should return an account on loadByToken with if gender is admin role', async () => {
       const { sut } = makeSut()
       const accountDataMock = [{ id: 'valid_id', role: 'admin', ...mockAddAccountParams() }]
       sut.findGeneric = jest.fn().mockReturnValue(accountDataMock)
@@ -126,7 +126,7 @@ describe('Account Postgres Repository', () => {
       expect(account).toEqual({
         id: 'valid_id',
         name: 'valid_name',
-        user: 'valid_user',
+        gender: 'valid_gender',
         password: 'valid_password',
         email: 'valid_email',
         cityId: 1,

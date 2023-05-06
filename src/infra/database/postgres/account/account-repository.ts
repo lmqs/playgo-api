@@ -1,9 +1,9 @@
 import { AccountModel } from '@/domain/models/account'
 import { BaseRepository } from '@/infra/database/postgres/base-repository'
-import { AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository } from '@/data/protocols/db/account'
+import { AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository } from '@/data/protocols/db/account'
 
 export class AccountPostgresRepository extends BaseRepository<AddAccountRepository.Params, AccountModel>
-  implements AddAccountRepository, LoadAccountByUserRepository, UpdateAccessTokenRepository,
+  implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository,
   LoadAccountByTokenRepository {
   constructor (
     public readonly tableName: string = 'users'
@@ -16,8 +16,8 @@ export class AccountPostgresRepository extends BaseRepository<AddAccountReposito
     return result
   }
 
-  async loadByUser (user: string): Promise<AccountModel | undefined> {
-    const result = await this.findOne('user', user)
+  async loadByEmail (email: string): Promise<AccountModel | undefined> {
+    const result = await this.findOne('email', email)
     return result
   }
 

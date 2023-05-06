@@ -6,7 +6,7 @@ export interface Authentication {
 
 export namespace Authentication {
   export type Params = {
-    user: string
+    email: string
     password: string
   }
   export type Result = AuthenticationModel

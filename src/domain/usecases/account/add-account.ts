@@ -7,7 +7,7 @@ export interface AddAccount {
 export namespace AddAccount {
   export type Params = {
     name: string
-    user: string
+    gender: string
     password: string
     email: string
     cityId: number

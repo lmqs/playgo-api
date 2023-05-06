@@ -4,7 +4,7 @@ import { AddAccount } from '@/domain/usecases/account/add-account'
 export const mockAccountModel = (): AccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
-  user: 'valid_user',
+  gender: 'valid_gender',
   password: 'hashed_password',
   email: 'valid_email',
   cityId: 1,
@@ -15,7 +15,7 @@ export const mockAccountModel = (): AccountModel => ({
 
 export const mockAddAccountParams = (): AddAccount.Params => ({
   name: 'valid_name',
-  user: 'valid_user',
+  gender: 'valid_gender',
   password: 'valid_password',
   email: 'valid_email',
   cityId: 1,

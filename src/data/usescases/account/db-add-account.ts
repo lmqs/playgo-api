@@ -1,5 +1,5 @@
 import { Hasher } from '@/data/protocols/criptography'
-import { AddAccountRepository, LoadAccountByUserRepository } from '@/data/protocols/db/account'
+import { AddAccountRepository, LoadAccountByEmailRepository } from '@/data/protocols/db/account'
 import { AddAccount } from '@/domain/usecases/account/add-account'
 import RabbitmqService from '@/infra/queue/rabbitmq-service'
 import { ENVIRONMENT } from '@/main/config'
@@ -9,13 +9,13 @@ export class DbAddAccount implements AddAccount {
   constructor (
     private readonly hasher: Hasher,
     private readonly addAccountRepository: AddAccountRepository,
-    private readonly loadAccountByUserRepository: LoadAccountByUserRepository,
+    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly exchangeSignup = ENVIRONMENT.rabbit.exchangeSignup,
     private readonly routingKeySignup = ENVIRONMENT.rabbit.routingKeySignup
   ) { }
 
   async add (accountParams: AddAccount.Params): Promise<AddAccount.Result | Error > {
-    const account = await this.loadAccountByUserRepository.loadByUser(accountParams.user)
+    const account = await this.loadAccountByEmailRepository.loadByEmail(accountParams.email)
     if (account) return new EmailInUseError()
 
     const passwordHashed = await this.hasher.hash(accountParams.password)
