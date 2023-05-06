@@ -4,14 +4,15 @@ import { SportModel } from '@/domain/models/sport'
 export interface LoadTournaments {
   load: () => Promise<LoadTournaments.Result | undefined>
 }
-
 export namespace LoadTournaments {
-  export type Result = Array<{ id: string
+  export type Result = Array<{
+    id: string
     description: string
-    cityId?: CityModel
-    sportId?: SportModel
+    city?: CityModel
+    sport?: SportModel
     dtTournament: string
     registrationStartDate: string
     registrationFinalDate: string
-    deleted?: boolean }>
+    deleted?: boolean
+  }>
 }

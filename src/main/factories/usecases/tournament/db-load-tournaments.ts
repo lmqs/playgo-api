@@ -5,6 +5,7 @@ import { CityPostgresRepository } from '@/infra/database/postgres/city/city-repo
 import { SportPostgresRepository } from '@/infra/database/postgres/sport/sport-repository'
 
 export const makeDbLoadTournaments = (): LoadTournaments => {
-  const tournamentPostgresRepository = new TournamentPostgresRepository(new CityPostgresRepository(), new SportPostgresRepository())
-  return new DbLoadTournaments(tournamentPostgresRepository)
+  const tournamentPostgresRepository = new TournamentPostgresRepository()
+  const cityPostgresRepository = new CityPostgresRepository()
+  return new DbLoadTournaments(tournamentPostgresRepository, cityPostgresRepository, new SportPostgresRepository())
 }

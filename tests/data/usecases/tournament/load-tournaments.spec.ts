@@ -2,18 +2,28 @@ import { mockLoadTournamentsModel } from '@/tests/domain/mocks'
 import { LoadTournamentsRepository } from '@/data/protocols/db/tournament'
 import { DbLoadTournaments } from '@/data/usescases/tournament/load-tournaments'
 import { mockLoadTournamentsRepository } from '@/tests/data/mocks'
+import { mockLoadCityByIdRepository } from '../../mocks/mock-db-city'
+import { mockLoadSportByIdRepository } from '../../mocks/mock-db-sport'
+import { LoadCityByIdRepository } from '@/data/protocols/db/city'
+import { LoadSportByIdRepository } from '@/data/usescases/sport'
 
 type SutTypes = {
   sut: DbLoadTournaments
   loadTournamentsRepositoryStub: LoadTournamentsRepository
+  loadCityByIdRepositoryStub: LoadCityByIdRepository
+  loadSportByIdRepositoryStub: LoadSportByIdRepository
 }
 
 const makeSut = (): SutTypes => {
   const loadTournamentsRepositoryStub = mockLoadTournamentsRepository()
-  const sut = new DbLoadTournaments(loadTournamentsRepositoryStub)
+  const loadCityByIdRepositoryStub = mockLoadCityByIdRepository()
+  const loadSportByIdRepositoryStub = mockLoadSportByIdRepository()
+  const sut = new DbLoadTournaments(loadTournamentsRepositoryStub, loadCityByIdRepositoryStub, loadSportByIdRepositoryStub)
   return {
     sut,
-    loadTournamentsRepositoryStub
+    loadTournamentsRepositoryStub,
+    loadCityByIdRepositoryStub,
+    loadSportByIdRepositoryStub
   }
 }
 
@@ -37,7 +47,7 @@ describe('DbLoadTournaments UseCase', () => {
   test('Should return a tournament list on sucess', async () => {
     const { sut } = makeSut()
 
-    const account = await sut.load()
-    expect(account).toEqual(mockLoadTournamentsModel())
+    const tournaments = await sut.load()
+    expect(tournaments).toEqual(mockLoadTournamentsModel())
   })
 })

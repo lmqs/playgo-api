@@ -54,18 +54,18 @@ export const mockLoadTournamentsModel = (): LoadTournaments.Result => {
   return [{
     id: 'valid_id',
     description: 'valid_description',
-    cityId: {
-      id: 'valid_id',
-      name: 'valid_city',
-      codeIbge: 'valid_code',
-      stateId: 'valid_state',
-      gentilic: 'valid_gentilic',
-      area: 'valid_area',
-      deleted: false
+    city: {
+      area: 'any',
+      codeIbge: 'any_code',
+      deleted: true,
+      gentilic: 'any_gentilic',
+      id: 'any_id',
+      name: 'any_name',
+      stateId: 'any_stateId'
     },
-    sportId: {
-      id: 'valid_sportId',
-      description: 'valid_description',
+    sport: {
+      id: 'any_id',
+      description: 'any_description',
       deleted: false
     },
     dtTournament: 'valid_dtTournament',
@@ -76,18 +76,18 @@ export const mockLoadTournamentsModel = (): LoadTournaments.Result => {
   {
     id: 'valid__other_id',
     description: 'valid_description',
-    cityId: {
-      id: 'valid_id',
-      name: 'valid_city',
-      codeIbge: 'valid_code',
-      stateId: 'valid_state',
-      gentilic: 'valid_gentilic',
-      area: 'valid_area',
-      deleted: false
+    city: {
+      area: 'any',
+      codeIbge: 'any_code',
+      deleted: true,
+      gentilic: 'any_gentilic',
+      id: 'any_id',
+      name: 'any_name',
+      stateId: 'any_stateId'
     },
-    sportId: {
-      id: 'valid_sportId',
-      description: 'valid_description',
+    sport: {
+      id: 'any_id',
+      description: 'any_description',
       deleted: false
     },
     dtTournament: 'valid_dtTournament',

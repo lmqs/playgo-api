@@ -74,7 +74,7 @@ describe('Sport Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(ok({
-      id: '1',
+      id: 'any_id',
       description: 'any_description',
       deleted: false
     }))

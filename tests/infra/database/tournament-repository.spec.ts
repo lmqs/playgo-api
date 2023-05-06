@@ -1,14 +1,12 @@
 import { mockAddTournamentParams, mockTournamentModel, mockTournamentsModel } from '@/tests/domain/mocks'
 import { TournamentPostgresRepository } from '@/infra/database/postgres/tournament/tournament-repository'
-import { mockLoadCityByIdRepository } from '../../data/mocks/mock-db-city'
-import { mockLoadSportByIdRepository } from '../../data/mocks/mock-db-sport'
 
 type SutTypes = {
   sut: TournamentPostgresRepository
 }
 
 const makeSut = (): SutTypes => {
-  const sut = new TournamentPostgresRepository(mockLoadCityByIdRepository(), mockLoadSportByIdRepository())
+  const sut = new TournamentPostgresRepository()
   return {
     sut
   }
@@ -117,20 +115,8 @@ describe('Tournament Postgres Repository', () => {
       expect(tournaments).toEqual([{
         id: 'valid_id',
         description: 'valid_description',
-        cityId: {
-          area: 'any',
-          codeIbge: 'any_code',
-          deleted: true,
-          gentilic: 'any_gentilic',
-          id: 'any_id',
-          name: 'any_name',
-          stateId: 'any_stateId'
-        },
-        sportId: {
-          deleted: false,
-          description: 'any_description',
-          id: '1'
-        },
+        cityId: 'valid_city',
+        sportId: 'valid_sportId',
         dtTournament: 'valid_dtTournament',
         registrationStartDate: 'valid_registrationStartDate',
         registrationFinalDate: 'valid_registrationFinalDate',
@@ -139,20 +125,8 @@ describe('Tournament Postgres Repository', () => {
       {
         id: 'valid__other_id',
         description: 'valid_description',
-        cityId: {
-          area: 'any',
-          codeIbge: 'any_code',
-          deleted: true,
-          gentilic: 'any_gentilic',
-          id: 'any_id',
-          name: 'any_name',
-          stateId: 'any_stateId'
-        },
-        sportId: {
-          deleted: false,
-          description: 'any_description',
-          id: '1'
-        },
+        cityId: 'valid_city',
+        sportId: 'valid_sportId',
         dtTournament: 'valid_dtTournament',
         registrationStartDate: 'valid_registrationStartDate',
         registrationFinalDate: 'valid_registrationFinalDate',

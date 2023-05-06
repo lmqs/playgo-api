@@ -20,7 +20,7 @@ describe('Sport Postgres Repository', () => {
       const sport = await sut.add(mockAddSportParams())
 
       expect(sport).toEqual({
-        id: '1',
+        id: 'any_id',
         description: 'any_description',
         deleted: false
       })
@@ -43,7 +43,7 @@ describe('Sport Postgres Repository', () => {
 
       const sport = await sut.loadByDescription('any_description')
       expect(sport).toEqual({
-        id: '1',
+        id: 'any_id',
         description: 'any_description',
         deleted: false
       })
@@ -66,7 +66,7 @@ describe('Sport Postgres Repository', () => {
 
       const sport = await sut.loadById('any_id')
       expect(sport).toEqual({
-        id: '1',
+        id: 'any_id',
         description: 'any_description',
         deleted: false
       })

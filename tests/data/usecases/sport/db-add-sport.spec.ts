@@ -43,7 +43,7 @@ describe('DbAddSport UseCase', () => {
 
     await sut.add(mockSportModel())
     expect(addSpy).toHaveBeenCalledWith({
-      id: '1',
+      id: 'any_id',
       description: 'any_description',
       deleted: false
     })

@@ -1,19 +1,7 @@
-import { CityModel } from '@/domain/models/city'
-import { SportModel } from '@/domain/models/sport'
-
+import { TournamentModel } from '@/domain/models/tournament'
 export interface LoadTournamentsRepository {
   loadAll: () => Promise<LoadTournamentsRepository.Result | undefined>
 }
-
 export namespace LoadTournamentsRepository {
-  export type Result = Array<{
-    id: string
-    description: string
-    cityId?: CityModel
-    sportId?: SportModel
-    dtTournament: string
-    registrationStartDate: string
-    registrationFinalDate: string
-    deleted?: boolean
-  }>
+  export type Result = TournamentModel[]
 }

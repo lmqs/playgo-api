@@ -3,7 +3,7 @@ import { AddSport } from '@/domain/usecases/sport/add-sport'
 import { LoadSports } from '@/domain/usecases/sport/load-sports'
 
 export const mockSportModel = (): SportModel => ({
-  id: '1',
+  id: 'any_id',
   description: 'any_description',
   deleted: false
 })
