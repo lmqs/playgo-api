@@ -4,13 +4,13 @@ export const signupParamsSchema = {
     name: {
       type: 'string'
     },
-    user: {
+    gender: {
       type: 'string'
     },
     password: {
       type: 'string'
     },
-    passwordConfirmation: {
+    role: {
       type: 'string'
     },
     email: {
@@ -26,5 +26,5 @@ export const signupParamsSchema = {
       type: 'string'
     }
   },
-  required: ['name', 'user', 'password', 'email', 'cityId', 'phoneNumber']
+  required: ['name', 'gender', 'password', 'email', 'cityId', 'phoneNumber']
 }

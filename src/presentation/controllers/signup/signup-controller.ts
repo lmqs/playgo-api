@@ -14,8 +14,8 @@ export class SignUpController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { name, gender, password, email, cityId, phoneNumber, photo } = request
-      const result = await this.addAccount.add({ name, gender, password, email, cityId, phoneNumber, photo })
+      const { name, gender, password, email, cityId, phoneNumber, photo, role } = request
+      const result = await this.addAccount.add({ name, gender, password, email, cityId, phoneNumber, photo, role })
 
       if (result instanceof Error) {
         return forbidden(result)
@@ -37,5 +37,6 @@ export namespace SignUpController {
     cityId: number
     phoneNumber: string
     photo?: string
+    role?: string
   }
 }
