@@ -10,9 +10,9 @@ import {
   tournamentSchema,
   tournamentsSchema,
   sportSchema,
-  sportParamsSchema
+  sportParamsSchema,
+  sportsSchema
 } from './schemas/'
-import { sportsSchema } from './schemas/sports-schemas'
 
 export default {
   account: accountSchema,
