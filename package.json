@@ -12,7 +12,9 @@
     "start": "node build/index.js",
     "build": "rimraf build && tsc -p tsconfig-build.json",
     "start:build": "npm run build && nodemon ./src/index.ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migrate": "ts-node-dev -r tsconfig-paths/register -r dotenv/config ./node_modules/.bin/knex --knexfile ./src/infra/service/knexfile.ts migrate:latest",
+    "create:migrate": "knex migrate:make --migrations-directory ./migrations -x ts change_name_file"
   },
   "author": "Luciana Queiroz",
   "license": "ISC",
