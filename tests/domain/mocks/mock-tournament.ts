@@ -5,12 +5,15 @@ import { LoadTournaments } from '../usecases/tournament'
 export const mockTournamentModel = (): TournamentModel => {
   return {
     id: 'valid_id',
+    organization: 'organization',
     description: 'valid_description',
     cityId: 'valid_city',
     sportId: 'valid_sportId',
-    dtTournament: 'valid_dtTournament',
-    registrationStartDate: 'valid_registrationStartDate',
-    registrationFinalDate: 'valid_registrationFinalDate',
+    dtStartTournament: '25/05/2023',
+    dtFinalTournament: '25/05/2023',
+    dtStartRegistration: '25/05/2023',
+    dtFinalRegistration: '25/05/2023',
+    otherInformation: 'any_information',
     deleted: true
   }
 }
@@ -18,34 +21,42 @@ export const mockTournamentModel = (): TournamentModel => {
 export const mockAddTournamentParams = (): AddTournament.Params => {
   return {
     description: 'valid_description',
+    organization: 'organization',
     cityId: 'valid_city',
     sportId: 'valid_sportId',
-    dtTournament: 'valid_dtTournament',
-    registrationStartDate: 'valid_registrationStartDate',
-    registrationFinalDate: 'valid_registrationFinalDate',
-    deleted: true
+    dtStartTournament: '25/05/2023',
+    dtFinalTournament: '25/05/2023',
+    dtStartRegistration: '25/05/2023',
+    dtFinalRegistration: '25/05/2023',
+    otherInformation: 'any_information'
   }
 }
 
 export const mockTournamentsModel = (): TournamentModel[] => {
   return [{
     id: 'valid_id',
+    organization: 'organization',
     description: 'valid_description',
     cityId: 'valid_city',
     sportId: 'valid_sportId',
-    dtTournament: 'valid_dtTournament',
-    registrationStartDate: 'valid_registrationStartDate',
-    registrationFinalDate: 'valid_registrationFinalDate',
+    dtStartTournament: '25/05/2023',
+    dtFinalTournament: '25/05/2023',
+    dtStartRegistration: '25/05/2023',
+    dtFinalRegistration: '25/05/2023',
+    otherInformation: 'any_information',
     deleted: true
   },
   {
     id: 'valid__other_id',
     description: 'valid_description',
+    organization: 'organization',
     cityId: 'valid_city',
     sportId: 'valid_sportId',
-    dtTournament: 'valid_dtTournament',
-    registrationStartDate: 'valid_registrationStartDate',
-    registrationFinalDate: 'valid_registrationFinalDate',
+    dtStartTournament: '25/05/2023',
+    dtFinalTournament: '25/05/2023',
+    dtStartRegistration: '25/05/2023',
+    dtFinalRegistration: '25/05/2023',
+    otherInformation: 'any_information',
     deleted: true
   }]
 }
@@ -54,6 +65,7 @@ export const mockLoadTournamentsModel = (): LoadTournaments.Result => {
   return [{
     id: 'valid_id',
     description: 'valid_description',
+    organization: 'organization',
     city: {
       area: 'any',
       codeIbge: 'any_code',
@@ -68,14 +80,17 @@ export const mockLoadTournamentsModel = (): LoadTournaments.Result => {
       description: 'any_description',
       deleted: false
     },
-    dtTournament: 'valid_dtTournament',
-    registrationStartDate: 'valid_registrationStartDate',
-    registrationFinalDate: 'valid_registrationFinalDate',
+    dtStartTournament: '25/05/2023',
+    dtFinalTournament: '25/05/2023',
+    dtStartRegistration: '25/05/2023',
+    dtFinalRegistration: '25/05/2023',
+    otherInformation: 'any_information',
     deleted: true
   },
   {
     id: 'valid__other_id',
     description: 'valid_description',
+    organization: 'organization',
     city: {
       area: 'any',
       codeIbge: 'any_code',
@@ -90,9 +105,11 @@ export const mockLoadTournamentsModel = (): LoadTournaments.Result => {
       description: 'any_description',
       deleted: false
     },
-    dtTournament: 'valid_dtTournament',
-    registrationStartDate: 'valid_registrationStartDate',
-    registrationFinalDate: 'valid_registrationFinalDate',
+    dtStartTournament: '25/05/2023',
+    dtFinalTournament: '25/05/2023',
+    dtStartRegistration: '25/05/2023',
+    dtFinalRegistration: '25/05/2023',
+    otherInformation: 'any_information',
     deleted: true
   }]
 }

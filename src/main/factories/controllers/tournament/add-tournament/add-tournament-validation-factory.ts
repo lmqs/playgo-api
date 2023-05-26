@@ -7,7 +7,7 @@ import { makeDbLoadCityById } from '@/main/factories/usecases/city/db-load-by-id
 
 export const makeAddTournamentValidation = (): ValidationComposite => {
   const validations: Validation[] = []
-  const requiredFields = ['description', 'cityId', 'sportId', 'dtTournament', 'registrationStartDate', 'registrationFinalDate']
+  const requiredFields = ['description', 'organization', 'cityId', 'sportId', 'dtStartRegistration', 'dtFinalRegistration', 'dtStartTournament', 'dtFinalTournament']
 
   for (const field of requiredFields) {
     validations.push(new RequiredFieldValidation(field))

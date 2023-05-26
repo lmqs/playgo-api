@@ -7,12 +7,15 @@ export interface LoadTournaments {
 export namespace LoadTournaments {
   export type Result = Array<{
     id: string
+    organization: string
     description: string
     city?: CityModel
     sport?: SportModel
-    dtTournament: string
-    registrationStartDate: string
-    registrationFinalDate: string
+    dtStartTournament: String
+    dtFinalTournament: String
+    dtStartRegistration: String
+    dtFinalRegistration: String
+    otherInformation?: string
     deleted?: boolean
   }>
 }

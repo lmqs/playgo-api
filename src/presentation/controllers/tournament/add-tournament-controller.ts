@@ -1,6 +1,7 @@
-import { badRequest, serverError, ok, forbidden } from '../../../helpers/http/http-helper'
-import { AddTournament, Controller, HttpResponse, Validation } from './add-tournament-controller-protocols'
-import { ParamInUseError } from '../../../errors'
+import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
+import { AddTournament } from '@/domain/usecases/tournament'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { ParamInUseError } from '@/presentation/errors'
 
 export class AddTournamentController implements Controller {
   constructor (
@@ -14,8 +15,7 @@ export class AddTournamentController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { description, cityId, sportId, dtTournament, registrationStartDate, registrationFinalDate } = request
-      const tournament = await this.addTournament.add({ description, cityId, sportId, dtTournament, registrationStartDate, registrationFinalDate })
+      const tournament = await this.addTournament.add(request)
       if (!tournament) {
         return forbidden(new ParamInUseError('description'))
       }
@@ -29,10 +29,13 @@ export class AddTournamentController implements Controller {
 export namespace AddTournamentController {
   export type Request = {
     description: string
+    organization: string
     cityId: string
     sportId: string
-    dtTournament: string
-    registrationStartDate: string
-    registrationFinalDate: string
+    dtStartTournament: String
+    dtFinalTournament: String
+    dtStartRegistration: String
+    dtFinalRegistration: String
+    otherInformation?: string
   }
 }

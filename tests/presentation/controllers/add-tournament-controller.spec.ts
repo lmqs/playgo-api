@@ -1,17 +1,21 @@
 import { MissingParamError, ParamInUseError, ServerError } from '@/presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { AddTournamentController } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller'
-import { Validation, AddTournament } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller-protocols'
 import { mockValidationStub } from '../mocks/mock-validation'
 import { mockAddTournament } from '../mocks/mock-tournament'
+import { AddTournamentController } from '@/presentation/controllers/tournament'
+import { Validation } from '@/presentation/protocols'
+import { AddTournament } from '@/domain/usecases/tournament'
 
 const makeFakerRequest = (): AddTournamentController.Request => ({
   description: 'valid_description',
+  organization: 'organization',
   cityId: 'valid_city',
   sportId: 'valid_sportId',
-  dtTournament: 'valid_dtTournament',
-  registrationStartDate: 'valid_registrationStartDate',
-  registrationFinalDate: 'valid_registrationFinalDate'
+  dtStartTournament: '25/05/2023',
+  dtFinalTournament: '25/05/2023',
+  dtStartRegistration: '25/05/2023',
+  dtFinalRegistration: '25/05/2023',
+  otherInformation: 'any_information'
 })
 
 type SutTypes = {
@@ -56,9 +60,12 @@ describe('AddTournamentController Controller', () => {
       description: 'valid_description',
       cityId: 'valid_city',
       sportId: 'valid_sportId',
-      dtTournament: 'valid_dtTournament',
-      registrationStartDate: 'valid_registrationStartDate',
-      registrationFinalDate: 'valid_registrationFinalDate'
+      dtStartTournament: '25/05/2023',
+      dtFinalTournament: '25/05/2023',
+      dtStartRegistration: '25/05/2023',
+      dtFinalRegistration: '25/05/2023',
+      otherInformation: 'any_information',
+      organization: 'organization'
     })
   })
 
@@ -80,9 +87,12 @@ describe('AddTournamentController Controller', () => {
       description: 'valid_description',
       cityId: 'valid_city',
       sportId: 'valid_sportId',
-      dtTournament: 'valid_dtTournament',
-      registrationStartDate: 'valid_registrationStartDate',
-      registrationFinalDate: 'valid_registrationFinalDate',
+      dtStartTournament: '25/05/2023',
+      dtFinalTournament: '25/05/2023',
+      dtStartRegistration: '25/05/2023',
+      dtFinalRegistration: '25/05/2023',
+      otherInformation: 'any_information',
+      organization: 'organization',
       deleted: true
     }))
   })

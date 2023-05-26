@@ -1,6 +1,6 @@
-import { serverError, ok } from '../../../helpers/http/http-helper'
-import { Controller, HttpResponse } from './add-tournament-controller-protocols'
+import { Controller, HttpResponse } from '@/presentation/protocols'
 import { LoadTournaments } from '@/domain/usecases/tournament/load-tournaments'
+import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 
 export class LoadTournamentsController implements Controller {
   constructor (

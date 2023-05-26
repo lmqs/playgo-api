@@ -24,11 +24,14 @@ export class DbLoadTournaments implements LoadTournaments {
       return {
         id: item.id,
         description: item.description,
+        organization: item.organization,
         sport: sports?.[index],
         city: cities?.[index],
-        dtTournament: item.dtTournament,
-        registrationStartDate: item.registrationStartDate,
-        registrationFinalDate: item.registrationFinalDate,
+        dtStartTournament: item.dtStartTournament,
+        dtFinalTournament: item.dtFinalTournament,
+        dtStartRegistration: item.dtStartRegistration,
+        dtFinalRegistration: item.dtFinalRegistration,
+        otherInformation: item.otherInformation,
         deleted: item.deleted
       }
     })

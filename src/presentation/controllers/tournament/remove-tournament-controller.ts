@@ -1,6 +1,6 @@
 import { badRequest, serverError, noContent } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpResponse, Validation } from './add-tournament/add-tournament-controller-protocols'
 import { RemoveTournament } from '@/domain/usecases/tournament/remove-tournament'
+import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 
 export class RemoveTournamentController implements Controller {
   constructor (

@@ -1,4 +1,4 @@
-import { AddTournament } from '@/presentation/controllers/tournament/add-tournament/add-tournament-controller-protocols'
+import { AddTournament } from '@/domain/usecases/tournament'
 import { mockTournamentModel } from '@/tests/domain/mocks'
 
 export const mockAddTournament = (): AddTournament => {
