@@ -32,3 +32,7 @@
 2. Access: http://localhost:15672/
 
 
+### Migrations
+
+1. Create migration:  `$ npm run create:migrate`
+2. Run migrations: `$ npm run migrate`
