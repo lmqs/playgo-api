@@ -5,13 +5,12 @@
   "main": "index.ts",
   "scripts": {
     "test": "jest --passWithNoTests --runInBand",
-    "test:watch": "jest --watch",
+    "test:watch": "npm run test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "start": "node build/index.js",
     "build": "rimraf build && tsc -p tsconfig-build.json",
-    "start:build": "npm run build && nodemon ./src/index.ts",
+    "start:build": "npm run build && node -r dotenv/config build/index.js",
     "prepare": "husky install",
     "migrate": "ts-node-dev -r tsconfig-paths/register -r dotenv/config ./node_modules/.bin/knex --knexfile ./src/infra/service/knexfile.ts migrate:latest",
     "create:migrate": "knex migrate:make --migrations-directory ./migrations -x ts change_name_file"
@@ -26,6 +25,7 @@
     "@types/jest": "^29.2.4",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/knex": "^0.16.1",
+    "@types/module-alias": "^2.0.1",
     "@types/node": "^18.11.16",
     "@types/pg": "^8.6.6",
     "@types/supertest": "^2.0.12",
@@ -63,8 +63,5 @@
     "pg": "^8.8.0",
     "swagger-ui-express": "^4.6.0",
     "validator": "^13.7.0"
-  },
-  "_moduleAliases": {
-    "@": "build"
   }
 }

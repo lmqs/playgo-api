@@ -5,7 +5,7 @@ dotenv.config()
 export const ENVIRONMENT = Object.freeze({
   server: {
     port: env.get('PORT').required().asPortNumber(),
-    env: env.get('NODE_ENV').required().asString(),
+    node_env: env.get('NODE_ENV').required().asString(),
     secret: env.get('SECRET').required().asString()
   },
   database: {

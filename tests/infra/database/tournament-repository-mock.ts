@@ -10,8 +10,8 @@ export const outputDbMock: OutputDbTournamentModel = {
   sport_id: 'valid_sportId',
   dt_start_tournament: new Date('2023-05-25 00:00:00'),
   dt_final_tournament: new Date('2023-05-25 00:00:00'),
-  dt_start_registration: new Date(),
-  dt_final_registration: new Date(),
+  dt_start_registration: new Date('2023-05-25 00:00:00'),
+  dt_final_registration: new Date('2023-05-25 00:00:00'),
   other_information: 'any_information',
   deleted: true
 }

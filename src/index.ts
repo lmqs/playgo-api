@@ -1,4 +1,4 @@
-import 'module-alias/register'
+import './main/config/module-alias'
 import { PostgresService } from '@/infra/database/postgres/postgres-service'
 import RabbitmqService from '@/infra/queue/rabbitmq-service'
 
