@@ -1,4 +1,4 @@
-import { MissingParamError, ServerError } from '@/presentation/errors'
+import { MissingParamError } from '@/presentation/errors'
 import { badRequest, serverError, ok, noContent } from '@/presentation/helpers/http/http-helper'
 import { LoadCategoriesByTournamentIdController } from '@/presentation/controllers/category/load-category-by-tournamentId-controller'
 import { Validation, CategoryModel, LoadCategoriesByTournamentId } from './category'
@@ -74,11 +74,11 @@ describe('LoadCategoriesByTournamentId Controller', () => {
   test('Should return 500 if loadCategoriesByTournamentId throws', async () => {
     const { sut, loadCategoriesByTournamentIdStub } = makeSut()
     jest.spyOn(loadCategoriesByTournamentIdStub, 'load').mockImplementationOnce(() => {
-      throw new Error()
+      throw new Error('fake error')
     })
 
     const httpResponse = await sut.handle(makeFakerRequest())
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(serverError(new Error('fake error')))
   })
 
   test('Should return 204 if loadCategoriesByTournamentId returns empty', async () => {

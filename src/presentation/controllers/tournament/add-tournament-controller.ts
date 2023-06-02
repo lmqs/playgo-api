@@ -1,7 +1,7 @@
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 import { AddTournament } from '@/domain/usecases/tournament'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { ParamInUseError } from '@/presentation/errors'
+import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 
 export class AddTournamentController implements Controller {
   constructor (
@@ -16,11 +16,11 @@ export class AddTournamentController implements Controller {
         return badRequest(error)
       }
       const tournament = await this.addTournament.add(request)
-      if (!tournament) {
-        return forbidden(new ParamInUseError('description'))
-      }
       return ok(tournament)
     } catch (error: unknown) {
+      if (error instanceof ParamInUseError) {
+        return forbidden(error)
+      }
       return serverError(error as Error)
     }
   }
