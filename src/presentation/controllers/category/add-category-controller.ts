@@ -1,7 +1,7 @@
 import { AddCategory } from '@/domain/usecases/category/add-category'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpResponse, Validation } from '.'
-import { ParamInUseError } from '@/presentation/errors'
+import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 
 export class AddCategoryController implements Controller {
   constructor (

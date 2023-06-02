@@ -1,4 +1,4 @@
-import { MissingParamError, ServerError } from '@/presentation/errors'
+import { MissingParamError } from '@/presentation/errors'
 import { badRequest, serverError, ok, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { LoginController } from '@/presentation/controllers/login/login-controller'
 import { Authentication, Validation } from '@/presentation/controllers/login/login-controller-protocols'
@@ -61,12 +61,14 @@ describe('SignUP Controller', () => {
 
   test('Should return 500 if Authentication throws', async () => {
     const { sut, authStub } = makeSut()
-    jest.spyOn(authStub, 'auth').mockReturnValueOnce(
-      new Promise((resolve, reject) => { reject(new Error()) })
-    )
+
+    const fakeError = new Error('fake error')
+    jest.spyOn(authStub, 'auth').mockImplementationOnce(() => {
+      throw fakeError
+    })
 
     const httpResponse = await sut.handle(makeFakerRequest())
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(serverError(fakeError))
   })
 
   test('Should return 200 if valid credentials are provided', async () => {

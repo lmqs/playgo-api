@@ -1,6 +1,6 @@
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { AddSport, Controller, HttpResponse, Validation } from '.'
-import { ParamInUseError } from '@/presentation/errors'
+import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 
 export class AddSportController implements Controller {
   constructor (

@@ -1,5 +1,5 @@
 import { AddAccount, Validation, Authentication } from '@/presentation/controllers/signup/signup-controller-protocols'
-import { MissingParamError, ServerError, EmailInUseError } from '@/presentation/errors'
+import { MissingParamError, EmailInUseError } from '@/presentation/errors'
 import { SignUpController } from '@/presentation/controllers/signup/signup-controller'
 import { ok, badRequest, serverError, forbidden } from '@/presentation/helpers/http/http-helper'
 import { mockAccountModel } from '@/tests/domain/mocks'
@@ -76,11 +76,11 @@ describe('SignUP Controller', () => {
   test('Should return 500 if AddAccount throws', async () => {
     const { sut, addAccountStub } = makeSut()
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
-      throw new Error()
+      throw new Error('fake error')
     })
 
     const httpResponse = await sut.handle(makeFakerRequest())
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(serverError(new Error('fake error')))
   })
 
   test('Should return 200 if valid data is provider', async () => {
@@ -116,10 +116,10 @@ describe('SignUP Controller', () => {
   test('Should return 500 if Authentication throws', async () => {
     const { sut, authStub } = makeSut()
     jest.spyOn(authStub, 'auth').mockReturnValueOnce(
-      new Promise((resolve, reject) => { reject(new Error()) })
+      new Promise((resolve, reject) => { reject(new Error('fake error')) })
     )
     const httpResponse = await sut.handle(makeFakerRequest())
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(serverError(new Error('fake error')))
   })
 
   test('Should return 403 if addAccount returns custom error', async () => {

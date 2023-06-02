@@ -1,9 +1,10 @@
-import { MissingParamError, ParamInUseError, ServerError } from '@/presentation/errors'
+import { MissingParamError } from '@/presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { AddCategoryController } from '@/presentation/controllers/category/add-category-controller'
 import { Validation, AddCategory } from '@/presentation/controllers/category'
 import { mockAddCategoryStub } from '@/tests/presentation/mocks/mock-account'
 import { mockValidationStub } from '@/tests/presentation/mocks/mock-validation'
+import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 
 const makeFakerRequest = (): AddCategoryController.Request => ({
   description: 'valid_user',
@@ -63,7 +64,7 @@ describe('Category Controller', () => {
     })
 
     const httpResponse = await sut.handle(makeFakerRequest())
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should return 403 if addCategory returns null', async () => {

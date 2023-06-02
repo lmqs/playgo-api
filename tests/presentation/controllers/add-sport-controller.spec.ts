@@ -1,10 +1,11 @@
-import { MissingParamError, ParamInUseError, ServerError } from '@/presentation/errors'
+import { MissingParamError } from '@/presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { Validation } from '@/presentation/controllers/category'
 import { mockAddSportStub } from '@/tests/presentation/mocks/mock-sport'
 import { mockValidationStub } from '@/tests/presentation/mocks/mock-validation'
 import { AddSportController } from '@/presentation/controllers/sport/add-sport-controller'
 import { AddSport } from './sport'
+import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 
 const mockRequest = (): AddSportController.Request => ({
   description: 'any_description'
@@ -60,7 +61,7 @@ describe('Sport Controller', () => {
     })
 
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(serverError(new ServerError()))
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should return 403 if addSport returns null', async () => {
