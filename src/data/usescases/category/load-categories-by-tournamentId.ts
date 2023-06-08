@@ -8,8 +8,6 @@ export class DbLoadCategories implements LoadCategoriesByTournamentId {
 
   async load (tournamentId: string): Promise<LoadCategoriesByTournamentId.Result | undefined> {
     const categories = await this.loadCategoryByTournamentIdRepository.loadByTournamentId(tournamentId)
-    if (categories?.length) {
-      return categories
-    }
+    if (categories?.length) return categories
   }
 }

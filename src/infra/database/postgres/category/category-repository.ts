@@ -1,9 +1,11 @@
 import { AddCategoryRepository, LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository } from '@/data/protocols/db/category'
+import { RemoveCategoryRepository } from '@/data/protocols/db/category/remove-category-repository'
 import { BaseRepository } from '@/infra/database/postgres/base-repository'
 import { AddCategory } from '@/presentation/controllers/category'
 
 export class CategoryPostgresRepository extends BaseRepository<AddCategory.Params, AddCategory.Result>
-  implements AddCategoryRepository, LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository {
+  implements AddCategoryRepository, LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository,
+  RemoveCategoryRepository {
   constructor (
     public readonly tableName: string = 'categories'
   ) {
@@ -23,5 +25,9 @@ export class CategoryPostgresRepository extends BaseRepository<AddCategory.Param
   async loadByTournamentId (tournamentId: string): Promise<LoadCategoryByTournamentIdRepository.Result | undefined> {
     const categories = await this.findGeneric({ tournamentId })
     return categories
+  }
+
+  async remove (id: string): Promise<void> {
+    await this.delete(id)
   }
 }
