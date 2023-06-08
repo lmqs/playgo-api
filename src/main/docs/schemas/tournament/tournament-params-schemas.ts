@@ -10,15 +10,32 @@ export const tournamentParamsSchema = {
     sportId: {
       type: 'string'
     },
-    dtTournament: {
+    dtStartTournament: {
       type: 'string'
     },
-    registrationStartDate: {
+    dtFinalTournament: {
       type: 'string'
     },
-    registrationFinalDate: {
+    dtStartRegistration: {
+      type: 'string'
+    },
+    dtFinalRegistration: {
+      type: 'string'
+    },
+    otherInformation: {
+      type: 'string'
+    },
+    organization: {
       type: 'string'
     }
   },
-  required: ['description', 'cityId', 'sportId', 'dtTournament', 'registrationStartDate', 'registrationFinalDate']
+  required: [
+    'description',
+    'cityId',
+    'sportId',
+    'dtStartTournament',
+    'dtFinalTournament',
+    'dtStartRegistration',
+    'dtFinalRegistration'
+  ]
 }
