@@ -1,30 +1,31 @@
-import { AddCategoryRepository, LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository } from '@/data/protocols/db/category'
-import { RemoveCategoryRepository } from '@/data/protocols/db/category/remove-category-repository'
+import { InputDbCategoryModel, OutputDbCategoryModel, dbModelToDataModelMap } from '@/data/models/db-category'
+import { ICategoryRepository, dataModelToDbModelMap } from '@/data/protocols/db'
 import { BaseRepository } from '@/infra/database/postgres/base-repository'
-import { AddCategory } from '@/presentation/controllers/category'
-
-export class CategoryPostgresRepository extends BaseRepository<AddCategory.Params, AddCategory.Result>
-  implements AddCategoryRepository, LoadCategoryByDescriptionAndIdRepository, LoadCategoryByTournamentIdRepository,
-  RemoveCategoryRepository {
+export class CategoryPostgresRepository extends BaseRepository<InputDbCategoryModel, OutputDbCategoryModel>
+  implements ICategoryRepository {
   constructor (
     public readonly tableName: string = 'categories'
   ) {
     super(tableName)
   }
 
-  async add (categoryData: AddCategory.Params): Promise<AddCategory.Result> {
-    const result = await this.create(categoryData)
-    return result
+  async add (categoryData: ICategoryRepository.AddParams): Promise<ICategoryRepository.AddResult> {
+    const result = await this.create(dataModelToDbModelMap(categoryData))
+    return dbModelToDataModelMap(result)
   }
 
-  async loadByDescriptionAndId (description: string, id: string): Promise<LoadCategoryByDescriptionAndIdRepository.Result | undefined> {
+  async loadByDescriptionAndId (description: string, id: string): Promise<ICategoryRepository.LoadResult | undefined> {
     const categories = await this.findGeneric({ description, tournamentId: id })
-    return categories
+    return categories.map((category) => {
+      return dbModelToDataModelMap(category)
+    })
   }
 
-  async loadByTournamentId (tournamentId: string): Promise<LoadCategoryByTournamentIdRepository.Result | undefined> {
+  async loadByTournamentId (tournamentId: string): Promise<ICategoryRepository.LoadResult | undefined> {
     const categories = await this.findGeneric({ tournamentId })
-    return categories
+    return categories.map((category) => {
+      return dbModelToDataModelMap(category)
+    })
   }
 
   async remove (id: string): Promise<void> {
