@@ -1,9 +1,10 @@
+import { ILoadCategoriesByTournamentId } from '@/domain/usecases/category/load-categories-by-tournamentId'
 import { badRequest, serverError, ok, noContent } from '@/presentation/helpers/http/http-helper'
-import { LoadCategoriesByTournamentId, Controller, HttpResponse, Validation } from '@/presentation/controllers/category'
+import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 export class LoadCategoriesByTournamentIdController implements Controller {
   constructor (
     private readonly validation: Validation,
-    private readonly loadCategoriesByTournamentId: LoadCategoriesByTournamentId
+    private readonly loadCategoriesByTournamentId: ILoadCategoriesByTournamentId
   ) {}
 
   async handle (httpRequest: LoadCategoriesByTournamentIdController.Request): Promise<HttpResponse> {

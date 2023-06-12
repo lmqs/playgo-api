@@ -1,9 +1,9 @@
 import { CategoryModel } from '../../models/category'
 
-export interface LoadCategoriesByTournamentId {
-  load: (tournamentId: string) => Promise<LoadCategoriesByTournamentId.Result | undefined>
+export interface ILoadCategoriesByTournamentId {
+  load: (tournamentId: string) => Promise<ILoadCategoriesByTournamentId.Result | undefined>
 }
 
-export namespace LoadCategoriesByTournamentId {
+export namespace ILoadCategoriesByTournamentId {
   export type Result = CategoryModel[]
 }

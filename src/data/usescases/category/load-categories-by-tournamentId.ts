@@ -1,13 +1,13 @@
-import { LoadCategoriesByTournamentId } from '@/domain/usecases/category/load-categories-by-tournamentId'
-import { LoadCategoryByTournamentIdRepository } from '@/data/protocols/db/category/load-categories-by-tournamentId-repository'
+import { ICategoryRepository } from '@/data/protocols/db'
+import { ILoadCategoriesByTournamentId } from '@/domain/usecases/category/load-categories-by-tournamentId'
 
-export class DbLoadCategories implements LoadCategoriesByTournamentId {
+export class DbLoadCategoriesUseCase implements ILoadCategoriesByTournamentId {
   constructor (
-    private readonly loadCategoryByTournamentIdRepository: LoadCategoryByTournamentIdRepository
+    private readonly loadCategoryByTournamentIdRepository: ICategoryRepository
   ) {}
 
-  async load (tournamentId: string): Promise<LoadCategoriesByTournamentId.Result | undefined> {
+  async load (tournamentId: string): Promise<ILoadCategoriesByTournamentId.Result> {
     const categories = await this.loadCategoryByTournamentIdRepository.loadByTournamentId(tournamentId)
-    if (categories?.length) return categories
+    return categories
   }
 }

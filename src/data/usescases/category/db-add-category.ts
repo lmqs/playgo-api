@@ -1,20 +1,21 @@
-import { LoadCategoryByDescriptionAndIdRepository } from '@/data/protocols/db/category/load-category-by-description-and-id-repository'
-import { AddCategoryRepository } from '@/data/protocols/db/category'
 import { CONSTANTS } from '@/helpers/enumHelper'
-import { AddCategory } from '@/presentation/controllers/category'
+import { ICategoryRepository } from '@/data/protocols/db'
+import { IAddCategory } from '@/domain/usecases/category/add-category'
+import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 
-export class DbAddCategory implements AddCategory {
+export class AddCategoryUseCase implements IAddCategory {
   constructor (
-    private readonly loadCategoryByDescriptionAndIdRepository: LoadCategoryByDescriptionAndIdRepository,
-    private readonly addCategoryRepository: AddCategoryRepository
+    private readonly loadCategoryByDescriptionAndIdRepository: ICategoryRepository,
+    private readonly addCategoryRepository: ICategoryRepository
   ) {}
 
-  async add (categoryData: AddCategory.Params): Promise<AddCategory.Result | undefined> {
-    const isDescriptValid = await this.loadCategoryByDescriptionAndIdRepository.loadByDescriptionAndId(categoryData.description, categoryData.tournamentId)
-    categoryData.numberAthletes = !categoryData.numberAthletes ? CONSTANTS.category.numberAthletesDefault : categoryData.numberAthletes
-    if (!isDescriptValid?.length) {
-      const category = await this.addCategoryRepository.add(categoryData)
-      return category
+  async add (categoryData: IAddCategory.Params): Promise<IAddCategory.Result> {
+    const isDescriptionValid = await this.loadCategoryByDescriptionAndIdRepository.loadByDescriptionAndId(categoryData.description, categoryData.tournamentId)
+    if (isDescriptionValid?.length) {
+      throw new ParamInUseError('description')
     }
+    categoryData.numberAthletes = categoryData.numberAthletes ?? CONSTANTS.category.numberAthletesDefault
+    const category = await this.addCategoryRepository.add(categoryData)
+    return category
   }
 }

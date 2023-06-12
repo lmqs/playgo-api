@@ -1,16 +1,10 @@
-import { CategoryModel } from '../../../domain/models/category'
+import { CategoryModel } from '@/domain/models/category'
 
-export type AddCategoryParams = {
-  description: string
-  tournamentId: string
-  numberAthletes?: string
+export interface IAddCategory {
+  add: (category: IAddCategory.Params) => Promise<IAddCategory.Result>
 }
 
-export interface AddCategory {
-  add: (category: AddCategory.Params) => Promise<AddCategory.Result | undefined>
-}
-
-export namespace AddCategory {
+export namespace IAddCategory {
   export type Params = {
     description: string
     tournamentId: string

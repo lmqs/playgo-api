@@ -14,14 +14,14 @@ export class CategoryPostgresRepository extends BaseRepository<InputDbCategoryMo
     return dbModelToDataModelMap(result)
   }
 
-  async loadByDescriptionAndId (description: string, id: string): Promise<ICategoryRepository.LoadResult | undefined> {
-    const categories = await this.findGeneric({ description, tournamentId: id })
+  async loadByDescriptionAndId (description: string, id: string): Promise<ICategoryRepository.LoadResult> {
+    const categories = await this.findGeneric({ description, tournament_id: id })
     return categories.map((category) => {
       return dbModelToDataModelMap(category)
     })
   }
 
-  async loadByTournamentId (tournamentId: string): Promise<ICategoryRepository.LoadResult | undefined> {
+  async loadByTournamentId (tournamentId: string): Promise<ICategoryRepository.LoadResult> {
     const categories = await this.findGeneric({ tournamentId })
     return categories.map((category) => {
       return dbModelToDataModelMap(category)

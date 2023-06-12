@@ -1,4 +1,3 @@
-export * from '@/presentation/protocols'
-export * from '@/domain/models/category'
-export * from '@/domain/usecases/category/load-categories-by-tournamentId'
-export * from '@/domain/usecases/category/add-category'
+export * from './add-category-controller'
+export * from './load-category-by-tournamentId-controller'
+export * from './remove-category-controller'

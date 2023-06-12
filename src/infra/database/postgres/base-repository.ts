@@ -55,13 +55,12 @@ export abstract class BaseRepository<T, U> implements Reader<U>, Writer<T, U> {
     return result[0]
   }
 
-  async delete (id: string): Promise<U> {
+  async delete (id: string): Promise<void> {
     const query = this.knex(this.tableName)
-      .where(id, 'id')
-      .delete
+      .where('id', id)
+      .del()
       .toString()
-    const result = await this.runSql(query)
-    return result[0]
+    await this.runSql(query)
   }
 
   async runSql (query: string): Promise<any> {

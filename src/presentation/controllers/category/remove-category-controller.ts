@@ -1,6 +1,6 @@
 import { badRequest, serverError, noContent } from '@/presentation/helpers/http/http-helper'
 import { IRemoveCategory } from '@/domain/usecases/category/remove-category'
-import { Controller, HttpResponse, Validation } from '.'
+import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 
 export class RemoveCategoryController implements Controller {
   constructor (

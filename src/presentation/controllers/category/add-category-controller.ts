@@ -1,12 +1,12 @@
-import { AddCategory } from '@/domain/usecases/category/add-category'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpResponse, Validation } from '.'
 import { ParamInUseError } from '@/domain/errors/param-in-use-error'
+import { IAddCategory } from '@/domain/usecases/category/add-category'
+import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 
 export class AddCategoryController implements Controller {
   constructor (
     private readonly validation: Validation,
-    private readonly addCategory: AddCategory
+    private readonly addCategory: IAddCategory
   ) {}
 
   async handle (request: AddCategoryController.Request): Promise<HttpResponse> {
@@ -17,11 +17,12 @@ export class AddCategoryController implements Controller {
       }
       const { description, tournamentId, numberAthletes } = request
       const category = await this.addCategory.add({ description, tournamentId, numberAthletes })
-      if (!category) {
-        return forbidden(new ParamInUseError('description'))
-      }
+
       return ok(category)
     } catch (error: unknown) {
+      if (error instanceof ParamInUseError) {
+        return forbidden(error)
+      }
       return serverError(error as Error)
     }
   }

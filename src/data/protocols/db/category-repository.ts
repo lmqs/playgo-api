@@ -2,8 +2,8 @@ import { CategoryModel } from '@/domain/models/category'
 
 export interface ICategoryRepository {
   add: (category: ICategoryRepository.AddParams) => Promise<ICategoryRepository.AddResult>
-  loadByDescriptionAndId: (description: string, id: string) => Promise<ICategoryRepository.LoadResult | undefined>
-  loadByTournamentId: (tournamentId: string) => Promise<ICategoryRepository.LoadResult | undefined>
+  loadByDescriptionAndId: (description: string, id: string) => Promise<ICategoryRepository.LoadResult>
+  loadByTournamentId: (tournamentId: string) => Promise<ICategoryRepository.LoadResult>
   remove: (id: string) => Promise<void>
 }
 

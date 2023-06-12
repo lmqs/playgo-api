@@ -1,59 +1,48 @@
-import { LoadCategoryByDescriptionAndIdRepository } from '../../protocols/db/category/load-category-by-description-and-id-repository'
-import { DbAddCategory } from '@/data/usescases/category/db-add-category'
-import { AddCategory } from '@/presentation/controllers/category'
-import { AddCategoryRepository } from '@/data/protocols/db/category'
-import { mockAddCategoryModel, mockCategoryModel } from '@/../tests/domain/mocks/mock-category'
-import { mockAddCategoryRepository } from '@/tests/data/mocks/mock-db-category'
-
-type SutTypes = {
-  sut: AddCategory
-  addCategoryRepositoryStub: AddCategoryRepository
-  loadCategoryByDescriptionAndIdRepositoryStub: LoadCategoryByDescriptionAndIdRepository
-}
-
-const makeLoadTournamentByDescriptionAndIdRepository = (): LoadCategoryByDescriptionAndIdRepository => {
-  class LoadCategoryByDescriptionAndIdRepositoryStub implements LoadCategoryByDescriptionAndIdRepository {
-    async loadByDescriptionAndId (description: string, id: string): Promise<LoadCategoryByDescriptionAndIdRepository.Result | undefined> {
-      return undefined
-    }
-  }
-  return new LoadCategoryByDescriptionAndIdRepositoryStub()
-}
-
-const makeSut = (): SutTypes => {
-  const addCategoryRepositoryStub = mockAddCategoryRepository()
-  const loadCategoryByDescriptionAndIdRepositoryStub = makeLoadTournamentByDescriptionAndIdRepository()
-  const sut = new DbAddCategory(loadCategoryByDescriptionAndIdRepositoryStub, addCategoryRepositoryStub)
-  return {
-    sut,
-    loadCategoryByDescriptionAndIdRepositoryStub,
-    addCategoryRepositoryStub
-  }
-}
+import { ICategoryRepository } from '@/data/protocols/db'
+import { AddCategoryUseCase } from '@/data/usescases/category'
+import { CategoryPostgresRepository } from '@/infra/database/postgres/category/category-repository'
+import { addCategoryModelMock, categoryModelMock } from './category-mock'
+import { ParamInUseError } from '@/domain/errors/param-in-use-error'
+jest.mock('@/infra/database/postgres/category/category-repository')
 
 describe('DbAddCategory UseCase', () => {
+  let categoryRepo: ICategoryRepository
+
+  beforeEach(async () => {
+    categoryRepo = new CategoryPostgresRepository()
+  })
+
   test('Should call LoadCategoryByTournamentIdRepository with correct values', async () => {
-    const { sut, loadCategoryByDescriptionAndIdRepositoryStub } = makeSut()
-    const addSpy = jest.spyOn(loadCategoryByDescriptionAndIdRepositoryStub, 'loadByDescriptionAndId')
+    const loadSpy = jest.spyOn(categoryRepo, 'loadByDescriptionAndId')
 
-    await sut.add(mockAddCategoryModel())
-    expect(addSpy).toHaveBeenCalledWith('valid_description', 'valid_tournamentId')
+    const addCategoryUseCase = new AddCategoryUseCase(categoryRepo, categoryRepo)
+
+    await addCategoryUseCase.add(addCategoryModelMock)
+    expect(loadSpy).toHaveBeenCalledWith('valid_description', 'valid_tournamentId')
   })
 
-  test('Should return undefined if LoadCategoryByDescriptionAndIdRepository not return empty', async () => {
-    const { sut, loadCategoryByDescriptionAndIdRepositoryStub } = makeSut()
-    jest.spyOn(loadCategoryByDescriptionAndIdRepositoryStub, 'loadByDescriptionAndId').mockReturnValueOnce(new Promise(resolve => { resolve([mockCategoryModel(), mockCategoryModel()]) }))
-    const accessToken = await sut.add(mockAddCategoryModel())
+  test('Should throw ParamInUseError if LoadCategoryByDescriptionAndIdRepository not return empty', async () => {
+    const addCategoryUseCase = new AddCategoryUseCase(categoryRepo, categoryRepo)
 
-    expect(accessToken).toBeUndefined()
+    jest.spyOn(categoryRepo, 'loadByDescriptionAndId').mockReturnValueOnce(Promise.resolve([categoryModelMock, categoryModelMock]))
+    const promise = addCategoryUseCase.add(addCategoryModelMock)
+    await expect(promise).rejects.toThrow(new ParamInUseError('description'))
   })
 
-  test('Should call AddCategoryRepository with correct values', async () => {
-    const { sut, addCategoryRepositoryStub } = makeSut()
-    const addSpy = jest.spyOn(addCategoryRepositoryStub, 'add')
+  test('Should return an category on Success', async () => {
+    jest.spyOn(categoryRepo, 'add').mockResolvedValueOnce(categoryModelMock)
+    jest.spyOn(categoryRepo, 'loadByDescriptionAndId').mockResolvedValueOnce([])
 
-    await sut.add(mockAddCategoryModel())
-    expect(addSpy).toHaveBeenCalledWith({
+    const addCategoryUseCase = new AddCategoryUseCase(categoryRepo, categoryRepo)
+    const category = await addCategoryUseCase.add(addCategoryModelMock)
+
+    expect(category).toEqual({
+      id: 'valid_id',
+      description: 'valid_description',
+      tournamentId: 'valid_tournamentId',
+      numberAthletes: 'valid_numberAthletes'
+    })
+    expect(categoryRepo.add).toHaveBeenCalledWith({
       description: 'valid_description',
       tournamentId: 'valid_tournamentId',
       numberAthletes: 'valid_numberAthletes'
@@ -61,17 +50,10 @@ describe('DbAddCategory UseCase', () => {
   })
 
   test('Should throw if AddAccountRepository throws', async () => {
-    const { sut, addCategoryRepositoryStub } = makeSut()
-    jest.spyOn(addCategoryRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
+    const addCategoryUseCase = new AddCategoryUseCase(categoryRepo, categoryRepo)
+    jest.spyOn(categoryRepo, 'add').mockReturnValueOnce(Promise.reject(new Error()))
 
-    const promise = sut.add(mockAddCategoryModel())
+    const promise = addCategoryUseCase.add(addCategoryModelMock)
     await expect(promise).rejects.toThrow()
-  })
-
-  test('Should return an category on Sucess', async () => {
-    const { sut } = makeSut()
-
-    const account = await sut.add(mockAddCategoryModel())
-    expect(account).toEqual(mockCategoryModel())
   })
 })

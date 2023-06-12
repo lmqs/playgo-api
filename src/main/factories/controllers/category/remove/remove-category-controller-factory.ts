@@ -6,7 +6,7 @@ import { makeDbRemoveCategory } from '@/main/factories/usecases/category/db-remo
 import { RemoveCategoryController } from '@/presentation/controllers/category/remove-category-controller'
 
 export const makeRemoveCategoryController = (): Controller => {
-  const addCategoryController = new RemoveCategoryController(makeRemoveCategoryValidation(), makeDbRemoveCategory())
+  const removeCategoryController = new RemoveCategoryController(makeRemoveCategoryValidation(), makeDbRemoveCategory())
   const logPostgresRepository = new LogPostgresRepository()
-  return new LogControllerDecorator(addCategoryController, logPostgresRepository)
+  return new LogControllerDecorator(removeCategoryController, logPostgresRepository)
 }
