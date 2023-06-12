@@ -1,0 +1,14 @@
+build
+node_modules/
+coverage/
+.husky/
+package.json
+package-lock.json
+.eslintrc.json
+.prettierrc.json
+tsconfig.json
+README.md
+CHANGELOG.md
+docker-compose.yml
+.env
+jest.config.js
