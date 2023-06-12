@@ -80,7 +80,7 @@ describe('DbAddAccount UseCase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return an account on Sucess', async () => {
+  test('Should return an account on Success', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
     jest.spyOn(RabbitmqService.getInstance(), 'publishInExchange').mockReturnValue(new Promise(resolve => { resolve(true) }))

@@ -1,8 +1,10 @@
-import { AddAccount, Validation, Authentication } from '@/presentation/controllers/signup/signup-controller-protocols'
+import { Authentication } from '@/domain/usecases/authentication/authentication'
+import { AddAccount } from '@/domain/usecases/account/add-account'
 import { MissingParamError, EmailInUseError } from '@/presentation/errors'
 import { SignUpController } from '@/presentation/controllers/signup/signup-controller'
 import { ok, badRequest, serverError, forbidden } from '@/presentation/helpers/http/http-helper'
 import { mockAccountModel } from '@/tests/domain/mocks'
+import { Validation } from '@/presentation/protocols'
 
 const makeFakerRequest = (): SignUpController.Request => ({
   name: 'valid_name',
