@@ -1,12 +1,12 @@
-import { LoadCitiesRepository } from '@/data/protocols/db/city'
-import { LoadCities } from '@/domain/usecases/city/load-cities'
+import { ICityRepository } from '@/data/protocols/db/city-repository'
+import { ILoadAllCities } from '@/domain/usecases/city/load-cities'
 
-export class DbLoadCities implements LoadCities {
+export class DbLoadCitiesUseCase implements ILoadAllCities {
   constructor (
-    private readonly loadCitiesRepository: LoadCitiesRepository
+    private readonly loadCitiesRepository: ICityRepository
   ) {}
 
-  async load (): Promise<LoadCitiesRepository.Result | undefined> {
+  async load (): Promise<ILoadAllCities.Result | undefined> {
     return await this.loadCitiesRepository.loadAll()
   }
 }

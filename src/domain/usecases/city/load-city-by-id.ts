@@ -1,9 +1,9 @@
 import { CityModel } from '@/domain/models/city'
 
-export interface LoadCityById {
-  load: (id: string) => Promise<LoadCityById.Result | undefined>
+export interface ILoadCityById {
+  load: (id: string) => Promise<ILoadCityById.Result | undefined>
 }
 
-export namespace LoadCityById {
+export namespace ILoadCityById {
   export type Result = CityModel
 }

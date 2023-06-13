@@ -1,9 +1,9 @@
 import { CityModel } from '@/domain/models/city'
 
-export interface LoadCities {
-  load: () => Promise<LoadCities.Result | undefined>
+export interface ILoadAllCities {
+  load: () => Promise<ILoadAllCities.Result | undefined>
 }
 
-export namespace LoadCities {
+export namespace ILoadAllCities {
   export type Result = CityModel[]
 }
