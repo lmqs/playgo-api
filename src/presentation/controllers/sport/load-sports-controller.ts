@@ -1,5 +1,6 @@
 import { serverError, ok, noContent } from '@/presentation/helpers/http/http-helper'
-import { LoadSports, Controller, HttpResponse } from '.'
+import { Controller, HttpResponse } from '@/presentation/protocols'
+import { LoadSports } from '.'
 
 export class LoadSportsController implements Controller {
   constructor (

@@ -44,7 +44,7 @@ describe('DbLoadTournaments UseCase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return a tournament list on sucess', async () => {
+  test('Should return a tournament list on success', async () => {
     const { sut } = makeSut()
 
     const tournaments = await sut.load()
