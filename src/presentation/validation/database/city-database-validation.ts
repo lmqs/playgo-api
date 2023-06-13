@@ -1,10 +1,10 @@
-import { LoadCityById } from '@/domain/usecases/city/load-city-by-id'
+import { ILoadCityById } from '@/domain/usecases/city/load-city-by-id'
 import { InvalidParamError } from '@/presentation/errors'
 import { Validation } from '@/presentation/protocols'
 
 export class CityDatabaseValidation implements Validation {
   constructor (
-    private readonly loadCityById: LoadCityById,
+    private readonly loadCityById: ILoadCityById,
     private readonly fieldName: string
   ) {}
 
