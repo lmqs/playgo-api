@@ -22,7 +22,11 @@ describe('DbLoadCategories UseCase', () => {
 
   test('Should return empty array if LoadCategoryByTournamentIdRepository return empty', async () => {
     const loadCategoriesUseCase = new DbLoadCategoriesUseCase(categoryRepo)
-    jest.spyOn(categoryRepo, 'loadByTournamentId').mockReturnValueOnce(new Promise(resolve => { resolve([]) }))
+    jest.spyOn(categoryRepo, 'loadByTournamentId').mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolve([])
+      })
+    )
     const categories = await loadCategoriesUseCase.load('valid_tournamentId')
 
     expect(categories).toStrictEqual([])

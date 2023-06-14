@@ -1,5 +1,6 @@
 import { CategoryModel } from '@/domain/models/category'
 import { AddCategoryController, LoadCategoriesByTournamentIdController, RemoveCategoryController } from '.'
+import { UpdateCategoryController } from './update-category-controller'
 
 export const requestCategoryMock: AddCategoryController.Request = {
   description: 'valid_user',
@@ -20,4 +21,11 @@ export const requestCategoryLoadByTournamentMock: LoadCategoriesByTournamentIdCo
 
 export const requestRemoveCategoryMock: RemoveCategoryController.Request = {
   id: 'valid_id'
+}
+
+export const requestUpdateCategoryMock: UpdateCategoryController.Request = {
+  id: 'valid_id',
+  description: 'valid_description',
+  tournamentId: 'valid_tournamentId',
+  numberAthletes: 'valid_numberAthletes'
 }

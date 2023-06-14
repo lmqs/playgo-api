@@ -1,5 +1,5 @@
 import { CategoryPostgresRepository } from '@/infra/database/postgres/category/category-repository'
-import { categoryDbModelMock, categoryModelMock } from './category-repository-mock'
+import { categoryDataModelMock, categoryDbModelMock, categoryModelMock } from './category-repository-mock'
 
 type SutTypes = {
   sut: CategoryPostgresRepository
@@ -14,7 +14,7 @@ const makeSut = (): SutTypes => {
 
 describe('Category Postgres Repository', () => {
   describe('add()', () => {
-    test('Should return an Category on add success', async () => {
+    test('Should return a category on add success', async () => {
       const { sut } = makeSut()
       sut.create = jest.fn().mockReturnValue(categoryDbModelMock)
 
@@ -40,7 +40,7 @@ describe('Category Postgres Repository', () => {
   })
 
   describe('loadByTournamentId()', () => {
-    test('Should return an categories list on loadByTournamentId success', async () => {
+    test('Should return a categories list on loadByTournamentId success', async () => {
       const { sut } = makeSut()
       sut.findGeneric = jest.fn().mockReturnValue([categoryDbModelMock, categoryDbModelMock])
 
@@ -84,7 +84,7 @@ describe('Category Postgres Repository', () => {
   })
 
   describe('loadByDescriptionAndId()', () => {
-    test('Should return an categories list on loadByDescriptionAndId success ', async () => {
+    test('Should return a categories list on loadByDescriptionAndId success ', async () => {
       const { sut } = makeSut()
       sut.findGeneric = jest.fn().mockReturnValue([categoryDbModelMock, categoryDbModelMock])
 
@@ -140,6 +140,32 @@ describe('Category Postgres Repository', () => {
         throw new Error()
       })
       const promise = sut.remove('valid_id')
+      await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('update()', () => {
+    test('Should return a category on update success', async () => {
+      const { sut } = makeSut()
+      sut.update = jest.fn().mockReturnValue(categoryDbModelMock)
+
+      const category = await sut.updateData(categoryDataModelMock)
+
+      expect(category).toEqual({
+        id: 'valid_id',
+        description: 'valid_description',
+        tournamentId: 'valid_tournamentId',
+        numberAthletes: 'valid_athletes',
+        deleted: false
+      })
+    })
+
+    test('Should rethrow if create fails', async () => {
+      const { sut } = makeSut()
+      sut.create = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.add(categoryModelMock)
       await expect(promise).rejects.toThrow()
     })
   })

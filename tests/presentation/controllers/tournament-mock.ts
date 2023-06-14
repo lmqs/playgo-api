@@ -1,6 +1,6 @@
 import { AddTournamentController } from './tournament'
 
-export const requestAddTournamentControllerMock: AddTournamentController.Request = ({
+export const requestAddTournamentControllerMock: AddTournamentController.Request = {
   description: 'valid_description',
   organization: 'organization',
   cityId: 'valid_city',
@@ -10,7 +10,7 @@ export const requestAddTournamentControllerMock: AddTournamentController.Request
   dtStartRegistration: '25/05/2023',
   dtFinalRegistration: '25/05/2023',
   otherInformation: 'any_information'
-})
+}
 
 export const tournamentObjectDefaultMock = {
   id: 'valid_id',

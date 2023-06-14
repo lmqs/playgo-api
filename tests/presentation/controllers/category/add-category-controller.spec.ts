@@ -37,9 +37,7 @@ describe('AddCategory Controller', () => {
   test('Should return 400 if Validation returns an error', async () => {
     const addCategoryController = new AddCategoryController(addCategoryValidation, addCategoryUseCase)
 
-    jest.spyOn(addCategoryValidation, 'validate').mockReturnValueOnce(
-      Promise.resolve(new MissingParamError('any_filed'))
-    )
+    jest.spyOn(addCategoryValidation, 'validate').mockReturnValueOnce(Promise.resolve(new MissingParamError('any_filed')))
     const httpResponse = await addCategoryController.handle(requestCategoryMock)
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_filed')))
   })
@@ -80,11 +78,13 @@ describe('AddCategory Controller', () => {
 
     const addCategoryController = new AddCategoryController(addCategoryValidation, addCategoryUseCase)
     const httpResponse = await addCategoryController.handle(requestCategoryMock)
-    expect(httpResponse).toEqual(ok({
-      id: 'valid_id',
-      description: 'valid_description',
-      tournamentId: 'valid_tournamentId',
-      numberAthletes: 'valid_numberAthletes'
-    }))
+    expect(httpResponse).toEqual(
+      ok({
+        id: 'valid_id',
+        description: 'valid_description',
+        tournamentId: 'valid_tournamentId',
+        numberAthletes: 'valid_numberAthletes'
+      })
+    )
   })
 })
