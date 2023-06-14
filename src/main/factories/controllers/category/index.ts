@@ -4,3 +4,5 @@ export * from './load-category/load-categories-by-tournamentId-controller-factor
 export * from './load-category/load-categories-by-tournamentId-validation-factory'
 export * from './remove/remove-category-controller-factory'
 export * from './remove/remove-category-validation-factory'
+export * from './update-category/update-category-controller-factory'
+export * from './update-category/update-category-validation-factory'

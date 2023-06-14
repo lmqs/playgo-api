@@ -1,4 +1,4 @@
-import { CategoryModel } from '../../models/category'
+import { CategoryModel } from '@/domain/models/category'
 
 export interface ILoadCategoriesByTournamentId {
   load: (tournamentId: string) => Promise<ILoadCategoriesByTournamentId.Result | undefined>
