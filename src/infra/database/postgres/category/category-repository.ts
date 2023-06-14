@@ -22,7 +22,7 @@ export class CategoryPostgresRepository extends BaseRepository<InputDbCategoryMo
   }
 
   async loadByTournamentId (tournamentId: string): Promise<ICategoryRepository.LoadResult> {
-    const categories = await this.findGeneric({ tournamentId })
+    const categories = await this.findGeneric({ tournament_id: tournamentId })
     return categories.map((category) => {
       return dbModelToDataModelMap(category)
     })

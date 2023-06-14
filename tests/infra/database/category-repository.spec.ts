@@ -45,6 +45,7 @@ describe('Category Postgres Repository', () => {
       sut.findGeneric = jest.fn().mockReturnValue([categoryDbModelMock, categoryDbModelMock])
 
       const category = await sut.loadByTournamentId('valid_tournamentId')
+      expect(sut.findGeneric).toBeCalledWith({ tournament_id: 'valid_tournamentId' })
       expect(category?.length).toBe(2)
       expect(category).toEqual([
         {
