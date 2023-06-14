@@ -7,8 +7,10 @@ package-lock.json
 .eslintrc.json
 .prettierrc.json
 tsconfig.json
+.lintstagedrc.json
 README.md
 CHANGELOG.md
 docker-compose.yml
 .env
 jest.config.js
+.vscode/

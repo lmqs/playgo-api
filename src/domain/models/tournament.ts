@@ -1,4 +1,3 @@
-
 export type TournamentModel = {
   id: string
   description: string

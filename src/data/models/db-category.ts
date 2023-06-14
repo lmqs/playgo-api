@@ -16,11 +16,13 @@ export type OutputDbCategoryModel = {
 }
 
 export const dbModelToDataModelMap = (dbCategoryModel: OutputDbCategoryModel): CategoryModel => {
-  return dbCategoryModel && {
-    id: dbCategoryModel.id,
-    description: dbCategoryModel.description,
-    tournamentId: dbCategoryModel.tournament_id,
-    numberAthletes: dbCategoryModel.number_athletes,
-    deleted: dbCategoryModel.deleted
-  }
+  return (
+    dbCategoryModel && {
+      id: dbCategoryModel.id,
+      description: dbCategoryModel.description,
+      tournamentId: dbCategoryModel.tournament_id,
+      numberAthletes: dbCategoryModel.number_athletes,
+      deleted: dbCategoryModel.deleted
+    }
+  )
 }

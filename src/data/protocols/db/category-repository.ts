@@ -20,7 +20,6 @@ export namespace ICategoryRepository {
   export type AddResult = CategoryModel
   export type UpdateParams = CategoryModel
   export type UpdateResult = CategoryModel
-
 }
 
 export const dataModelToDbModelMap = (category: ICategoryRepository.AddParams): any => {

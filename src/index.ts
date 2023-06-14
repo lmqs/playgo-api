@@ -2,10 +2,11 @@ import './main/config/module-alias'
 import { PostgresService } from '@/infra/database/postgres/postgres-service'
 import RabbitmqService from '@/infra/queue/rabbitmq-service'
 
-PostgresService.getInstance().connect().then(
-  async () => {
+PostgresService.getInstance()
+  .connect()
+  .then(async () => {
     const { setupApp } = await import('@/main/config/app')
-    const { ENVIRONMENT } = await import ('@/main/config')
+    const { ENVIRONMENT } = await import('@/main/config')
     const app = await setupApp()
 
     app.listen(ENVIRONMENT.server.port, async () => {
@@ -16,5 +17,5 @@ PostgresService.getInstance().connect().then(
       }
       console.log(`Server running at PORT ${ENVIRONMENT.server.port}!`)
     })
-  }
-).catch(console.error)
+  })
+  .catch(console.error)

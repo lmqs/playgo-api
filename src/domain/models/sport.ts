@@ -1,4 +1,3 @@
-
 export type SportModel = {
   id: string
   description: string

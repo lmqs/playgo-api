@@ -31,17 +31,19 @@ export type OutputDbTournamentModel = {
 export const dbModelToDataModelMap = (dbTournamentModel: OutputDbTournamentModel): TournamentModel => {
   const dateClass = new DateHandler()
 
-  return dbTournamentModel && {
-    id: dbTournamentModel.id,
-    description: dbTournamentModel.description,
-    organization: dbTournamentModel.organization,
-    cityId: dbTournamentModel.city_id,
-    sportId: dbTournamentModel.sport_id,
-    dtStartTournament: dateClass.formatDateToString(dbTournamentModel.dt_start_tournament),
-    dtFinalTournament: dateClass.formatDateToString(dbTournamentModel.dt_final_tournament),
-    dtStartRegistration: dateClass.formatDateToString(dbTournamentModel.dt_start_registration),
-    dtFinalRegistration: dateClass.formatDateToString(dbTournamentModel.dt_final_registration),
-    otherInformation: dbTournamentModel?.other_information,
-    deleted: dbTournamentModel.deleted
-  }
+  return (
+    dbTournamentModel && {
+      id: dbTournamentModel.id,
+      description: dbTournamentModel.description,
+      organization: dbTournamentModel.organization,
+      cityId: dbTournamentModel.city_id,
+      sportId: dbTournamentModel.sport_id,
+      dtStartTournament: dateClass.formatDateToString(dbTournamentModel.dt_start_tournament),
+      dtFinalTournament: dateClass.formatDateToString(dbTournamentModel.dt_final_tournament),
+      dtStartRegistration: dateClass.formatDateToString(dbTournamentModel.dt_start_registration),
+      dtFinalRegistration: dateClass.formatDateToString(dbTournamentModel.dt_final_registration),
+      otherInformation: dbTournamentModel?.other_information,
+      deleted: dbTournamentModel.deleted
+    }
+  )
 }
