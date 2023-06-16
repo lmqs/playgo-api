@@ -1,5 +1,6 @@
 export * from './category/load-category-path'
 export * from './category/add-category-path'
+export * from './category/update-category-path'
 export * from './account/login-path'
 export * from './account/signup-path'
 export * from './sport/sport-path'

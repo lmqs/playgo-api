@@ -6,7 +6,10 @@ export const accountSchema = {
     },
     name: {
       type: 'string'
+    },
+    isAdmin: {
+      type: 'boolean'
     }
   },
-  required: ['accessToken', 'name']
+  required: ['accessToken', 'name', 'isAdmin']
 }

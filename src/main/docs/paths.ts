@@ -7,7 +7,8 @@ import {
   loadTournamentPath,
   removeTournamentPath,
   addSportPath,
-  sportPath
+  sportPath,
+  updateCategoryPath
 } from './paths/'
 
 export default {
@@ -15,6 +16,7 @@ export default {
   '/signup': signupPath,
   '/loadCategoriesByTournamentId': loadCategoryPath,
   '/category': addCategoryPath,
+  '/category/{id}': updateCategoryPath,
   '/tournament': addTournamentPath,
   '/tournaments': loadTournamentPath,
   '/tournament/{id}': removeTournamentPath,

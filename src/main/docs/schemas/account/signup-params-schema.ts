@@ -5,7 +5,9 @@ export const signupParamsSchema = {
       type: 'string'
     },
     gender: {
-      type: 'string'
+      type: 'string',
+      example: 'F/M',
+      enum: ['F', 'M']
     },
     password: {
       type: 'string'
@@ -24,7 +26,11 @@ export const signupParamsSchema = {
     },
     photo: {
       type: 'string'
+    },
+    dateBirthday: {
+      type: 'string',
+      example: '20/10/2020'
     }
   },
-  required: ['name', 'gender', 'password', 'email', 'cityId', 'phoneNumber']
+  required: ['name', 'gender', 'password', 'email', 'cityId', 'phoneNumber', 'dateBirthday']
 }
