@@ -1,25 +1,13 @@
 import { MissingParamError } from '@/presentation/errors'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { mockValidationStub } from '../mocks/mock-validation'
-import { mockAddTournament } from '../mocks/mock-tournament'
+import { mockValidationStub } from '../../mocks/mock-validation'
+import { mockAddTournament } from '../../mocks/mock-tournament'
 import { AddTournamentController } from '@/presentation/controllers/tournament'
 import { Validation } from '@/presentation/protocols'
 import { AddTournament } from '@/domain/usecases/tournament'
 import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 import { requestAddTournamentControllerMock, tournamentObjectDefaultMock } from './tournament-mock'
 import { errorsConstant } from '@/data/constants/errors'
-
-const makeFakerRequest = (): AddTournamentController.Request => ({
-  description: 'valid_description',
-  organization: 'organization',
-  cityId: 'valid_city',
-  sportId: 'valid_sportId',
-  dtStartTournament: '25/05/2023',
-  dtFinalTournament: '25/05/2023',
-  dtStartRegistration: '25/05/2023',
-  dtFinalRegistration: '25/05/2023',
-  otherInformation: 'any_information'
-})
 
 type SutTypes = {
   sut: AddTournamentController
@@ -68,7 +56,7 @@ describe('AddTournamentController Controller', () => {
     const addSpy = jest.spyOn(validationStub, 'validate')
 
     await sut.handle(requestAddTournamentControllerMock)
-    expect(addSpy).toHaveBeenCalledWith(makeFakerRequest())
+    expect(addSpy).toHaveBeenCalledWith(requestAddTournamentControllerMock)
   })
 
   test('Should return 400 if Validation returns an error', async () => {

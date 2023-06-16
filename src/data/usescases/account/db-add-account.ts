@@ -1,25 +1,24 @@
 import { Hasher } from '@/data/protocols/criptography'
-import { AddAccountRepository, LoadAccountByEmailRepository } from '@/data/protocols/db/account'
-import { AddAccount } from '@/domain/usecases/account/add-account'
+import { IAccountRepository } from '@/data/protocols/db'
+import { IAddAccount } from '@/domain/usecases/account/add-account'
 import RabbitmqService from '@/infra/queue/rabbitmq-service'
 import { ENVIRONMENT } from '@/main/config'
 import { EmailInUseError } from '@/presentation/errors'
 
-export class DbAddAccount implements AddAccount {
+export class DbAddAccountUseCase implements IAddAccount {
   constructor (
     private readonly hasher: Hasher,
-    private readonly addAccountRepository: AddAccountRepository,
-    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
+    private readonly accountRepository: IAccountRepository,
     private readonly exchangeSignup = ENVIRONMENT.rabbit.exchangeSignup,
     private readonly routingKeySignup = ENVIRONMENT.rabbit.routingKeySignup
   ) { }
 
-  async add (accountParams: AddAccount.Params): Promise<AddAccount.Result | Error > {
-    const account = await this.loadAccountByEmailRepository.loadByEmail(accountParams.email)
-    if (account) return new EmailInUseError()
+  async add (accountParams: IAddAccount.Params): Promise<IAddAccount.Result | Error > {
+    const account = await this.accountRepository.loadByEmail(accountParams.email)
+    if (account) throw new EmailInUseError()
 
     const passwordHashed = await this.hasher.hash(accountParams.password)
-    const accountData = await this.addAccountRepository.add(Object.assign({}, accountParams, { password: passwordHashed }))
+    const accountData = await this.accountRepository.add(Object.assign({}, accountParams, { password: passwordHashed }))
 
     try {
       if (this.exchangeSignup && this.routingKeySignup) {

@@ -3,7 +3,7 @@ import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/h
 import { mockAddSportStub } from '@/tests/presentation/mocks/mock-sport'
 import { mockValidationStub } from '@/tests/presentation/mocks/mock-validation'
 import { AddSportController } from '@/presentation/controllers/sport/add-sport-controller'
-import { AddSport } from './sport'
+import { AddSport } from '.'
 import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 import { Validation } from '@/presentation/protocols'
 

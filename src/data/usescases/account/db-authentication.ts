@@ -1,25 +1,25 @@
-import { Authentication } from '@/domain/usecases/authentication/authentication'
+import { IAuthentication } from '@/domain/usecases/authentication/authentication'
 import { Encrypter, HashComparer } from '@/data/protocols/criptography'
-import { LoadAccountByEmailRepository, UpdateAccessTokenRepository } from '@/data/protocols/db/account'
+import { IAccountRepository } from '@/data/protocols/db'
 
-export class DbAuthentication implements Authentication {
+export class DbAuthenticationUseCase implements IAuthentication {
   constructor (
-    private readonly loadAccountByUserRepository: LoadAccountByEmailRepository,
+    private readonly accountRepository: IAccountRepository,
     private readonly hashComparer: HashComparer,
-    private readonly tokenGenerator: Encrypter,
-    private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
+    private readonly tokenGenerator: Encrypter
   ) {}
 
-  async auth (authentication: Authentication.Params): Promise<Authentication.Result | undefined> {
-    const account = await this.loadAccountByUserRepository.loadByEmail(authentication.email)
+  async auth (authentication: IAuthentication.Params): Promise<IAuthentication.Result | undefined> {
+    const account = await this.accountRepository.loadByEmail(authentication.email)
     if (account) {
       const isValid = await this.hashComparer.compare(authentication.password, account.password)
       if (isValid) {
         const accessToken = await this.tokenGenerator.encrypt(account.id)
-        await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
+        await this.accountRepository.updateAccessToken(account.id, accessToken)
         return {
           accessToken,
-          name: account.name
+          name: account.name,
+          isAdmin: account.role === 'admin'
         }
       }
     }

@@ -1,65 +1,60 @@
-import { mockAddAccountParams, mockAccountModel } from '@/tests/domain/mocks'
-import { AddAccountRepository, LoadAccountByEmailRepository } from '@/data/protocols/db/account'
-import { DbAddAccount } from '@/data/usescases/account/db-add-account'
-import { mockAddAccountRepository, mockLoadAccountByUserRepository } from '../../mocks'
-import { EmailInUseError } from '@/presentation/errors'
+import { DbAddAccountUseCase } from '@/data/usescases/account/db-add-account'
 import RabbitmqService from '@/infra/queue/rabbitmq-service'
 import { Hasher } from '@/data/protocols/criptography'
+import { IAccountRepository } from '@/data/protocols/db'
+import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
+import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter'
+import { ENVIRONMENT } from '@/main/config'
+import { addAccountModelMock, dbAccountModelMock } from './account-mock'
+jest.mock('@/infra/database/postgres/category/category-repository')
 
-type SutTypes = {
-  sut: DbAddAccount
-  hasherStub: Hasher
-  addAccountRepositoryStub: AddAccountRepository
-  loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
-}
-const makeHasher = (): Hasher => {
-  class HasherStub implements Hasher {
-    async hash (value: string): Promise<string> {
-      return await new Promise(resolve => { resolve('hashed_password') })
-    }
-  }
-  return new HasherStub()
-}
+describe('DbAddAccountUseCase UseCase', () => {
+  let accountRepoSpy: IAccountRepository
+  let bcryptAdapterSpy: Hasher
+  let publishInExchangeMock: jest.Mock
 
-const makeSut = (): SutTypes => {
-  const hasherStub = makeHasher()
-  const addAccountRepositoryStub = mockAddAccountRepository()
-  const loadAccountByEmailRepositoryStub = mockLoadAccountByUserRepository()
-  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub, loadAccountByEmailRepositoryStub)
-  return {
-    sut,
-    hasherStub,
-    addAccountRepositoryStub,
-    loadAccountByEmailRepositoryStub
-  }
-}
+  beforeAll(() => {
+    ENVIRONMENT.rabbit.routingKeySignup = ''
+    ENVIRONMENT.rabbit.exchangeSignup = ''
+  })
+  beforeEach(async () => {
+    publishInExchangeMock = jest.fn().mockReturnValue(true)
 
-describe('DbAddAccount UseCase', () => {
+    bcryptAdapterSpy = new BcryptAdapter(12)
+    accountRepoSpy = new AccountPostgresRepository()
+  })
+
   test('Should call Hasher with correct password', async () => {
-    const { sut, hasherStub, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(RabbitmqService.getInstance(), 'publishInExchange').mockReturnValue(new Promise(resolve => { resolve(true) }))
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
-    const encryptSpy = jest.spyOn(hasherStub, 'hash')
-    await sut.add(mockAddAccountParams())
+    jest.spyOn(accountRepoSpy, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(accountRepoSpy, 'add').mockReturnValueOnce(Promise.resolve(dbAccountModelMock))
+
+    const encryptSpy = jest.spyOn(bcryptAdapterSpy, 'hash')
+
+    const accountUseCase = new DbAddAccountUseCase(bcryptAdapterSpy, accountRepoSpy)
+
+    await accountUseCase.add(addAccountModelMock)
+    expect(encryptSpy).toHaveBeenCalledTimes(1)
     expect(encryptSpy).toHaveBeenCalledWith('valid_password')
   })
 
   test('Should throw if Hasher throws', async () => {
-    const { sut, hasherStub, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
-    jest.spyOn(hasherStub, 'hash').mockReturnValueOnce(Promise.reject(new Error()))
+    const accountUseCase = new DbAddAccountUseCase(bcryptAdapterSpy, accountRepoSpy)
+    jest.spyOn(accountRepoSpy, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(bcryptAdapterSpy, 'hash').mockReturnValueOnce(Promise.reject(new Error()))
 
-    const promise = sut.add(mockAddAccountParams())
+    const promise = accountUseCase.add(addAccountModelMock)
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should call AddAccountRepository with correct values', async () => {
-    const { sut, addAccountRepositoryStub, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
-    jest.spyOn(RabbitmqService.getInstance(), 'publishInExchange').mockReturnValue(new Promise(resolve => { resolve(true) }))
-    const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
+  test('Should call accountRepository.add with correct values', async () => {
+    const accountUseCase = new DbAddAccountUseCase(bcryptAdapterSpy, accountRepoSpy)
+    jest.spyOn(accountRepoSpy, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(bcryptAdapterSpy, 'hash').mockReturnValueOnce(Promise.resolve('hashed_password'))
+    jest.spyOn(accountRepoSpy, 'add').mockReturnValueOnce(Promise.resolve(dbAccountModelMock))
 
-    await sut.add(mockAddAccountParams())
+    const addSpy = jest.spyOn(accountRepoSpy, 'add')
+
+    await accountUseCase.add(addAccountModelMock)
     expect(addSpy).toHaveBeenCalledWith({
       name: 'valid_name',
       gender: 'valid_gender',
@@ -67,25 +62,50 @@ describe('DbAddAccount UseCase', () => {
       email: 'valid_email',
       cityId: 1,
       phoneNumber: 'valid_number',
-      photo: 'valid_photo'
+      photo: 'valid_photo',
+      dateBirthday: '20/10/2020'
     })
+    expect(addSpy).toHaveBeenCalledTimes(1)
   })
 
-  test('Should throw if AddAccountRepository throws', async () => {
-    const { sut, addAccountRepositoryStub, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
-    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(Promise.reject(new Error()))
+  test('Should throw if accountRepository.add throws', async () => {
+    const accountUseCase = new DbAddAccountUseCase(bcryptAdapterSpy, accountRepoSpy)
+    jest.spyOn(accountRepoSpy, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(bcryptAdapterSpy, 'hash').mockReturnValueOnce(Promise.resolve('hashed_password'))
+    jest.spyOn(accountRepoSpy, 'add').mockReturnValueOnce(Promise.reject(new Error()))
 
-    const promise = sut.add(mockAddAccountParams())
+    const promise = accountUseCase.add(addAccountModelMock)
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return an account on Success', async () => {
-    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
-    jest.spyOn(RabbitmqService.getInstance(), 'publishInExchange').mockReturnValue(new Promise(resolve => { resolve(true) }))
+  test('Should call accountRepository.loadByEmail with correct user', async () => {
+    jest.spyOn(accountRepoSpy, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(bcryptAdapterSpy, 'hash').mockReturnValueOnce(Promise.resolve('hashed_password'))
+    jest.spyOn(accountRepoSpy, 'add').mockReturnValueOnce(Promise.resolve(dbAccountModelMock))
+    const loadAccountByUserRepositorySpy = jest.spyOn(accountRepoSpy, 'loadByEmail')
 
-    const account = await sut.add(mockAddAccountParams())
+    const accountUseCase = new DbAddAccountUseCase(bcryptAdapterSpy, accountRepoSpy)
+
+    await accountUseCase.add(addAccountModelMock)
+    expect(loadAccountByUserRepositorySpy).toHaveBeenCalledWith(addAccountModelMock.email)
+    expect(loadAccountByUserRepositorySpy).toHaveBeenCalledTimes(1)
+  })
+
+  test('Should return custom error if LoadAccountByUserRepository not return empty', async () => {
+    const accountUseCase = new DbAddAccountUseCase(bcryptAdapterSpy, accountRepoSpy)
+    jest.spyOn(accountRepoSpy, 'loadByEmail').mockReturnValueOnce(Promise.resolve(dbAccountModelMock))
+    const promise = accountUseCase.add(addAccountModelMock)
+
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('Should return an account on success', async () => {
+    const accountUseCase = new DbAddAccountUseCase(bcryptAdapterSpy, accountRepoSpy)
+    jest.spyOn(accountRepoSpy, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(bcryptAdapterSpy, 'hash').mockReturnValueOnce(Promise.resolve('hashed_password'))
+    jest.spyOn(accountRepoSpy, 'add').mockReturnValueOnce(Promise.resolve(dbAccountModelMock))
+
+    const account = await accountUseCase.add(addAccountModelMock)
     expect(account).toEqual({
       id: 'valid_id',
       name: 'valid_name',
@@ -95,22 +115,27 @@ describe('DbAddAccount UseCase', () => {
       cityId: 1,
       phoneNumber: 'valid_number',
       photo: 'valid_photo',
-      deleted: true
+      deleted: true,
+      dateBirthday: '20/10/2020'
     })
   })
 
-  test('Sould call LoadAccountByUserRepository with correct user', async () => {
-    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    const loadAccountByUserRepositorySpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-    await sut.add(mockAddAccountParams())
-    expect(loadAccountByUserRepositorySpy).toHaveBeenCalledWith(mockAddAccountParams().email)
-  })
+  test('Should add account user in queue service on success', async () => {
+    ENVIRONMENT.rabbit.routingKeySignup = 'routing_key'
+    ENVIRONMENT.rabbit.exchangeSignup = 'exchange_signup'
 
-  test('Should return custom error if LoadAccountByUserRepository not return empty', async () => {
-    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.resolve(mockAccountModel()))
-    const result = await sut.add(mockAddAccountParams())
+    const queueMock = RabbitmqService.getInstance()
+    if (queueMock) queueMock.publishInExchange = publishInExchangeMock
 
-    expect(result).toEqual(new EmailInUseError())
+    const accountUseCase = new DbAddAccountUseCase(bcryptAdapterSpy, accountRepoSpy)
+    jest.spyOn(accountRepoSpy, 'loadByEmail').mockReturnValueOnce(Promise.resolve(undefined))
+    jest.spyOn(bcryptAdapterSpy, 'hash').mockReturnValueOnce(Promise.resolve('hashed_password'))
+    jest.spyOn(accountRepoSpy, 'add').mockReturnValueOnce(Promise.resolve(dbAccountModelMock))
+
+    await accountUseCase.add(addAccountModelMock)
+    expect(publishInExchangeMock).toHaveBeenCalledTimes(1)
+    expect(publishInExchangeMock).toHaveBeenCalledWith(
+      'exchange_signup', 'routing_key', JSON.stringify({ id: 'valid_id', email: 'valid_email' })
+    )
   })
 })

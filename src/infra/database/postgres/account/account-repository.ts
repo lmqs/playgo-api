@@ -1,37 +1,32 @@
 import { AccountModel } from '@/domain/models/account'
 import { BaseRepository } from '@/infra/database/postgres/base-repository'
-import { AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository } from '@/data/protocols/db/account'
+import { IAccountRepository, dataModelToDbModelMapCategory } from '@/data/protocols/db'
+import { InputDbAccountModel, OutputDbAccountModel, dbModelToDataModelMapCategory } from '@/data/models/db-account'
 
-export class AccountPostgresRepository extends BaseRepository<AddAccountRepository.Params, AccountModel>
-  implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository,
-  LoadAccountByTokenRepository {
-  constructor (
-    public readonly tableName: string = 'users'
-  ) {
+export class AccountPostgresRepository extends BaseRepository<InputDbAccountModel, OutputDbAccountModel> implements IAccountRepository {
+  constructor (public readonly tableName: string = 'users') {
     super(tableName)
   }
 
-  async add (accountData: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
-    const result = await this.create(accountData)
-    return result
+  async add (accountData: IAccountRepository.AddParams): Promise<IAccountRepository.Result> {
+    const result = await this.create(dataModelToDbModelMapCategory(accountData))
+    return dbModelToDataModelMapCategory(result)
   }
 
   async loadByEmail (email: string): Promise<AccountModel | undefined> {
     const result = await this.findOne('email', email)
-    return result
+    return dbModelToDataModelMapCategory(result)
   }
 
   async updateAccessToken (id: string, token: string): Promise<void> {
-    await this.update({ accessToken: token }, { id })
+    await this.update({ access_token: token }, { id })
   }
 
-  async loadByToken (token: string, role?: string): Promise<LoadAccountByTokenRepository.Result | undefined> {
-    const whereFields = { accessToken: token }
+  async loadByToken (token: string, role?: string): Promise<IAccountRepository.Result | undefined> {
+    const whereFields = { access_token: token }
     Object.assign(whereFields, role ? { role } : {})
 
     const account = await this.findGeneric(whereFields)
-    if (account.length) {
-      return account[0]
-    }
+    return dbModelToDataModelMapCategory(account[0])
   }
 }

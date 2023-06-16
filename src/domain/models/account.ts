@@ -6,7 +6,9 @@ export type AccountModel = {
   email: string
   cityId: number
   phoneNumber: string
+  dateBirthday?: string
   role?: string
   photo?: string
   deleted?: boolean
+  accessToken?: string
 }

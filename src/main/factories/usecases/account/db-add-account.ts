@@ -1,12 +1,12 @@
+import { DbAddAccountUseCase } from '@/data/usescases/account'
+import { IAddAccount } from '@/domain/usecases/account/add-account'
 import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter'
-import { DbAddAccount } from '@/data/usescases/account/db-add-account'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
-import { AddAccount } from '@/domain/usecases/account/add-account'
 
-export const makeDbAddAccount = (): AddAccount => {
+export const makeDbAddAccount = (): IAddAccount => {
   const salt = 12
   const bcryptAdapter = new BcryptAdapter(salt)
   const accountPostgresRepository = new AccountPostgresRepository()
 
-  return new DbAddAccount(bcryptAdapter, accountPostgresRepository, accountPostgresRepository)
+  return new DbAddAccountUseCase(bcryptAdapter, accountPostgresRepository)
 }

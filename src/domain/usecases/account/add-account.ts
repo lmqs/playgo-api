@@ -1,10 +1,10 @@
-import { AccountModel } from '../../models/account'
+import { AccountModel } from '@/domain/models/account'
 
-export interface AddAccount {
-  add: (account: AddAccount.Params) => Promise<AddAccount.Result | Error>
+export interface IAddAccount {
+  add: (account: IAddAccount.Params) => Promise<IAddAccount.Result | Error>
 }
 
-export namespace AddAccount {
+export namespace IAddAccount {
   export type Params = {
     name: string
     gender: string
@@ -12,6 +12,7 @@ export namespace AddAccount {
     email: string
     cityId: number
     phoneNumber: string
+    dateBirthday: string
     photo?: string
     deleted?: boolean
     role?: string

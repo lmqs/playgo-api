@@ -6,7 +6,7 @@ import { makeDbLoadCityById } from '@/main/factories/usecases/city/db-load-by-id
 
 export const makeSignUpValidation = (): ValidationComposite => {
   const validations: Validation[] = []
-  const requiredFields = ['name', 'gender', 'password', 'email', 'cityId', 'phoneNumber']
+  const requiredFields = ['name', 'gender', 'password', 'email', 'cityId', 'phoneNumber', 'dateBirthday']
 
   for (const field of requiredFields) {
     validations.push(new RequiredFieldValidation(field))

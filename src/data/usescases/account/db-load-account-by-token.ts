@@ -1,14 +1,14 @@
 import { Decrypter } from '@/data/protocols/criptography/decrypter'
-import { LoadAccountByTokenRepository } from '@/data/protocols/db/account'
-import { LoadAccountByToken } from '@/presentation/middlewares/auth-middleware-protocols'
+import { IAccountRepository } from '@/data/protocols/db'
+import { ILoadAccountByToken } from '@/presentation/middlewares/auth-middleware-protocols'
 
-export class DbLoadAccountByToken implements LoadAccountByToken {
+export class DbLoadAccountByTokenUseCase implements ILoadAccountByToken {
   constructor (
     private readonly decrypter: Decrypter,
-    private readonly loadAccountByTokenRepository: LoadAccountByTokenRepository
+    private readonly accountRepository: IAccountRepository
   ) {}
 
-  async load (accessToken: string, role?: string): Promise<LoadAccountByToken.Result | undefined> {
+  async load (accessToken: string, role?: string): Promise<ILoadAccountByToken.Result | undefined> {
     let token: string | undefined
     try {
       token = await this.decrypter.decrypt(accessToken)
@@ -16,10 +16,8 @@ export class DbLoadAccountByToken implements LoadAccountByToken {
       return undefined
     }
     if (token) {
-      const account = await this.loadAccountByTokenRepository.loadByToken(accessToken, role)
-      if (account) {
-        return account
-      }
+      const account = await this.accountRepository.loadByToken(accessToken, role)
+      if (account) return account
     }
   }
 }

@@ -1,13 +1,14 @@
-import { AddAccount } from '@/domain/usecases/account/add-account'
+import { IAddAccount } from '@/domain/usecases/account/add-account'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
-import { Authentication } from '@/domain/usecases/authentication/authentication'
+import { IAuthentication } from '@/domain/usecases/authentication/authentication'
+import { EmailInUseError } from '@/presentation/errors'
 
 export class SignUpController implements Controller {
   constructor (
-    private readonly addAccount: AddAccount,
+    private readonly addAccountUseCase: IAddAccount,
     private readonly validation: Validation,
-    private readonly authentication: Authentication
+    private readonly authentication: IAuthentication
   ) {}
 
   async handle (request: SignUpController.Request): Promise<HttpResponse> {
@@ -16,16 +17,16 @@ export class SignUpController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { name, gender, password, email, cityId, phoneNumber, photo, role } = request
-      const result = await this.addAccount.add({ name, gender, password, email, cityId, phoneNumber, photo, role })
+      const { name, gender, password, email, cityId, phoneNumber, photo, role, dateBirthday } = request
+      await this.addAccountUseCase.add({ name, gender, password, email, cityId, phoneNumber, photo, role, dateBirthday })
 
-      if (result instanceof Error) {
-        return forbidden(result)
-      }
-      const authenticationModel = await this.authentication.auth({ email, password })
+      const authenticationModel = await this.authentication.auth({ email, password, role })
 
       return ok(authenticationModel)
     } catch (error: unknown) {
+      if (error instanceof EmailInUseError) {
+        return forbidden(error)
+      }
       return serverError(error as Error)
     }
   }
@@ -38,6 +39,7 @@ export namespace SignUpController {
     email: string
     cityId: number
     phoneNumber: string
+    dateBirthday: string
     photo?: string
     role?: string
   }

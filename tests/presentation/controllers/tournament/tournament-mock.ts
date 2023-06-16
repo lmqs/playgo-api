@@ -1,4 +1,4 @@
-import { AddTournamentController } from './tournament'
+import { AddTournamentController } from '@/presentation/controllers/tournament'
 
 export const requestAddTournamentControllerMock: AddTournamentController.Request = {
   description: 'valid_description',
