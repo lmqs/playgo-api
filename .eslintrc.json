@@ -16,7 +16,11 @@
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/no-namespace": "off",
-    "@typescript-eslint/prefer-nullish-coalescing": "off"
-
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "arrow-spacing": [2, { "before": true, "after": true }],
+    "semi": 0,
+    "quotes": [2, "single"],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "max-len": ["error", 140, { "ignoreUrls": true, "ignorePattern": "^import .*" }]
   }
 }
