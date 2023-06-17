@@ -170,4 +170,45 @@ describe('Account Postgres Repository', () => {
       await expect(promise).rejects.toThrow()
     })
   })
+
+  describe('loadById()', () => {
+    test('Should return an account on loadById success', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.findOne = jest.fn().mockReturnValue(dbAccountModelWithoutRoleMock)
+
+      const account = await accountRepository.loadById('valid_id')
+      expect(account).toEqual({
+        id: 'valid_id',
+        name: 'valid_name',
+        gender: 'valid_gender',
+        password: 'valid_password',
+        email: 'valid_email',
+        cityId: 1,
+        phoneNumber: 'valid_number',
+        photo: 'valid_photo',
+        dateBirthday: '13/06/2023',
+        deleted: false,
+        role: undefined,
+        accessToken: 'any_token'
+      })
+      expect(accountRepository.findOne).toBeCalledWith('id', 'valid_id')
+    })
+
+    test('Should rethrow if loadById fails', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.findOne = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = accountRepository.loadById('any_token')
+      await expect(promise).rejects.toThrow()
+    })
+
+    test('Should return undefined on loadById if account is not exists', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.findOne = jest.fn().mockReturnValue(undefined)
+
+      const account = await accountRepository.loadById('any_id')
+      expect(account).toBeUndefined()
+    })
+  })
 })
