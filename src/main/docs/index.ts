@@ -14,7 +14,7 @@ export default {
   }],
   tags: [
     {
-      name: 'Login'
+      name: 'Account'
     },
     {
       name: 'Categoria'

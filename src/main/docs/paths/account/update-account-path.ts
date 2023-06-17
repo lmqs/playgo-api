@@ -1,13 +1,22 @@
-export const loginPath = {
-  post: {
+export const updateAccountPath = {
+  put: {
     tags: ['Account'],
-    summary: 'Api para autenticar usuário',
+    summary: 'Api para atualizar o usuário',
+    parameters: [{
+      in: 'path',
+      name: 'id',
+      description: 'ID do usuário',
+      required: true,
+      schema: {
+        type: 'string'
+      }
+    }],
     requestBody: {
       required: true,
       content: {
         'application/json': {
           schema: {
-            $ref: '#schemas/loginParams'
+            $ref: '#schemas/signupParams'
           }
         }
       }
@@ -26,8 +35,8 @@ export const loginPath = {
       400: {
         $ref: '#/components/badRequest'
       },
-      401: {
-        $ref: '#/components/unauthorized'
+      403: {
+        $ref: '#/components/forbidden'
       },
       404: {
         $ref: '#/components/notFound'

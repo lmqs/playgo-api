@@ -8,12 +8,14 @@ import {
   removeTournamentPath,
   addSportPath,
   sportPath,
-  updateCategoryPath
+  updateCategoryPath,
+  updateAccountPath
 } from './paths/'
 
 export default {
   '/login': loginPath,
   '/signup': signupPath,
+  '/account/{id}': updateAccountPath,
   '/loadCategoriesByTournamentId': loadCategoryPath,
   '/category': addCategoryPath,
   '/category/{id}': updateCategoryPath,
