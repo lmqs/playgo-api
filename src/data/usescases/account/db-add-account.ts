@@ -1,7 +1,7 @@
 import { Hasher } from '@/data/protocols/criptography'
 import { IAccountRepository } from '@/data/protocols/db'
 import { IAddAccount } from '@/domain/usecases/account/add-account'
-import RabbitmqService from '@/infra/queue/rabbitmq-service'
+import RabbitmqService from '@/infra/service/rabbitmq-service'
 import { ENVIRONMENT } from '@/main/config'
 import { EmailInUseError } from '@/presentation/errors'
 

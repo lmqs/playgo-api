@@ -1,9 +1,9 @@
-import type { Knex } from "knex";
-import { ENVIRONMENT } from "@/main/config";
+import type { Knex } from 'knex'
+import { ENVIRONMENT } from '@/main/config'
 
-const config: { [key: string]: Knex.Config } = {
+const config: Record<string, Knex.Config> = {
   development: {
-    client: "postgresql",
+    client: 'postgresql',
     connection: {
       host: ENVIRONMENT.database.host,
       user: ENVIRONMENT.database.user,
@@ -17,10 +17,10 @@ const config: { [key: string]: Knex.Config } = {
       max: 10
     },
     migrations: {
-      tableName: "migrations",
+      tableName: 'migrations',
       directory: '../../../migrations'
     }
   }
-};
+}
 
-module.exports = config;
+module.exports = config

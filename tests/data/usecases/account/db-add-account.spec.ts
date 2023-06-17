@@ -1,5 +1,5 @@
 import { DbAddAccountUseCase } from '@/data/usescases/account/db-add-account'
-import RabbitmqService from '@/infra/queue/rabbitmq-service'
+import RabbitmqService from '@/infra/service/rabbitmq-service'
 import { Hasher } from '@/data/protocols/criptography'
 import { IAccountRepository } from '@/data/protocols/db'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'

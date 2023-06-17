@@ -15,10 +15,12 @@ export default class RabbitmqService {
 
   async start (): Promise<void> {
     const { user, password, host, port } = ENVIRONMENT.rabbit
-    this.conn = await connect(
-      `amqp://${user}:${password}@${host}:${port}`
-    )
-    this.channel = await this.conn.createChannel()
+    if (user && password && host && port) {
+      this.conn = await connect(
+        `amqp://${user}:${password}@${host}:${port}`
+      )
+      this.channel = await this.conn.createChannel()
+    }
   }
 
   async publishInQueue (queue: string, message: string): Promise<Boolean> {
