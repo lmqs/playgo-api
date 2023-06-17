@@ -34,4 +34,9 @@ export class AccountPostgresRepository extends BaseRepository<InputDbAccountMode
     const result = await this.update(dataModelToDbModelMapCategory(accountData), { id: accountData.id })
     return dbModelToDataModelMapCategory(result)
   }
+
+  async loadById (id: string): Promise<AccountModel | undefined> {
+    const result = await this.findOne('id', id)
+    return dbModelToDataModelMapCategory(result)
+  }
 }

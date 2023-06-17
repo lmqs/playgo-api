@@ -4,6 +4,7 @@ import { DateHandler } from '@/infra/gateways/date/date-handler'
 
 export interface IAccountRepository {
   add: (data: IAccountRepository.AddParams) => Promise<IAccountRepository.Result>
+  loadById: (id: string) => Promise<AccountModel | undefined>
   loadByEmail: (user: string) => Promise<AccountModel | undefined>
   loadByToken: (token: string, role?: string) => Promise<IAccountRepository.Result | undefined>
   updateAccessToken: (id: string, token: string) => Promise<void>
