@@ -29,4 +29,9 @@ export class AccountPostgresRepository extends BaseRepository<InputDbAccountMode
     const account = await this.findGeneric(whereFields)
     return dbModelToDataModelMapCategory(account[0])
   }
+
+  async updateData (accountData: IAccountRepository.UpdateParams): Promise<IAccountRepository.Result> {
+    const result = await this.update(dataModelToDbModelMapCategory(accountData), { id: accountData.id })
+    return dbModelToDataModelMapCategory(result)
+  }
 }

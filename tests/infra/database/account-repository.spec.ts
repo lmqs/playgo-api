@@ -1,5 +1,5 @@
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
-import { addAccountParamsMock, dbAccountModelMock, dbAccountModelWithoutRoleMock, dbAddAccountModelMock } from './account-repository-mock'
+import { addAccountParamsMock, dbAccountModelMock, dbAccountModelWithoutRoleMock, dbAddAccountModelMock, updateAccountParamsMock } from './account-repository-mock'
 
 describe('Account Postgres Repository', () => {
   describe('add()', () => {
@@ -135,6 +135,39 @@ describe('Account Postgres Repository', () => {
 
       const account = await accountRepository.loadByToken('any_token', 'any_role')
       expect(account).toBeUndefined()
+    })
+  })
+
+  describe('update()', () => {
+    test('Should return an account on add success', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.update = jest.fn().mockReturnValue(dbAddAccountModelMock)
+
+      const account = await accountRepository.updateData(updateAccountParamsMock)
+
+      expect(account).toEqual({
+        id: 'valid_id',
+        name: 'valid_name',
+        gender: 'valid_gender',
+        password: 'valid_password',
+        email: 'valid_email',
+        cityId: 1,
+        phoneNumber: 'valid_number',
+        photo: 'valid_photo',
+        dateBirthday: '13/06/2023',
+        deleted: false,
+        role: 'admin',
+        accessToken: undefined
+      })
+    })
+
+    test('Should rethrow if create fails', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.update = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = accountRepository.updateData(updateAccountParamsMock)
+      await expect(promise).rejects.toThrow()
     })
   })
 })

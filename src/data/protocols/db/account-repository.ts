@@ -7,6 +7,7 @@ export interface IAccountRepository {
   loadByEmail: (user: string) => Promise<AccountModel | undefined>
   loadByToken: (token: string, role?: string) => Promise<IAccountRepository.Result | undefined>
   updateAccessToken: (id: string, token: string) => Promise<void>
+  updateData: (data: IAccountRepository.UpdateParams) => Promise<IAccountRepository.Result>
 }
 
 export namespace IAccountRepository {
@@ -23,6 +24,7 @@ export namespace IAccountRepository {
     role?: string
     accessToken?: string
   }
+  export type UpdateParams = AccountModel
   export type Result = AccountModel
 }
 

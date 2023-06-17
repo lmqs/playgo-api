@@ -91,7 +91,7 @@ describe('DbAddAccountUseCase UseCase', () => {
     expect(loadAccountByUserRepositorySpy).toHaveBeenCalledTimes(1)
   })
 
-  test('Should return custom error if LoadAccountByUserRepository not return empty', async () => {
+  test('Should return custom error if accountRepository.loadByEmail not return empty', async () => {
     const accountUseCase = new DbAddAccountUseCase(bcryptAdapterSpy, accountRepoSpy)
     jest.spyOn(accountRepoSpy, 'loadByEmail').mockReturnValueOnce(Promise.resolve(dbAccountModelMock))
     const promise = accountUseCase.add(addAccountModelMock)
