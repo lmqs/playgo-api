@@ -1,10 +1,10 @@
-export const removeTournamentPath = {
+export const removeTournamentSponsorPath = {
   delete: {
     security: [{
       apiKeyAuth: []
     }],
     tags: ['Torneio'],
-    summary: 'Api para remover um torneio',
+    summary: 'Api para remover um patrocinador de um torneio',
     description: 'Essa rota só pode ser executada por **usuários autenticados**',
     parameters: [{
       in: 'path',

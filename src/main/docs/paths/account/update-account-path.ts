@@ -1,6 +1,6 @@
 export const updateAccountPath = {
   put: {
-    tags: ['Account'],
+    tags: ['Conta'],
     summary: 'Api para atualizar o usuário',
     parameters: [{
       in: 'path',

@@ -9,7 +9,10 @@ import {
   addSportPath,
   sportPath,
   updateCategoryPath,
-  updateAccountPath
+  updateAccountPath,
+  loadTournamentSponsorPath,
+  removeTournamentSponsorPath,
+  addTournamentSponsorPath
 } from './paths/'
 
 export default {
@@ -22,6 +25,9 @@ export default {
   '/tournament': addTournamentPath,
   '/tournaments': loadTournamentPath,
   '/tournament/{id}': removeTournamentPath,
+  '/tournament-sponsor': addTournamentSponsorPath,
+  '/tournament-sponsor/load-by-tournament': loadTournamentSponsorPath,
+  '/tournament-sponsor/{id}': removeTournamentSponsorPath,
   '/sport': addSportPath,
   '/sports': sportPath
 }

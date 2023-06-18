@@ -1,14 +1,14 @@
-export const removeTournamentPath = {
-  delete: {
+export const loadTournamentSponsorPath = {
+  get: {
     security: [{
       apiKeyAuth: []
     }],
     tags: ['Torneio'],
-    summary: 'Api para remover um torneio',
+    summary: 'Api para listar os patrocinadores de um Torneio',
     description: 'Essa rota só pode ser executada por **usuários autenticados**',
     parameters: [{
-      in: 'path',
-      name: 'id',
+      in: 'query',
+      name: 'tournamentId',
       description: 'ID do torneio',
       required: true,
       schema: {
@@ -16,8 +16,15 @@ export const removeTournamentPath = {
       }
     }],
     responses: {
-      204: {
-        description: 'Sucesso'
+      200: {
+        description: 'Sucesso',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/schemas/tournamentsSponsor'
+            }
+          }
+        }
       },
       403: {
         $ref: '#/components/unauthorized'

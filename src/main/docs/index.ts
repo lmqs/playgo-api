@@ -14,13 +14,16 @@ export default {
   }],
   tags: [
     {
-      name: 'Account'
+      name: 'Conta'
     },
     {
       name: 'Categoria'
     },
     {
       name: 'Esporte'
+    },
+    {
+      name: 'Torneio'
     }
   ],
   paths,

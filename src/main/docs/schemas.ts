@@ -12,7 +12,10 @@ import {
   sportSchema,
   sportParamsSchema,
   sportsSchema,
-  updateCategoryParamsSchema
+  updateCategoryParamsSchema,
+  tournamentsSponsorSchema,
+  tournamentSponsorSchema,
+  tournamentSponsorParamsSchema
 } from './schemas/'
 
 export default {
@@ -27,6 +30,9 @@ export default {
   tournamentParams: tournamentParamsSchema,
   tournament: tournamentSchema,
   tournaments: tournamentsSchema,
+  tournamentSponsorParams: tournamentSponsorParamsSchema,
+  tournamentSponsor: tournamentSponsorSchema,
+  tournamentsSponsor: tournamentsSponsorSchema,
   sport: sportSchema,
   sportParams: sportParamsSchema,
   sports: sportsSchema
