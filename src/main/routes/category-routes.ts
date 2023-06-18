@@ -7,6 +7,6 @@ import { makeRemoveCategoryController, makeLoadCategoriesByTournamentIdControlle
 export default (router: Router): void => {
   router.delete('/category/:id', adminAuth, adaptRoute(makeRemoveCategoryController()))
   router.post('/category', adminAuth, adaptRoute(makeAddCategoryController()))
-  router.get('/loadCategoriesByTournamentId', auth, adaptRoute(makeLoadCategoriesByTournamentIdController()))
+  router.get('/category/loadByTournament', auth, adaptRoute(makeLoadCategoriesByTournamentIdController()))
   router.put('/category/:id', adminAuth, adaptRoute(makeUpdateCategoryController()))
 }

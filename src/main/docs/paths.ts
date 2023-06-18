@@ -19,7 +19,7 @@ export default {
   '/login': loginPath,
   '/signup': signupPath,
   '/account/{id}': updateAccountPath,
-  '/loadCategoriesByTournamentId': loadCategoryPath,
+  '/category/loadByTournament': loadCategoryPath,
   '/category': addCategoryPath,
   '/category/{id}': updateCategoryPath,
   '/tournament': addTournamentPath,
