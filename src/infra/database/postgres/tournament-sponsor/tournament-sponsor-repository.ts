@@ -13,4 +13,20 @@ export class TournamentSponsorPostgresRepository
     const result = await this.create(dataModelToDbModelMapTournamentSponsor(data))
     return dbModelToDataModelMapTournamentSponsor(result)
   }
+
+  async loadByTournamentId (id: string): Promise<ITournamentSponsorRepository.LoadResult> {
+    const tournamentsSponsor = await this.findGeneric({ tournament_id: id })
+    return tournamentsSponsor.map((ts) => {
+      return dbModelToDataModelMapTournamentSponsor(ts)
+    })
+  }
+
+  async loadById (id: string): Promise<ITournamentSponsorRepository.Result | undefined> {
+    const tournamentSponsor = await this.findGeneric({ id })
+    return dbModelToDataModelMapTournamentSponsor(tournamentSponsor[0])
+  }
+
+  async remove (id: string): Promise<void> {
+    await this.delete(id)
+  }
 }

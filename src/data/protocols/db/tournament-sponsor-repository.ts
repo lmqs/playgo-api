@@ -2,6 +2,9 @@ import { TournamentSponsorModel } from '@/domain/models/tournament_sponsor'
 
 export interface ITournamentSponsorRepository {
   add: (data: ITournamentSponsorRepository.AddParams) => Promise<ITournamentSponsorRepository.Result>
+  loadByTournamentId: (tournamentId: string) => Promise<ITournamentSponsorRepository.LoadResult>
+  loadById: (id: string) => Promise<ITournamentSponsorRepository.Result | undefined>
+  remove: (id: string) => Promise<void>
 }
 
 export namespace ITournamentSponsorRepository {
@@ -11,6 +14,7 @@ export namespace ITournamentSponsorRepository {
     photo?: string
     otherInformation?: string
   }
+  export type LoadResult = TournamentSponsorModel[]
   export type Result = TournamentSponsorModel
 }
 

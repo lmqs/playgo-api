@@ -1,14 +1,15 @@
+import { OutputDbTournamentSponsorModel } from '@/data/models/db-tournament-sponsor'
+
 export const addTournamentSponsorModelMock = {
-  id: '1',
   tournamentId: 'valid_tournament',
   name: 'valid_name'
 }
 
-export const dbAddTournamentSponsorModelMock = {
+export const dbAddTournamentSponsorModelMock: OutputDbTournamentSponsorModel = {
   id: '1',
-  tournamentId: 'valid_tournament',
+  tournament_id: 'valid_tournament',
   name: 'valid_name',
   photo: undefined,
-  otherInformation: undefined,
+  other_information: undefined,
   deleted: true
 }
