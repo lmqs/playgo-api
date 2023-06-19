@@ -1,5 +1,5 @@
+import { LogErrorRepository } from '@/data/protocols/db/log/log-error-repository'
 import { AddLog } from '@/domain/usecases/log/add-log'
-import { LogErrorRepository } from '@/data/protocols/db/account'
 import { BaseRepository } from '@/infra/database/postgres/base-repository'
 
 export class LogPostgresRepository extends BaseRepository<AddLog, any> implements LogErrorRepository {
