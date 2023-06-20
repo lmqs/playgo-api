@@ -10,7 +10,9 @@ export class AddCategoryUseCase implements IAddCategory {
   ) {}
 
   async add (categoryData: IAddCategory.Params): Promise<IAddCategory.Result> {
-    const isDescriptionValid = await this.loadCategoryByDescriptionAndIdRepository.loadByDescriptionAndId(categoryData.description, categoryData.tournamentId)
+    const isDescriptionValid = await this.loadCategoryByDescriptionAndIdRepository.loadByDescriptionAndId(
+      categoryData.description, categoryData.tournamentId
+    )
     if (isDescriptionValid?.length) {
       throw new ParamInUseError('description')
     }

@@ -6,7 +6,7 @@ import { TournamentDatabaseValidation } from '@/presentation/validation/database
 
 export const makeAddCategoryValidation = (): ValidationComposite => {
   const validations: Validation[] = []
-  const requiredFields = ['description', 'tournamentId']
+  const requiredFields = ['description', 'tournamentId', 'numberAthletesRegistration']
 
   for (const field of requiredFields) {
     validations.push(new RequiredFieldValidation(field))

@@ -51,7 +51,8 @@ describe('UpdateCategory Controller', () => {
       id: 'valid_id',
       description: 'valid_description',
       tournamentId: 'valid_tournamentId',
-      numberAthletes: 'valid_numberAthletes'
+      numberAthletes: 'valid_numberAthletes',
+      numberAthletesRegistration: 'valid_numberAthletesRegistration'
     })
   })
 
@@ -84,7 +85,8 @@ describe('UpdateCategory Controller', () => {
         id: 'valid_id',
         description: 'valid_description',
         tournamentId: 'valid_tournamentId',
-        numberAthletes: 'valid_numberAthletes'
+        numberAthletes: 'valid_numberAthletes',
+        numberAthletesRegistration: 'valid_numberAthletesRegistration'
       })
     )
   })

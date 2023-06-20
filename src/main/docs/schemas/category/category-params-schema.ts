@@ -9,7 +9,11 @@ export const categoryParamsSchema = {
     },
     numberAthletes: {
       type: 'string'
+    },
+    numberAthletesRegistration: {
+      type: 'string',
+      example: '2'
     }
   },
-  required: ['description', 'tournamentId', 'numberAthletes']
+  required: ['description', 'tournamentId', 'numberAthletes', 'numberAthletesRegistration']
 }

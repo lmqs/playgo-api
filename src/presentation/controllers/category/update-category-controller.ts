@@ -33,5 +33,6 @@ export namespace UpdateCategoryController {
     description: string
     tournamentId: string
     numberAthletes: string
+    numberAthletesRegistration: string
   }
 }

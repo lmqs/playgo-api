@@ -15,6 +15,7 @@ export namespace ICategoryRepository {
   export type AddParams = {
     description: string
     tournamentId: string
+    numberAthletesRegistration: string
     numberAthletes?: string
   }
   export type AddResult = CategoryModel
@@ -26,6 +27,7 @@ export const dataModelToDbModelMap = (category: ICategoryRepository.AddParams): 
   return {
     description: category.description,
     tournament_id: category.tournamentId,
-    number_athletes: category.numberAthletes
+    number_athletes: category.numberAthletes,
+    number_athletes_registration: category.numberAthletesRegistration
   }
 }

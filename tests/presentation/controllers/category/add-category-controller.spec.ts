@@ -50,7 +50,8 @@ describe('AddCategory Controller', () => {
     expect(addSpy).toHaveBeenCalledWith({
       description: 'valid_user',
       tournamentId: 'valid_password',
-      numberAthletes: 'valid_numberAthletes'
+      numberAthletes: 'valid_numberAthletes',
+      numberAthletesRegistration: 'valid_numberAthletesRegistration'
     })
   })
 
@@ -83,7 +84,8 @@ describe('AddCategory Controller', () => {
         id: 'valid_id',
         description: 'valid_description',
         tournamentId: 'valid_tournamentId',
-        numberAthletes: 'valid_numberAthletes'
+        numberAthletes: 'valid_numberAthletes',
+        numberAthletesRegistration: 'valid_numberAthletesRegistration'
       })
     )
   })

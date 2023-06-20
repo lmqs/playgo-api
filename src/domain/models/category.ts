@@ -3,5 +3,6 @@ export type CategoryModel = {
   description: string
   tournamentId: string
   numberAthletes: string
+  numberAthletesRegistration: string
   deleted?: boolean
 }

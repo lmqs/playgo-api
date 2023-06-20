@@ -8,6 +8,7 @@ export namespace IAddCategory {
   export type Params = {
     description: string
     tournamentId: string
+    numberAthletesRegistration: string
     numberAthletes?: string
   }
   export type Result = CategoryModel

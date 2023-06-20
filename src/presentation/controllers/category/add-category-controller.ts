@@ -15,8 +15,7 @@ export class AddCategoryController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { description, tournamentId, numberAthletes } = request
-      const category = await this.addCategory.add({ description, tournamentId, numberAthletes })
+      const category = await this.addCategory.add(request)
 
       return ok(category)
     } catch (error: unknown) {
@@ -33,5 +32,6 @@ export namespace AddCategoryController {
     description: string
     tournamentId: string
     numberAthletes: string
+    numberAthletesRegistration: string
   }
 }

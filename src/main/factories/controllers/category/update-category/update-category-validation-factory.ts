@@ -6,7 +6,7 @@ import { makeDbLoadCategoryById } from '@/main/factories/usecases/category/db-lo
 
 export const makeUpdateCategoryValidation = (): ValidationComposite => {
   const validations: Validation[] = []
-  const requiredFields = ['id', 'description']
+  const requiredFields = ['id', 'description', 'numberAthletesRegistration']
 
   for (const field of requiredFields) {
     validations.push(new RequiredFieldValidation(field))

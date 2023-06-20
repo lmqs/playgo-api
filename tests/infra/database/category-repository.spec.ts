@@ -25,6 +25,7 @@ describe('Category Postgres Repository', () => {
         description: 'valid_description',
         tournamentId: 'valid_tournamentId',
         numberAthletes: 'valid_athletes',
+        numberAthletesRegistration: 'valid_numberAthletesRegistration',
         deleted: false
       })
     })
@@ -53,6 +54,7 @@ describe('Category Postgres Repository', () => {
           description: 'valid_description',
           tournamentId: 'valid_tournamentId',
           numberAthletes: 'valid_athletes',
+          numberAthletesRegistration: 'valid_numberAthletesRegistration',
           deleted: false
         },
         {
@@ -60,6 +62,7 @@ describe('Category Postgres Repository', () => {
           description: 'valid_description',
           tournamentId: 'valid_tournamentId',
           numberAthletes: 'valid_athletes',
+          numberAthletesRegistration: 'valid_numberAthletesRegistration',
           deleted: false
         }
       ])
@@ -96,6 +99,7 @@ describe('Category Postgres Repository', () => {
           description: 'valid_description',
           tournamentId: 'valid_tournamentId',
           numberAthletes: 'valid_athletes',
+          numberAthletesRegistration: 'valid_numberAthletesRegistration',
           deleted: false
         },
         {
@@ -103,6 +107,7 @@ describe('Category Postgres Repository', () => {
           description: 'valid_description',
           tournamentId: 'valid_tournamentId',
           numberAthletes: 'valid_athletes',
+          numberAthletesRegistration: 'valid_numberAthletesRegistration',
           deleted: false
         }
       ])
@@ -156,6 +161,7 @@ describe('Category Postgres Repository', () => {
         description: 'valid_description',
         tournamentId: 'valid_tournamentId',
         numberAthletes: 'valid_athletes',
+        numberAthletesRegistration: 'valid_numberAthletesRegistration',
         deleted: false
       })
     })

@@ -31,10 +31,11 @@ export class CategoryPostgresRepository extends BaseRepository<InputDbCategoryMo
   }
 
   async updateData (categoryData: ICategoryRepository.UpdateParams): Promise<ICategoryRepository.AddResult> {
-    const result = await this.update(
-      { description: categoryData.description, number_athletes: categoryData.numberAthletes },
-      { id: categoryData.id }
-    )
+    const result = await this.update({
+      description: categoryData.description,
+      number_athletes: categoryData.numberAthletes,
+      number_athletes_registration: categoryData.numberAthletesRegistration
+    }, { id: categoryData.id })
     return dbModelToDataModelMap(result)
   }
 

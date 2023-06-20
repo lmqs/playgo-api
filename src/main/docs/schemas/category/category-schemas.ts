@@ -13,9 +13,12 @@ export const categorySchema = {
     numberAthletes: {
       type: 'string'
     },
+    numberAthletesRegistration: {
+      type: 'string'
+    },
     deleted: {
       type: 'boolean'
     }
   },
-  required: ['id', 'description', 'tournamentId', 'numberAthletes']
+  required: ['id', 'description', 'tournamentId', 'numberAthletes', 'numberAthletesRegistration']
 }

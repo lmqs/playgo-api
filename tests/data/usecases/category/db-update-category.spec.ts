@@ -44,13 +44,15 @@ describe('DbUpdateCategory UseCase', () => {
       id: 'valid_id',
       description: 'valid_description',
       tournamentId: 'valid_tournamentId',
-      numberAthletes: 'valid_numberAthletes'
+      numberAthletes: 'valid_numberAthletes',
+      numberAthletesRegistration: 'valid_numberAthletesRegistration'
     })
     expect(categoryRepo.updateData).toHaveBeenCalledWith({
       id: 'valid_id',
       description: 'valid_description',
       tournamentId: 'valid_tournamentId',
-      numberAthletes: 'valid_numberAthletes'
+      numberAthletes: 'valid_numberAthletes',
+      numberAthletesRegistration: 'valid_numberAthletesRegistration'
     })
   })
 
