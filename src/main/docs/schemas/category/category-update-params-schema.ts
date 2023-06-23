@@ -13,10 +13,6 @@ export const updateCategoryParamsSchema = {
     numberAthletesRegistration: {
       type: 'string',
       example: '2'
-    },
-    deleted: {
-      type: 'boolean',
-      example: 'true'
     }
   },
   required: ['description', 'tournamentId', 'numberAthletes', 'numberAthletesRegistration']
