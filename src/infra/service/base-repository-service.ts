@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-base-to-string */
-import { Reader, Writer } from '@/infra/database/protocols/database'
-import { PostgresService } from '@/infra/database/postgres/postgres-service'
 import Knex from 'knex'
+import { Reader, Writer } from '@/infra/database/protocols/database'
+import { PostgresService } from './postgres-service'
 
 export abstract class BaseRepository<T, U> implements Reader<U>, Writer<T, U> {
   constructor (

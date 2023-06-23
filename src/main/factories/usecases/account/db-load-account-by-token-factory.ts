@@ -1,5 +1,5 @@
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
-import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'
+import { JwtAdapter } from '@/infra/criptography'
 import { ENVIRONMENT } from '@/main/config/env'
 import { ILoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
 import { DbLoadAccountByTokenUseCase } from '@/data/usescases/account'

@@ -1,5 +1,5 @@
 import { AccountModel } from '@/domain/models/account'
-import { BaseRepository } from '@/infra/database/postgres/base-repository'
+import { BaseRepository } from '@/infra/service/base-repository-service'
 import { IAccountRepository, dataModelToDbModelMapCategory } from '@/data/protocols/db'
 import { InputDbAccountModel, OutputDbAccountModel, dbModelToDataModelMapCategory } from '@/data/models/db-account'
 

@@ -1,5 +1,5 @@
 
-import { BaseRepository } from '@/infra/database/postgres/base-repository'
+import { BaseRepository } from '@/infra/service/base-repository-service'
 import { dataModelToDbModelMapTournamentSponsor, ITournamentSponsorRepository } from '@/data/protocols/db'
 import { dbModelToDataModelMapTournamentSponsor, InputDbTournamentSponsorModel, OutputDbTournamentSponsorModel } from '@/data/models/db-tournament-sponsor'
 

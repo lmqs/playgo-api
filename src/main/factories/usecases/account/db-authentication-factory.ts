@@ -1,7 +1,7 @@
 import { DbAuthenticationUseCase } from '@/data/usescases/account/db-authentication'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
 import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter'
-import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'
+import { JwtAdapter } from '@/infra/criptography'
 import { ENVIRONMENT } from '@/main/config/env'
 import { IAuthentication } from '@/domain/usecases/authentication/authentication'
 

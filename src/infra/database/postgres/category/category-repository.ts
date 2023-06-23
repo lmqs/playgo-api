@@ -1,6 +1,6 @@
 import { InputDbCategoryModel, OutputDbCategoryModel, dbModelToDataModelMap } from '@/data/models/db-category'
 import { ICategoryRepository, dataModelToDbModelMap } from '@/data/protocols/db'
-import { BaseRepository } from '@/infra/database/postgres/base-repository'
+import { BaseRepository } from '@/infra/service/base-repository-service'
 export class CategoryPostgresRepository extends BaseRepository<InputDbCategoryModel, OutputDbCategoryModel> implements ICategoryRepository {
   constructor (public readonly tableName: string = 'categories') {
     super(tableName)

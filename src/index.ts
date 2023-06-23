@@ -1,5 +1,5 @@
 import './main/config/module-alias'
-import { PostgresService } from '@/infra/database/postgres/postgres-service'
+import { PostgresService } from './infra/service/postgres-service'
 import RabbitmqService from '@/infra/service/rabbitmq-service'
 
 PostgresService.getInstance()

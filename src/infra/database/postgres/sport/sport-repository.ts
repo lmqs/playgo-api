@@ -1,4 +1,4 @@
-import { BaseRepository } from '@/infra/database/postgres/base-repository'
+import { BaseRepository } from '@/infra/service/base-repository-service'
 import { SportModel } from '@/domain/models/sport'
 import { AddSportRepository, LoadSportByDescription, LoadSportByDescriptionRepository, LoadSportByIdRepository, LoadSportsRepository } from '@/data/usescases/sport'
 

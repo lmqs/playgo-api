@@ -1,4 +1,4 @@
-import { BaseRepository } from '@/infra/database/postgres/base-repository'
+import { BaseRepository } from '@/infra/service/base-repository-service'
 import { ICityRepository } from '@/data/protocols/db/city'
 import { InputDbCityModel, OutputDbCityModel } from '@/data/models/db-city'
 
