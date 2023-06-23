@@ -9,6 +9,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "test:coverage": "npm test -- --coverage --logHeapUsage",
     "build": "rimraf build && tsc -p tsconfig-build.json",
     "start:build": "npm run build && node -r dotenv/config build/index.js",
     "prepare": "husky install",
