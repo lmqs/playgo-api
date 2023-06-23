@@ -3,7 +3,7 @@ import { DbAuthenticationUseCase } from '@/data/usescases/account/db-authenticat
 import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
 import { IAccountRepository } from '@/data/protocols/db'
-import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'
+import { JwtAdapter } from '@/infra/criptography'
 import { addAuthenticationMock, dbAccountModelMock } from './account-mock'
 
 describe('DbAddAccount UseCase', () => {

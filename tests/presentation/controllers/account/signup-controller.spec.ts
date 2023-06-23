@@ -7,7 +7,7 @@ import { Validation } from '@/presentation/protocols'
 import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
 import { DbAddAccountUseCase, DbAuthenticationUseCase } from '@/data/usescases/account'
-import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'
+import { JwtAdapter } from '@/infra/criptography'
 import { ValidationComposite } from '@/presentation/validation/validators'
 import { addAccountModelUseCaseMock, authModelMock, requestMock } from './account-mock'
 

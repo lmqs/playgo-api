@@ -1,7 +1,7 @@
 import { Decrypter } from '@/data/protocols/criptography'
 import { IAccountRepository } from '@/data/protocols/db'
 import { DbLoadAccountByTokenUseCase } from '@/data/usescases/account'
-import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'
+import { JwtAdapter } from '@/infra/criptography'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
 import { AccessDeniedError } from '@/presentation/errors'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'

@@ -1,7 +1,7 @@
 import { Decrypter } from '@/data/protocols/criptography/decrypter'
 import { DbLoadAccountByTokenUseCase } from '@/data/usescases/account/db-load-account-by-token'
 import { IAccountRepository } from '@/data/protocols/db'
-import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'
+import { JwtAdapter } from '@/infra/criptography'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
 import { dbAccountModelMock } from './account-mock'
 
