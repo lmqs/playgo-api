@@ -1,7 +1,7 @@
 
 import { RequiredFieldValidation, ValidationComposite } from '@/presentation/validation/validators'
 import { Validation } from '@/presentation/protocols/validation'
-import { CategoryDatabaseValidation } from '@/presentation/validation/database/category-database-validation'
+import { CategoryDatabaseValidation } from '@/infra/validation/database/category-database-validation'
 import { makeDbLoadCategoryById } from '@/main/factories/usecases/category/db-load-category-by-id'
 
 export const makeUpdateCategoryValidation = (): ValidationComposite => {

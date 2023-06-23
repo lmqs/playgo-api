@@ -1,10 +1,10 @@
 import { Validation } from '@/presentation/protocols'
 import { RequiredFieldValidation, ValidationComposite, EmailValidation } from '@/presentation/validation/validators'
-import { CityDatabaseValidation } from '@/presentation/validation/database'
-import { EmailValidatorAdapter } from '@/infra/validators/email-validator-adapter'
+import { CityDatabaseValidation } from '@/infra/validation/database'
+import { EmailValidatorAdapter } from '@/infra/validation/validators/email-validator-adapter'
 import { makeDbLoadCityById } from '@/main/factories/usecases/city/db-load-by-id'
 import { makeDbLoadAccountById } from '@/main/factories/usecases/account/db-load-account-by-id-factory'
-import { AccountDatabaseValidation } from '@/presentation/validation/database/account-database-validation'
+import { AccountDatabaseValidation } from '@/infra/validation/database/account-database-validation'
 
 export const makeUpdateAccountValidation = (): ValidationComposite => {
   const validations: Validation[] = []

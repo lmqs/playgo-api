@@ -1,7 +1,7 @@
 import { Validation } from '@/presentation/protocols'
 import { RequiredFieldValidation, ValidationComposite, EmailValidation } from '@/presentation/validation/validators'
-import { CityDatabaseValidation } from '@/presentation/validation/database'
-import { EmailValidatorAdapter } from '@/infra/validators/email-validator-adapter'
+import { CityDatabaseValidation } from '@/infra/validation/database'
+import { EmailValidatorAdapter } from '@/infra/validation/validators/email-validator-adapter'
 import { makeDbLoadCityById } from '@/main/factories/usecases/city/db-load-by-id'
 
 export const makeSignUpValidation = (): ValidationComposite => {
