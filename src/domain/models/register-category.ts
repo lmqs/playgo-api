@@ -1,4 +1,4 @@
-export type RegisterCategory = {
+export type RegisterCategoryModel = {
   id: string
   categoryId: string
   registerDate: string

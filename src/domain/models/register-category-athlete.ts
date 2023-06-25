@@ -1,4 +1,4 @@
-export type RegisterCategoryAthlete = {
+export type RegisterCategoryAthleteModel = {
   id: string
   registerCategoryId: string
   athleteId: string

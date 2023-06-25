@@ -1,4 +1,4 @@
-import { RegisterCategory } from '@/domain/models/registerCategory'
+import { RegisterCategory } from '@/domain/models/register-category'
 
 export interface IAddRegisterCategory {
   add: (registerCategory: IAddRegisterCategory.Params) => Promise<IAddRegisterCategory.Result>
