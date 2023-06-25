@@ -3,6 +3,7 @@ import { RegisterCategoryModel } from '@/domain/models/register-category'
 export interface IRegisterCategoryRepository {
   add: (data: IRegisterCategoryRepository.AddParams) => Promise<IRegisterCategoryRepository.Result>
   loadById: (id: string) => Promise<IRegisterCategoryRepository.Result | undefined>
+  loadByCategory: (categoryId: string) => Promise<IRegisterCategoryRepository.LoadResult>
   remove: (id: string) => Promise<void>
 }
 

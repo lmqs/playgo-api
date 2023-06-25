@@ -58,6 +58,38 @@ describe('Register-category Postgres Repository', () => {
     })
   })
 
+  describe('loadByCategory()', () => {
+    test('Should return a register-category model on loadByCategory with success', async () => {
+      const registerCatRepo = new RegisterCategoryPostgresRepository()
+      registerCatRepo.findGeneric = jest.fn().mockReturnValue([dbRegisterCategoryModelMock])
+
+      const result = await registerCatRepo.loadByCategory('1')
+      expect(result).toStrictEqual([{
+        id: '1',
+        categoryId: 'any_category',
+        registerDate: '24/06/2023',
+        deleted: false
+      }])
+    })
+
+    test('Should return undefined if is not exists in database', async () => {
+      const registerCatRepo = new RegisterCategoryPostgresRepository()
+      registerCatRepo.findGeneric = jest.fn().mockReturnValue([])
+
+      const result = await registerCatRepo.loadByCategory('1')
+      expect(result.length).toBe(0)
+    })
+
+    test('Should rethrow if loadByCategory fails', async () => {
+      const registerCatRepo = new RegisterCategoryPostgresRepository()
+      registerCatRepo.findGeneric = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = registerCatRepo.loadByCategory('1')
+      await expect(promise).rejects.toThrow()
+    })
+  })
+
   describe('remove()', () => {
     test('Should delete register-category', async () => {
       const registerCatRepo = new RegisterCategoryPostgresRepository()

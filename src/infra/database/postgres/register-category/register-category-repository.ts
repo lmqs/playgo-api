@@ -19,6 +19,13 @@ export class RegisterCategoryPostgresRepository
     return dbModelToDataModelMapRegisterCategory(result[0])
   }
 
+  async loadByCategory (categoryId: string): Promise<IRegisterCategoryRepository.LoadResult> {
+    const result = await this.findGeneric({ category_id: categoryId })
+    return result.map((model) => {
+      return dbModelToDataModelMapRegisterCategory(model)
+    })
+  }
+
   async remove (id: string): Promise<void> {
     await this.delete(id)
   }
