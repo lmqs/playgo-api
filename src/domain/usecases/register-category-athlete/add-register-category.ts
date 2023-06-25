@@ -1,4 +1,4 @@
-import { RegisterCategoryAthlete } from '@/domain/models/registerCategoryAthlete'
+import { RegisterCategoryAthleteModel } from '@/domain/models/register-category-athlete'
 
 export interface IAddRegisterCategoryAthlete {
   add: (registerCategoryAthlete: IAddRegisterCategoryAthlete.Params) => Promise<IAddRegisterCategoryAthlete.Result>
@@ -10,5 +10,5 @@ export namespace IAddRegisterCategoryAthlete {
     athleteId: string
     isPay: boolean
   }
-  export type Result = RegisterCategoryAthlete
+  export type Result = RegisterCategoryAthleteModel
 }
