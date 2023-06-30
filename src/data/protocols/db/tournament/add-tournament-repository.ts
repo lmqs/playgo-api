@@ -12,10 +12,10 @@ export namespace AddTournamentRepository {
     organization: string
     cityId: string
     sportId: string
-    dtStartTournament: String
-    dtFinalTournament: String
-    dtStartRegistration: String
-    dtFinalRegistration: String
+    dtStartTournament: string
+    dtFinalTournament: string
+    dtStartRegistration: string
+    dtFinalRegistration: string
     otherInformation?: string
   }
   export type Result = TournamentModel

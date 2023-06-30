@@ -7,9 +7,6 @@ export class DbLoadTournamentById implements LoadTournamentById {
   ) {}
 
   async load (id: string): Promise<LoadTournamentById.Result | undefined> {
-    const tournament = await this.loadTournamentByIdRepository.loadById(id)
-    if (tournament) {
-      return tournament
-    }
+    return await this.loadTournamentByIdRepository.loadById(id)
   }
 }

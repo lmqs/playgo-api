@@ -4,10 +4,10 @@ export type TournamentModel = {
   organization: string
   cityId: string
   sportId: string
-  dtStartTournament: String
-  dtFinalTournament: String
-  dtStartRegistration: String
-  dtFinalRegistration: String
+  dtStartTournament: string
+  dtFinalTournament: string
+  dtStartRegistration: string
+  dtFinalRegistration: string
   otherInformation?: string
   deleted?: boolean
 }
