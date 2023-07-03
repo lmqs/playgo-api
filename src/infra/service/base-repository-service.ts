@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-base-to-string */
 import Knex from 'knex'
+
 import { Reader, Writer } from '@/infra/database/protocols/database'
 import { PostgresService } from './postgres-service'
 
@@ -61,6 +62,28 @@ export abstract class BaseRepository<T, U> implements Reader<U>, Writer<T, U> {
       .del()
       .toString()
     await this.runSql(query)
+  }
+
+  async deleteByField (whereField: any): Promise<void> {
+    const query = this.knex(this.tableName)
+      .where(whereField)
+      .del()
+      .toString()
+    await this.runSql(query)
+  }
+
+  async findWithJoin (joinTable: string, joinField: string, joinTableField: string, whereFields: any): Promise<U[]> {
+    const whereClauses = whereFields.map((item: { field: string, value: string }) => {
+      return `${item.field}=${item.value}`
+    }).join(' AND ')
+
+    const query = this.knex(this.tableName)
+      .join(joinTable, `${this.tableName}.${joinField}`, `${joinTable}.${joinTableField}`)
+      .select('*')
+      .whereRaw(whereClauses)
+      .toString()
+    const result = await this.runSql(query)
+    return result
   }
 
   async runSql (query: string): Promise<any> {
