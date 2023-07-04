@@ -24,6 +24,9 @@ export default {
     },
     {
       name: 'Torneio'
+    },
+    {
+      name: 'Inscrição'
     }
   ],
   paths,

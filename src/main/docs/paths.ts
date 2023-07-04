@@ -12,7 +12,8 @@ import {
   updateAccountPath,
   loadTournamentSponsorPath,
   removeTournamentSponsorPath,
-  addTournamentSponsorPath
+  addTournamentSponsorPath,
+  addRegistrationsPath
 } from './paths/'
 
 export default {
@@ -29,5 +30,6 @@ export default {
   '/tournament-sponsor/load-by-tournament': loadTournamentSponsorPath,
   '/tournament-sponsor/{id}': removeTournamentSponsorPath,
   '/sport': addSportPath,
-  '/sports': sportPath
+  '/sports': sportPath,
+  '/registrations': addRegistrationsPath
 }
