@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IAccountRepository, ICategoryRepository } from '@/data/protocols/db'
 import { IRegistrationsAthleteRepository } from '@/data/protocols/db/registrations-athlete-repository'
+import { IRegistrationsAthleteWaitingRepository } from '@/data/protocols/db/registrations-athlete-waiting-repository'
 import { IRegistrationsRepository } from '@/data/protocols/db/registrations-repository'
+import { IRegistrationsWaitingRepository } from '@/data/protocols/db/registrations-waiting-repository'
 import { LoadTournamentByIdRepository } from '@/data/protocols/db/tournament'
 import { IAddRegistrations } from '@/domain/usecases/registration/add-registrations'
 import { DateHandler } from '@/infra/gateways/date/date-handler'
@@ -12,7 +14,9 @@ export class AddRegistrationsUseCase implements IAddRegistrations {
     private readonly tournamentRepo: LoadTournamentByIdRepository,
     private readonly accountRepo: IAccountRepository,
     private readonly registrationsRepo: IRegistrationsRepository,
-    private readonly registrationsAthleteRepo: IRegistrationsAthleteRepository
+    private readonly registrationsAthleteRepo: IRegistrationsAthleteRepository,
+    private readonly registrationsWaitingRepo: IRegistrationsWaitingRepository,
+    private readonly registrationsAthleteWaitingRepo: IRegistrationsAthleteWaitingRepository
   ) {}
 
   async add (data: IAddRegistrations.Params): Promise<IAddRegistrations.ResultObj> {
@@ -27,9 +31,6 @@ export class AddRegistrationsUseCase implements IAddRegistrations {
     const nowDate = new DateHandler().format(nowString)
     if (nowDate > dtFinalRegistrationTournament) throw new Error('Inscrições finalizadas')
 
-    const categories = await this.registrationsRepo.loadByCategory(category.id)
-    if (parseInt(category.numberAthletes) === categories.length) throw new Error('Vagas esgotadas')
-
     const athletes = data.athletesId.split(',')
     const isAmountAthletes = athletes.length > parseInt(category.numberAthletesRegistration)
     if (isAmountAthletes) throw new Error('Quantidade de atletas maior que o permitido para essa categoria.')
@@ -39,6 +40,16 @@ export class AddRegistrationsUseCase implements IAddRegistrations {
     }))
     const isUsersInvalid = usersValid.includes(undefined)
     if (isUsersInvalid) throw new Error('Usuário inválido')
+
+    const categories = await this.registrationsRepo.loadByCategory(category.id)
+    if (categories.length >= parseInt(category.numberAthletes)) {
+      const registrationWaiting = await this.registrationsWaitingRepo.add({ categoryId: category.id })
+
+      await Promise.all(usersValid.map(async (athlete) => {
+        await this.registrationsAthleteWaitingRepo.add({ registrationsWaitingId: registrationWaiting.id, athleteId: athlete!.id })
+      }))
+      throw new Error('Vagas esgotadas, sua inscrição foi para a lista de espera.')
+    }
 
     const usersRegistered = await Promise.all(athletes.map(async (athleteId: string) => {
       return await this.registrationsAthleteRepo.loadByCategoryAndUser({ categoryId: data.categoryId, athleteId })

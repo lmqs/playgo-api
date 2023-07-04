@@ -11,9 +11,14 @@ import { RegistrationsAthletePostgresRepository } from '@/infra/database/postgre
 import {
   accountModelMock, accountRegistrationModelMock, categoryActivatedMock, categoryNotActivatedMock, registrationModelMock,
   registrationWithAthlete, registrations2AthleteModelMock, registrationsAddParamsInvalidAthletesMock, registrationsAddParamsMock,
-  registrationsAthleteModelMock, registrationsInvalidArrayMock, registrationsValidArrayMock, tournamentDateInvalidMock,
+  registrationsAthleteModelMock, registrationsAthleteWaiting2ModelMock, registrationsAthleteWaitingModelMock,
+  registrationsInvalidArrayMock, registrationsValidArrayMock, registrationsWaitingModelMock, tournamentDateInvalidMock,
   tournamentNotActivatedMock, tournamentValidMock
 } from './db-add-registrations-mock'
+import { RegistrationsWaitingPostgresRepository } from '@/infra/database/postgres/registrations/registrations-waiting-repository'
+import { RegistrationsAthleteWaitingPostgresRepository } from '@/infra/database/postgres/registrations/registrations-athlete-waiting-repository'
+import { IRegistrationsAthleteWaitingRepository } from '@/data/protocols/db/registrations-athlete-waiting-repository'
+import { IRegistrationsWaitingRepository } from '@/data/protocols/db/registrations-waiting-repository'
 jest.useFakeTimers().setSystemTime(new Date('2023-06-30 00:00:00'))
 
 describe('DbAddCategory UseCase', () => {
@@ -22,6 +27,8 @@ describe('DbAddCategory UseCase', () => {
   let accountRepo: IAccountRepository
   let registrationsRepo: IRegistrationsRepository
   let registrationsAthleteRepo: IRegistrationsAthleteRepository
+  let registrationsWaitingRepo: IRegistrationsWaitingRepository
+  let registrationsAthleteWaitingRepo: IRegistrationsAthleteWaitingRepository
 
   beforeEach(async () => {
     categoryRepo = new CategoryPostgresRepository()
@@ -29,12 +36,15 @@ describe('DbAddCategory UseCase', () => {
     accountRepo = new AccountPostgresRepository()
     registrationsRepo = new RegistrationsPostgresRepository()
     registrationsAthleteRepo = new RegistrationsAthletePostgresRepository()
+    registrationsWaitingRepo = new RegistrationsWaitingPostgresRepository()
+    registrationsAthleteWaitingRepo = new RegistrationsAthleteWaitingPostgresRepository()
   })
 
   test('Should throw Error(Categoria não existente) if category is not activated', async () => {
     const loadSpy = jest.spyOn(categoryRepo, 'loadById').mockReturnValue(Promise.resolve(categoryNotActivatedMock))
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
     await expect(promise).rejects.toThrow('Categoria não existente')
@@ -44,7 +54,8 @@ describe('DbAddCategory UseCase', () => {
   test('Should throw categoryRepository.loadById throw', async () => {
     const loadSpy = jest.spyOn(categoryRepo, 'loadById').mockReturnValueOnce(Promise.reject(new Error()))
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
     await expect(promise).rejects.toThrow()
@@ -56,7 +67,8 @@ describe('DbAddCategory UseCase', () => {
     const loadTournamentSpy = jest.spyOn(tournamentRepo, 'loadById').mockReturnValueOnce(Promise.resolve(tournamentNotActivatedMock))
 
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
     await expect(promise).rejects.toThrow('Torneio não existente')
@@ -68,7 +80,8 @@ describe('DbAddCategory UseCase', () => {
     const loadTournamentSpy = jest.spyOn(tournamentRepo, 'loadById').mockReturnValueOnce(Promise.resolve(tournamentDateInvalidMock))
 
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
     await expect(promise).rejects.toThrow('Inscrições finalizadas')
@@ -80,39 +93,12 @@ describe('DbAddCategory UseCase', () => {
     const loadTournamentSpy = jest.spyOn(tournamentRepo, 'loadById').mockReturnValueOnce(Promise.reject(new Error()))
 
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
     await expect(promise).rejects.toThrow()
     expect(loadTournamentSpy).toHaveBeenCalledWith('10')
-  })
-
-  test('Should throw Error(Vagas esgotadas) if the maximum number of vacancies has been filled', async () => {
-    jest.spyOn(categoryRepo, 'loadById').mockReturnValue(Promise.resolve(categoryActivatedMock))
-    jest.spyOn(tournamentRepo, 'loadById').mockReturnValueOnce(Promise.resolve(tournamentValidMock))
-    const loadRegistrationsSpy = jest.spyOn(registrationsRepo, 'loadByCategory').mockReturnValueOnce(
-      Promise.resolve(registrationsInvalidArrayMock)
-    )
-
-    const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
-    )
-    const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
-    await expect(promise).rejects.toThrow('Vagas esgotadas')
-    expect(loadRegistrationsSpy).toHaveBeenCalledWith('15')
-  })
-
-  test('Should throw registrationsRepo.loadByCategory throw', async () => {
-    jest.spyOn(categoryRepo, 'loadById').mockReturnValue(Promise.resolve(categoryActivatedMock))
-    jest.spyOn(tournamentRepo, 'loadById').mockReturnValueOnce(Promise.resolve(tournamentValidMock))
-    const loadRegistrationsSpy = jest.spyOn(registrationsRepo, 'loadByCategory').mockReturnValueOnce(Promise.reject(new Error()))
-
-    const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
-    )
-    const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
-    await expect(promise).rejects.toThrow()
-    expect(loadRegistrationsSpy).toHaveBeenCalledWith('15')
   })
 
   test('Should throw Error if the number of athletes is greater than the category allows', async () => {
@@ -121,7 +107,8 @@ describe('DbAddCategory UseCase', () => {
     jest.spyOn(registrationsRepo, 'loadByCategory').mockReturnValueOnce(Promise.resolve(registrationsValidArrayMock))
 
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsInvalidAthletesMock)
     await expect(promise).rejects.toThrow('Quantidade de atletas maior que o permitido para essa categoria.')
@@ -135,7 +122,8 @@ describe('DbAddCategory UseCase', () => {
     const load2AccountByIdSpy = jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountModelMock))
 
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
     await expect(promise).rejects.toThrow('Usuário inválido')
@@ -143,12 +131,50 @@ describe('DbAddCategory UseCase', () => {
     expect(load2AccountByIdSpy).toHaveBeenCalledWith('4')
   })
 
+  test('Should add in waiting list and throw Error(Vagas esgotadas) if the maximum number of vacancies has been filled', async () => {
+    jest.spyOn(categoryRepo, 'loadById').mockReturnValue(Promise.resolve(categoryActivatedMock))
+    jest.spyOn(tournamentRepo, 'loadById').mockReturnValueOnce(Promise.resolve(tournamentValidMock))
+    jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountModelMock))
+    jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountRegistrationModelMock))
+    const loadRegistrationsSpy = jest.spyOn(registrationsRepo, 'loadByCategory').mockReturnValueOnce(
+      Promise.resolve(registrationsInvalidArrayMock)
+    )
+    jest.spyOn(registrationsWaitingRepo, 'add').mockReturnValueOnce(Promise.resolve(registrationsWaitingModelMock))
+
+    jest.spyOn(registrationsAthleteWaitingRepo, 'add').mockReturnValueOnce(Promise.resolve(registrationsAthleteWaitingModelMock))
+    jest.spyOn(registrationsAthleteWaitingRepo, 'add').mockReturnValueOnce(Promise.resolve(registrationsAthleteWaiting2ModelMock))
+
+    const addRegistrationsUseCase = new AddRegistrationsUseCase(
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
+    )
+    const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
+    await expect(promise).rejects.toThrow('Vagas esgotadas, sua inscrição foi para a lista de espera.')
+    expect(loadRegistrationsSpy).toHaveBeenCalledWith('15')
+  })
+
+  test('Should throw registrationsRepo.loadByCategory throw', async () => {
+    jest.spyOn(categoryRepo, 'loadById').mockReturnValue(Promise.resolve(categoryActivatedMock))
+    jest.spyOn(tournamentRepo, 'loadById').mockReturnValueOnce(Promise.resolve(tournamentValidMock))
+    jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountModelMock))
+    jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountRegistrationModelMock))
+    const loadRegistrationsSpy = jest.spyOn(registrationsRepo, 'loadByCategory').mockReturnValueOnce(Promise.reject(new Error()))
+
+    const addRegistrationsUseCase = new AddRegistrationsUseCase(
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
+    )
+    const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
+    await expect(promise).rejects.toThrow()
+    expect(loadRegistrationsSpy).toHaveBeenCalledWith('15')
+  })
+
   test('Should throw Error(Usuário já cadastrado nessa categoria) if user was registration this same category', async () => {
     jest.spyOn(categoryRepo, 'loadById').mockReturnValue(Promise.resolve(categoryActivatedMock))
     jest.spyOn(tournamentRepo, 'loadById').mockReturnValueOnce(Promise.resolve(tournamentValidMock))
-    jest.spyOn(registrationsRepo, 'loadByCategory').mockReturnValueOnce(Promise.resolve(registrationsValidArrayMock))
     jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountModelMock))
     jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountRegistrationModelMock))
+    jest.spyOn(registrationsRepo, 'loadByCategory').mockReturnValueOnce(Promise.resolve(registrationsValidArrayMock))
 
     const loadRegistrationAthleteSpy =
       jest.spyOn(registrationsAthleteRepo, 'loadByCategoryAndUser').mockReturnValueOnce(Promise.resolve(registrationWithAthlete))
@@ -157,7 +183,8 @@ describe('DbAddCategory UseCase', () => {
     const loadAccountByIdSpy = jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountRegistrationModelMock))
 
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
     await expect(promise).rejects.toThrow('Usuário Ana já cadastrado nessa categoria.')
@@ -184,7 +211,8 @@ describe('DbAddCategory UseCase', () => {
     const registrationsRepoSpy = jest.spyOn(registrationsRepo, 'remove').mockReturnValueOnce(Promise.resolve())
 
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
     await expect(promise).rejects.toThrow()
@@ -209,7 +237,8 @@ describe('DbAddCategory UseCase', () => {
     jest.spyOn(registrationsAthleteRepo, 'add').mockReturnValueOnce(Promise.resolve(registrations2AthleteModelMock))
 
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
-      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const result = await addRegistrationsUseCase.add(registrationsAddParamsMock)
     expect(registrationsAddRepoSpy).toHaveBeenCalledWith({ categoryId: '15', registrationDate: 'now()' })

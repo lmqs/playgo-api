@@ -168,3 +168,24 @@ export const registrations2AthleteModelMock = {
   isPay: false,
   deleted: false
 }
+
+export const registrationsWaitingModelMock = {
+  id: '1',
+  categoryId: '15',
+  date: '04/07/2023',
+  deleted: false
+}
+
+export const registrationsAthleteWaitingModelMock = {
+  id: '1',
+  registrationWaitingId: '1',
+  athleteId: '3',
+  deleted: false
+}
+
+export const registrationsAthleteWaiting2ModelMock = {
+  id: '2',
+  registrationWaitingId: '1',
+  athleteId: '4',
+  deleted: false
+}

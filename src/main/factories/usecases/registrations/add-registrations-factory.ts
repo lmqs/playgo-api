@@ -5,6 +5,8 @@ import { TournamentPostgresRepository } from '@/infra/database/postgres/tourname
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
 import { RegistrationsPostgresRepository } from '@/infra/database/postgres/registrations/registrations-repository'
 import { RegistrationsAthletePostgresRepository } from '@/infra/database/postgres/registrations/registrations-athlete-repository'
+import { RegistrationsWaitingPostgresRepository } from '@/infra/database/postgres/registrations/registrations-waiting-repository'
+import { RegistrationsAthleteWaitingPostgresRepository } from '@/infra/database/postgres/registrations/registrations-athlete-waiting-repository'
 
 export const makeAddRegistrationsUseCase = (): IAddRegistrations => {
   const categoryRepository = new CategoryPostgresRepository()
@@ -13,8 +15,11 @@ export const makeAddRegistrationsUseCase = (): IAddRegistrations => {
 
   const registrationsRepository = new RegistrationsPostgresRepository()
   const registrationsAthleteRepository = new RegistrationsAthletePostgresRepository()
+  const registrationsWaitingRepository = new RegistrationsWaitingPostgresRepository()
+  const registrationsAthleteWaitingRepository = new RegistrationsAthleteWaitingPostgresRepository()
 
   return new AddRegistrationsUseCase(
-    categoryRepository, tournamentRepository, accountRepository, registrationsRepository, registrationsAthleteRepository
+    categoryRepository, tournamentRepository, accountRepository,
+    registrationsRepository, registrationsAthleteRepository, registrationsWaitingRepository, registrationsAthleteWaitingRepository
   )
 }
