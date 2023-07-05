@@ -85,6 +85,10 @@ export const mockLoadTournamentsModel = (): LoadTournaments.Result => {
     dtStartRegistration: '25/05/2023',
     dtFinalRegistration: '25/05/2023',
     otherInformation: 'any_information',
+    dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtStartRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtFinalTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtStartTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
     deleted: true
   },
   {
@@ -109,6 +113,10 @@ export const mockLoadTournamentsModel = (): LoadTournaments.Result => {
     dtFinalTournament: '25/05/2023',
     dtStartRegistration: '25/05/2023',
     dtFinalRegistration: '25/05/2023',
+    dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtStartRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtFinalTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtStartTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
     otherInformation: 'any_information',
     deleted: true
   }]

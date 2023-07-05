@@ -17,5 +17,9 @@ export namespace LoadTournaments {
     dtFinalRegistration: String
     otherInformation?: string
     deleted?: boolean
+    dtFinalTournamentFormatted: string
+    dtStartTournamentFormatted: string
+    dtStartRegistrationFormatted: string
+    dtFinalRegistrationFormatted: string
   }>
 }

@@ -8,23 +8,37 @@ export const tournamentSchema = {
       type: 'string'
     },
     sportId: {
-      type: 'string'
+      $ref: '#/schemas/sport'
     },
     cityId: {
       type: 'string'
     },
-    dtTournament: {
+    dtStartTournament: {
       type: 'string'
     },
-    registrationStartDate: {
+    dtFinalTournament: {
       type: 'string'
     },
-    registrationFinalDate: {
+    dtStartRegistration: {
+      type: 'string'
+    },
+    dtFinalRegistration: {
+      type: 'string'
+    },
+    dtStartTournamentFormatted: {
+      type: 'string'
+    },
+    dtFinalTournamentFormatted: {
+      type: 'string'
+    },
+    dtStartRegistrationFormatted: {
+      type: 'string'
+    },
+    dtFinalRegistrationFormatted: {
       type: 'string'
     },
     deleted: {
       type: 'boolean'
     }
-  },
-  required: ['id', 'description', 'sportId', 'cityId', 'dtTournament', 'registrationStartDate', 'registrationFinalDate']
+  }
 }
