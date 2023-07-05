@@ -1,8 +1,9 @@
-export interface ILoadAccountById {
-  loadById: (id: string) => Promise<ILoadAccountById.Result | undefined>
+
+export interface ILoadAccountByName {
+  loadByName: (name: string) => Promise<any>
 }
 
-export namespace ILoadAccountById {
+export namespace ILoadAccountByName {
   export type Result = {
     id: string
     name: string
@@ -11,6 +12,8 @@ export namespace ILoadAccountById {
     cityId: number
     phoneNumber: string
     dateBirthday: string
+    role?: string
     photo?: string
+    deleted: boolean
   }
 }

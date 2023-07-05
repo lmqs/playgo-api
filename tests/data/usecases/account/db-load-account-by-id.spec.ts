@@ -1,6 +1,6 @@
 import { IAccountRepository } from '@/data/protocols/db'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
-import { dbAccountModelMock } from './account-mock'
+import { accountFromLoadByIdModelMock, dbAccountModelMock } from './account-mock'
 import { DbLoadAccountByIdUseCase } from '@/data/usescases/account/db-load-account-by-id'
 
 describe('DbLoadAccountByToken', () => {
@@ -41,6 +41,6 @@ describe('DbLoadAccountByToken', () => {
 
     const loadAccountUseCase = new DbLoadAccountByIdUseCase(accountRepoStub)
     const account = await loadAccountUseCase.loadById('any_id')
-    expect(account).toEqual(dbAccountModelMock)
+    expect(account).toEqual(accountFromLoadByIdModelMock)
   })
 })

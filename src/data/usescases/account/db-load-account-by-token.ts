@@ -16,8 +16,7 @@ export class DbLoadAccountByTokenUseCase implements ILoadAccountByToken {
       return undefined
     }
     if (token) {
-      const account = await this.accountRepository.loadByToken(accessToken, role)
-      if (account) return account
+      return await this.accountRepository.loadByToken(accessToken, role)
     }
   }
 }

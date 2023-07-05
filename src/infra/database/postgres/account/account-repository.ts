@@ -39,4 +39,11 @@ export class AccountPostgresRepository extends BaseRepository<InputDbAccountMode
     const result = await this.findOne('id', id)
     return dbModelToDataModelMapCategory(result)
   }
+
+  async loadByName (name: string): Promise<AccountModel[]> {
+    const result = await this.findLike('name', name)
+    return result.map((account) => {
+      return dbModelToDataModelMapCategory(account)
+    })
+  }
 }

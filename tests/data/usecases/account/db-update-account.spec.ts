@@ -3,7 +3,6 @@ import { IAccountRepository } from '@/data/protocols/db'
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
 import { updateAccountModelMock, dbAccountModelMock, dbUpdateAccountModelMock } from './account-mock'
 import { EmailInUseError } from '@/presentation/errors'
-// jest.mock('@/infra/database/postgres/category/category-repository')
 
 describe('DbUpdateAccountUseCase UseCase', () => {
   let accountRepoSpy: IAccountRepository

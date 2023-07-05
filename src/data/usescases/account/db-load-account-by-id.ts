@@ -7,6 +7,10 @@ export class DbLoadAccountByIdUseCase implements ILoadAccountById {
   ) {}
 
   async loadById (id: string): Promise<ILoadAccountById.Result | undefined> {
-    return await this.accountRepository.loadById(id)
+    const account = await this.accountRepository.loadById(id)
+    if (account) {
+      const { accessToken, password, role, deleted, ...accountObj } = account
+      return accountObj
+    }
   }
 }

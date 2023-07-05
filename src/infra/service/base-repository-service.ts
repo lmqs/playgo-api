@@ -20,6 +20,15 @@ export abstract class BaseRepository<T, U> implements Reader<U>, Writer<T, U> {
     return result[0]
   }
 
+  async findLike (field: string, value: string): Promise<U[]> {
+    const query = this.knex(this.tableName)
+      .select('*')
+      .whereILike(field, `%${value}%`)
+      .toString()
+    const result = await this.runSql(query)
+    return result
+  }
+
   async findGeneric (whereFieldsAndValues: any): Promise<U[]> {
     const query = this.knex(this.tableName)
       .select('*')

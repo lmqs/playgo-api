@@ -52,3 +52,14 @@ export const dbUpdateAccountModelMock = {
   dateBirthday: '20/10/2020',
   deleted: true
 }
+
+export const accountFromLoadByIdModelMock = {
+  id: 'valid_id',
+  name: 'valid_name',
+  gender: 'valid_gender',
+  email: 'valid_email',
+  cityId: 1,
+  phoneNumber: 'valid_number',
+  photo: 'valid_photo',
+  dateBirthday: '20/10/2020'
+}
