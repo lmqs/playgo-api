@@ -4,7 +4,7 @@ import { DateHandler } from '@/infra/gateways/date/date-handler'
 export type InputDbAccountModel = {
   name: string
   gender: string
-  password: string
+  password?: string
   email: string
   city_id: number
   phone_number: string

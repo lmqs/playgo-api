@@ -9,6 +9,8 @@ export class DbUpdateAccountUseCase implements IUpdateAccount {
     const account = await this.accountRepository.loadByEmail(accountParams.email)
     if (account && parseInt(account.id) !== parseInt(accountParams.id)) throw new EmailInUseError()
 
-    return await this.accountRepository.updateData(accountParams)
+    const result = await this.accountRepository.updateData(accountParams)
+    const { accessToken, password, role, deleted, ...accountObj } = result
+    return accountObj
   }
 }

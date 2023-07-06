@@ -29,7 +29,6 @@ export namespace UpdateAccountController {
   export type Request = {
     id: string
     name: string
-    password: string
     gender: string
     email: string
     cityId: number

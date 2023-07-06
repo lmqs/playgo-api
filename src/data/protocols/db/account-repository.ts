@@ -16,7 +16,7 @@ export namespace IAccountRepository {
   export type AddParams = {
     name: string
     gender: string
-    password: string
+    password?: string
     email: string
     cityId: number
     phoneNumber: string
@@ -26,7 +26,18 @@ export namespace IAccountRepository {
     role?: string
     accessToken?: string
   }
-  export type UpdateParams = AccountModel
+  export type UpdateParams = {
+    id: string
+    name: string
+    gender: string
+    email: string
+    cityId: number
+    phoneNumber: string
+    dateBirthday: string
+    photo?: string
+    deleted?: boolean
+    role?: string
+  }
   export type Result = AccountModel
 }
 
@@ -38,11 +49,11 @@ export const dataModelToDbModelMapCategory = (accountModel: IAccountRepository.A
     date_birthday: dateClass.format(accountModel.dateBirthday.toString()),
     name: accountModel.name,
     gender: accountModel.gender,
-    password: accountModel.password,
+    password: accountModel?.password,
     email: accountModel.email,
     photo: accountModel.photo,
     deleted: accountModel.deleted,
-    role: accountModel.role,
+    role: accountModel?.role,
     access_token: accountModel.accessToken
   }
 }

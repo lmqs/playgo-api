@@ -6,7 +6,7 @@ import { LogControllerDecorator } from '@/main/decorators/log-controller-decorat
 import { makeDbUpdateAccount } from '@/main/factories/usecases/account/db-update-account'
 
 export const makeUpdateAccountController = (): Controller => {
-  const signUpController = new UpdateAccountController(makeDbUpdateAccount(), makeUpdateAccountValidation())
+  const updateController = new UpdateAccountController(makeDbUpdateAccount(), makeUpdateAccountValidation())
   const logPostgresRepository = new LogPostgresRepository()
-  return new LogControllerDecorator(signUpController, logPostgresRepository)
+  return new LogControllerDecorator(updateController, logPostgresRepository)
 }

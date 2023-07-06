@@ -79,12 +79,10 @@ describe('DbUpdateAccountUseCase UseCase', () => {
       id: 'valid_id',
       name: 'valid_name',
       gender: 'valid_gender',
-      password: 'hashed_password',
       email: 'valid_email',
       cityId: 1,
       phoneNumber: 'valid_number',
       photo: 'valid_photo',
-      deleted: true,
       dateBirthday: '20/10/2020'
     })
   })
