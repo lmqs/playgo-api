@@ -13,6 +13,9 @@ export const registrationSchema = {
     deleted: {
       type: 'boolean'
     },
+    canDelete: {
+      type: 'boolean'
+    },
     athlete: {
       type: 'object',
       properties: {
