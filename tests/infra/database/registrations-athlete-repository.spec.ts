@@ -63,7 +63,7 @@ describe('Register-category-athlete Postgres Repository', () => {
   describe('loadByCategory()', () => {
     test('Should return a registrations-athlete model on load with success', async () => {
       const registrationAthleteRepo = new RegistrationsAthletePostgresRepository()
-      registrationAthleteRepo.findGeneric = jest.fn().mockReturnValue([dbRegistrationAthleteModelMock])
+      registrationAthleteRepo.findWithJoin = jest.fn().mockReturnValue([dbRegistrationAthleteModelMock])
 
       const result = await registrationAthleteRepo.loadByCategory('1')
       expect(result).toStrictEqual([{
@@ -77,7 +77,7 @@ describe('Register-category-athlete Postgres Repository', () => {
 
     test('Should return an array empty if is not exists in database', async () => {
       const registrationAthleteRepo = new RegistrationsAthletePostgresRepository()
-      registrationAthleteRepo.findGeneric = jest.fn().mockReturnValue([])
+      registrationAthleteRepo.findWithJoin = jest.fn().mockReturnValue([])
 
       const result = await registrationAthleteRepo.loadByCategory('id')
       expect(result?.length).toBe(0)
@@ -85,7 +85,7 @@ describe('Register-category-athlete Postgres Repository', () => {
 
     test('Should rethrow if loadByCategory fails', async () => {
       const registrationAthleteRepo = new RegistrationsAthletePostgresRepository()
-      registrationAthleteRepo.findGeneric = jest.fn().mockImplementationOnce(() => {
+      registrationAthleteRepo.findWithJoin = jest.fn().mockImplementationOnce(() => {
         throw new Error()
       })
       const promise = registrationAthleteRepo.loadByCategory('id')

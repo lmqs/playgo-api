@@ -19,10 +19,16 @@ export class RegistrationsAthletePostgresRepository extends BaseRepository<Input
     return dbModelToDataModelMapRegistrationsAthlete(result[0])
   }
 
-  async loadByCategory (categoryId: string): Promise<IRegistrationsAthleteRepository.LoadResult> {
-    const result = await this.findGeneric({ category_id: categoryId, deleted: false })
-    return result.map((model) => {
-      return dbModelToDataModelMapRegistrationsAthlete(model)
+  async loadByCategory (categoryId: string): Promise<IRegistrationsAthleteRepository.LoadCategoryResult[]> {
+    const result = await this.findWithJoin('registrations', 'registrations_id', 'id',
+      [
+        { field: 'registrations.deleted', value: 'false' },
+        { field: 'registrations_athlete.deleted', value: 'false' },
+        { field: 'registrations.category_id', value: categoryId }
+      ])
+
+    return result.map((item) => {
+      return dbModelToDataModelMapRegistrationsAthlete(item)
     })
   }
 
