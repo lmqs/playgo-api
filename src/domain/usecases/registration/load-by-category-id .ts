@@ -1,8 +1,12 @@
 export interface ILoadRegistrationByCategoryId {
-  loadByCategoryId: (categoryId: string) => Promise<ILoadRegistrationByCategoryId.Result[]>
+  loadByCategoryId: (data: ILoadRegistrationByCategoryId.Params) => Promise<ILoadRegistrationByCategoryId.Result[]>
 }
 
 export namespace ILoadRegistrationByCategoryId {
+  export type Params = {
+    categoryId: string
+    accountId: string
+  }
   export type Result = {
     id: string
     registrationsId: string

@@ -9,8 +9,8 @@ export class LoadRegistrationByCategoryIdUseCase implements ILoadRegistrationByC
     private readonly accountRepo: IAccountRepository
   ) {}
 
-  async loadByCategoryId (id: string): Promise<ILoadRegistrationByCategoryId.Result[]> {
-    const results = await this.registrationsAthleteRepo.loadByCategory(id)
+  async loadByCategoryId (data: ILoadRegistrationByCategoryId.Params): Promise<ILoadRegistrationByCategoryId.Result[]> {
+    const results = await this.registrationsAthleteRepo.loadByCategory(data.categoryId)
 
     return await Promise.all(results.map(async (registration) => {
       const athlete = await this.accountRepo.loadById(registration.athleteId)
@@ -23,7 +23,8 @@ export class LoadRegistrationByCategoryIdUseCase implements ILoadRegistrationByC
           photo: athlete!.photo
         },
         isPay: registration.isPay,
-        deleted: registration.deleted
+        deleted: registration.deleted,
+        canDeleted: data.accountId === athlete!.id
       }
     }))
   }

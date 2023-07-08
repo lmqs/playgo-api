@@ -14,7 +14,7 @@ export class LoadRegistrationsByCategoryController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const result = await this.useCase.loadByCategoryId(request.categoryId)
+      const result = await this.useCase.loadByCategoryId(request)
       return ok(result)
     } catch (error: unknown) {
       return serverError(error as Error)
@@ -25,5 +25,6 @@ export class LoadRegistrationsByCategoryController implements Controller {
 export namespace LoadRegistrationsByCategoryController {
   export type Request = {
     categoryId: string
+    accountId: string
   }
 }
