@@ -1,5 +1,6 @@
 import {
   errorSchema,
+  accountLoginSchema,
   accountSchema,
   loginParamsSchema,
   categorySchema,
@@ -22,6 +23,7 @@ import {
 } from './schemas/'
 
 export default {
+  accountLogin: accountLoginSchema,
   account: accountSchema,
   loginParams: loginParamsSchema,
   error: errorSchema,

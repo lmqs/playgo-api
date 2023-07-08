@@ -1,4 +1,4 @@
-export const signupParamsSchema = {
+export const accountSchema = {
   type: 'object',
   properties: {
     name: {
@@ -25,6 +25,5 @@ export const signupParamsSchema = {
       type: 'string',
       example: '20/10/2020'
     }
-  },
-  required: ['name', 'gender', 'email', 'cityId', 'phoneNumber', 'dateBirthday']
+  }
 }

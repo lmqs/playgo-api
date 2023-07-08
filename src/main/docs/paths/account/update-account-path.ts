@@ -1,5 +1,8 @@
 export const updateAccountPath = {
   put: {
+    security: [{
+      apiKeyAuth: []
+    }],
     tags: ['Conta'],
     summary: 'Api para atualizar o usuário',
     parameters: [{

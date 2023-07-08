@@ -1,6 +1,7 @@
 import {
   loginPath,
   signupPath,
+  loadAccountByNamePath,
   loadCategoryPath,
   addCategoryPath,
   addTournamentPath,
@@ -20,6 +21,7 @@ export default {
   '/login': loginPath,
   '/signup': signupPath,
   '/account/{id}': updateAccountPath,
+  '/account/loadByName': loadAccountByNamePath,
   '/category/loadByTournament': loadCategoryPath,
   '/category': addCategoryPath,
   '/category/{id}': updateCategoryPath,

@@ -1,24 +1,26 @@
-export const signupPath = {
-  post: {
+export const loadAccountByNamePath = {
+  get: {
+    security: [{
+      apiKeyAuth: []
+    }],
     tags: ['Conta'],
-    summary: 'Api para criar conta de um usuário',
-    requestBody: {
+    summary: 'Api para obter uma lista de usuários/atletas de acordo com o parâmetro passado',
+    parameters: [{
+      in: 'query',
+      name: 'name',
+      description: 'Nome do atleta',
       required: true,
-      content: {
-        'application/json': {
-          schema: {
-            $ref: '#schemas/signupParams'
-          }
-        }
+      schema: {
+        type: 'string'
       }
-    },
+    }],
     responses: {
       200: {
         description: 'Sucesso',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/accountLogin'
+              $ref: '#/schemas/account'
             }
           }
         }
