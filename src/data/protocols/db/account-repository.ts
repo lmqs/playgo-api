@@ -5,8 +5,8 @@ import { DateHandler } from '@/infra/gateways/date/date-handler'
 export interface IAccountRepository {
   add: (data: IAccountRepository.AddParams) => Promise<IAccountRepository.Result>
   loadById: (id: string) => Promise<AccountModel | undefined>
-  loadByName: (name: string) => Promise<AccountModel[]>
-  loadByEmail: (user: string) => Promise<AccountModel | undefined>
+  loadByName: (name: string) => Promise<IAccountRepository.Result[]>
+  loadByEmail: (user: string) => Promise<IAccountRepository.Result | undefined>
   loadByToken: (token: string, role?: string) => Promise<IAccountRepository.Result | undefined>
   updateAccessToken: (id: string, token: string) => Promise<void>
   updateData: (data: IAccountRepository.UpdateParams) => Promise<IAccountRepository.Result>

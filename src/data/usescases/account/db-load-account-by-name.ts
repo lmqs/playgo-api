@@ -6,7 +6,11 @@ export class DbLoadAccountByNameUseCase implements ILoadAccountByName {
     private readonly accountRepository: IAccountRepository
   ) {}
 
-  async loadByName (name: string): Promise<any> {
-    return await this.accountRepository.loadByName(name)
+  async loadByName (name: string): Promise<ILoadAccountByName.Result[]> {
+    const accounts = await this.accountRepository.loadByName(name)
+    return accounts.map((account) => {
+      const { accessToken, password, role, deleted, ...accountObj } = account
+      return accountObj
+    })
   }
 }

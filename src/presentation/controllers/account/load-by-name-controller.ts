@@ -1,6 +1,5 @@
-import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
+import { badRequest, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
-import { EmailInUseError } from '@/presentation/errors'
 import { ILoadAccountByName } from '@/domain/usecases/account/load-account-by-name'
 
 export class LoadAccountByNameController implements Controller {
@@ -18,9 +17,6 @@ export class LoadAccountByNameController implements Controller {
       const account = await this.loadAccountByNameUseCase.loadByName(request.name)
       return ok(account)
     } catch (error: unknown) {
-      if (error instanceof EmailInUseError) {
-        return forbidden(error)
-      }
       return serverError(error as Error)
     }
   }

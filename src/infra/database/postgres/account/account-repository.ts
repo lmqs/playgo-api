@@ -1,7 +1,6 @@
-import { AccountModel } from '@/domain/models/account'
+import { InputDbAccountModel, OutputDbAccountModel, dbModelToDataModelMapCategory } from '@/data/models/db-account'
 import { BaseRepository } from '@/infra/service/base-repository-service'
 import { IAccountRepository, dataModelToDbModelMapCategory } from '@/data/protocols/db'
-import { InputDbAccountModel, OutputDbAccountModel, dbModelToDataModelMapCategory } from '@/data/models/db-account'
 
 export class AccountPostgresRepository extends BaseRepository<InputDbAccountModel, OutputDbAccountModel> implements IAccountRepository {
   constructor (public readonly tableName: string = 'users') {
@@ -13,7 +12,7 @@ export class AccountPostgresRepository extends BaseRepository<InputDbAccountMode
     return dbModelToDataModelMapCategory(result)
   }
 
-  async loadByEmail (email: string): Promise<AccountModel | undefined> {
+  async loadByEmail (email: string): Promise<IAccountRepository.Result | undefined> {
     const result = await this.findOne('email', email)
     return dbModelToDataModelMapCategory(result)
   }
@@ -35,12 +34,12 @@ export class AccountPostgresRepository extends BaseRepository<InputDbAccountMode
     return dbModelToDataModelMapCategory(result)
   }
 
-  async loadById (id: string): Promise<AccountModel | undefined> {
+  async loadById (id: string): Promise<IAccountRepository.Result | undefined> {
     const result = await this.findOne('id', id)
     return dbModelToDataModelMapCategory(result)
   }
 
-  async loadByName (name: string): Promise<AccountModel[]> {
+  async loadByName (name: string): Promise<IAccountRepository.Result[]> {
     const result = await this.findLike('name', name)
     return result.map((account) => {
       return dbModelToDataModelMapCategory(account)

@@ -59,3 +59,45 @@ export const updateAccountModelUseCaseMock: IUpdateAccount.Result = {
   photo: 'valid_photo',
   dateBirthday: '13/06/2020'
 }
+
+export const loadByNameMock = [
+  {
+    id: '1',
+    name: 'valid_name',
+    gender: 'valid_gender',
+    password: 'valid_password',
+    email: 'valid_email',
+    cityId: 1,
+    phoneNumber: 'valid_number',
+    dateBirthday: '20/10/2020'
+  }, {
+    id: '2',
+    name: 'valid_name',
+    gender: 'valid_gender',
+    password: 'valid_password',
+    email: 'valid_email',
+    cityId: 1,
+    phoneNumber: 'valid_number',
+    dateBirthday: '21/10/2020'
+  }
+]
+
+export const requestLoadByNameMock = {
+  name: 'lu'
+}
+
+export const loadByIdMock =
+  {
+    id: '1',
+    name: 'valid_name',
+    gender: 'valid_gender',
+    password: 'valid_password',
+    email: 'valid_email',
+    cityId: 1,
+    phoneNumber: 'valid_number',
+    dateBirthday: '20/10/2020'
+  }
+
+export const requestLoadByTokenMock = {
+  accountId: '1'
+}

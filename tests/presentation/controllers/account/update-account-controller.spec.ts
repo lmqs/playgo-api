@@ -8,7 +8,7 @@ import { requestUpdateMock, updateAccountModelUseCaseMock } from './account-mock
 import { DbUpdateAccountUseCase } from '@/data/usescases/account/db-update-account'
 import { UpdateAccountController } from '@/presentation/controllers/account/update-account-controller'
 
-describe('SignUP Controller', () => {
+describe('Update Controller', () => {
   let validationStub: Validation
   let updateAccountUseCaseStub: IUpdateAccount
 
