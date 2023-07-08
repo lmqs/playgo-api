@@ -14,7 +14,8 @@ import {
   loadTournamentSponsorPath,
   removeTournamentSponsorPath,
   addTournamentSponsorPath,
-  addRegistrationsPath
+  addRegistrationsPath,
+  loadRegistrationsByCategoryPath
 } from './paths/'
 
 export default {
@@ -33,5 +34,6 @@ export default {
   '/tournament-sponsor/{id}': removeTournamentSponsorPath,
   '/sport': addSportPath,
   '/sports': sportPath,
-  '/registrations': addRegistrationsPath
+  '/registrations': addRegistrationsPath,
+  '/registrations/loadByCategory': loadRegistrationsByCategoryPath
 }
