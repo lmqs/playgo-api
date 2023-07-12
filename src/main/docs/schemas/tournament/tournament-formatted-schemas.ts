@@ -1,4 +1,4 @@
-export const tournamentSchema = {
+export const tournamentFormattedDateSchema = {
   type: 'object',
   properties: {
     id: {
@@ -23,6 +23,18 @@ export const tournamentSchema = {
       type: 'string'
     },
     dtFinalRegistration: {
+      type: 'string'
+    },
+    dtStartTournamentFormatted: {
+      type: 'string'
+    },
+    dtFinalTournamentFormatted: {
+      type: 'string'
+    },
+    dtStartRegistrationFormatted: {
+      type: 'string'
+    },
+    dtFinalRegistrationFormatted: {
       type: 'string'
     },
     deleted: {

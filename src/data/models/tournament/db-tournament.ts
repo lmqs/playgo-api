@@ -1,5 +1,5 @@
-import { TournamentModel } from '@/domain/models/tournament'
 import { DateHandler } from '@/infra/gateways/date/date-handler'
+import { TournamentRepoModel } from '../tournament'
 
 export type InputDbTournamentModel = {
   description: string
@@ -24,11 +24,11 @@ export type OutputDbTournamentModel = {
   dt_final_tournament: Date
   dt_start_registration: Date
   dt_final_registration: Date
-  other_information?: string
-  deleted?: boolean
+  other_information: string
+  deleted: boolean
 }
 
-export const dbModelToDataModelMap = (dbTournamentModel: OutputDbTournamentModel): TournamentModel => {
+export const dbModelToDataModelMap = (dbTournamentModel: OutputDbTournamentModel): TournamentRepoModel => {
   const dateClass = new DateHandler()
 
   return (
@@ -42,7 +42,7 @@ export const dbModelToDataModelMap = (dbTournamentModel: OutputDbTournamentModel
       dtFinalTournament: dateClass.formatDateToString(dbTournamentModel.dt_final_tournament),
       dtStartRegistration: dateClass.formatDateToString(dbTournamentModel.dt_start_registration),
       dtFinalRegistration: dateClass.formatDateToString(dbTournamentModel.dt_final_registration),
-      otherInformation: dbTournamentModel?.other_information,
+      otherInformation: dbTournamentModel.other_information,
       deleted: dbTournamentModel.deleted
     }
   )

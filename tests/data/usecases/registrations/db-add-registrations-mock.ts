@@ -1,5 +1,5 @@
+import { TournamentRepoModel } from '@/data/models/tournament'
 import { CategoryModel } from '@/domain/models/category'
-import { TournamentModel } from '@/domain/models/tournament'
 import { IAddRegistrations } from '@/domain/usecases/registration/add-registrations'
 
 export const registrationsAddParamsMock: IAddRegistrations.Params = {
@@ -30,7 +30,7 @@ export const categoryActivatedMock: CategoryModel = {
   deleted: false
 }
 
-export const tournamentNotActivatedMock: TournamentModel = {
+export const tournamentNotActivatedMock: TournamentRepoModel = {
   id: '10',
   description: 'Torneio playgo',
   organization: 'Playgo organização',
@@ -44,7 +44,7 @@ export const tournamentNotActivatedMock: TournamentModel = {
   deleted: true
 }
 
-export const tournamentDateInvalidMock: TournamentModel = {
+export const tournamentDateInvalidMock: TournamentRepoModel = {
   id: '10',
   description: 'Torneio playgo',
   organization: 'Playgo organização',
@@ -58,7 +58,7 @@ export const tournamentDateInvalidMock: TournamentModel = {
   deleted: false
 }
 
-export const tournamentValidMock: TournamentModel = {
+export const tournamentValidMock = {
   id: '10',
   description: 'Torneio playgo',
   organization: 'Playgo organização',

@@ -6,7 +6,6 @@ import { mockLoadCityByIdRepository } from '../../mocks/mock-db-city'
 import { mockLoadSportByIdRepository } from '../../mocks/mock-db-sport'
 import { LoadCityByIdRepository } from '@/data/protocols/db/city'
 import { LoadSportByIdRepository } from '@/data/usescases/sport'
-import { DateHandler } from '@/infra/gateways/date/date-handler'
 
 type SutTypes = {
   sut: DbLoadTournaments
@@ -19,9 +18,8 @@ const makeSut = (): SutTypes => {
   const loadTournamentsRepositoryStub = mockLoadTournamentsRepository()
   const loadCityByIdRepositoryStub = mockLoadCityByIdRepository()
   const loadSportByIdRepositoryStub = mockLoadSportByIdRepository()
-  const dateHelper = new DateHandler()
 
-  const sut = new DbLoadTournaments(loadTournamentsRepositoryStub, loadCityByIdRepositoryStub, loadSportByIdRepositoryStub, dateHelper)
+  const sut = new DbLoadTournaments(loadTournamentsRepositoryStub, loadCityByIdRepositoryStub, loadSportByIdRepositoryStub)
   return {
     sut,
     loadTournamentsRepositoryStub,

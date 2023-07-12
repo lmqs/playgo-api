@@ -52,7 +52,7 @@ describe('DbAddTournament UseCase', () => {
 
   test('Should throw if LoadTournamentByDescriptionRepository throws', async () => {
     const { sut, loadTournamentByDescriptionRepositoryStub } = makeSut()
-    jest.spyOn(loadTournamentByDescriptionRepositoryStub, 'loadByDescription').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
+    jest.spyOn(loadTournamentByDescriptionRepositoryStub, 'loadByDescription').mockReturnValueOnce(Promise.reject(new Error()))
 
     const promise = sut.add(mockAddTournamentParams())
     await expect(promise).rejects.toThrow()
