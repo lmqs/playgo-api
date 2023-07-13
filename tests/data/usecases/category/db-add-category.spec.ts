@@ -41,7 +41,9 @@ describe('DbAddCategory UseCase', () => {
       description: 'valid_description',
       tournamentId: 'valid_tournamentId',
       numberAthletes: 'valid_numberAthletes',
-      numberAthletesRegistration: 'valid_numberAthletesRegistration'
+      numberAthletesRegistration: 'valid_numberAthletesRegistration',
+      deleted: false,
+      numberRegistration: 0
     })
     expect(categoryRepo.add).toHaveBeenCalledWith({
       description: 'valid_description',

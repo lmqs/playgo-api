@@ -8,7 +8,7 @@ import { UpdateCategoryUseCase } from '@/data/usescases/category'
 import { CategoryPostgresRepository } from '@/infra/database/postgres/category/category-repository'
 import { ICategoryRepository } from '@/data/protocols/db'
 import { RequiredFieldValidation, ValidationComposite } from '@/presentation/validation/validators'
-import { categoryModelMock, requestUpdateCategoryMock } from './category-mock'
+import { dbCategoryModelMock, requestUpdateCategoryMock } from './category-mock'
 jest.mock('@/infra/database/postgres/category/category-repository')
 
 describe('UpdateCategory Controller', () => {
@@ -76,7 +76,7 @@ describe('UpdateCategory Controller', () => {
   })
 
   test('Should return 200 if valid data is provider', async () => {
-    jest.spyOn(updateCategoryUseCase, 'update').mockResolvedValueOnce(categoryModelMock)
+    jest.spyOn(updateCategoryUseCase, 'update').mockResolvedValueOnce(dbCategoryModelMock)
 
     const updateCategoryController = new UpdateCategoryController(updateCategoryValidation, updateCategoryUseCase)
     const httpResponse = await updateCategoryController.handle(requestUpdateCategoryMock)
@@ -86,7 +86,9 @@ describe('UpdateCategory Controller', () => {
         description: 'valid_description',
         tournamentId: 'valid_tournamentId',
         numberAthletes: 'valid_numberAthletes',
-        numberAthletesRegistration: 'valid_numberAthletesRegistration'
+        numberAthletesRegistration: 'valid_numberAthletesRegistration',
+        numberRegistration: 10,
+        deleted: false
       })
     )
   })

@@ -5,4 +5,5 @@ export type CategoryModel = {
   numberAthletes: string
   numberAthletesRegistration: string
   deleted?: boolean
+  numberRegistration?: number
 }

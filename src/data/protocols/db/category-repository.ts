@@ -1,3 +1,4 @@
+import { CategoryRepoModel } from '@/data/models/db-category'
 import { CategoryModel } from '@/domain/models/category'
 
 export interface ICategoryRepository {
@@ -10,17 +11,17 @@ export interface ICategoryRepository {
 }
 
 export namespace ICategoryRepository {
-  export type LoadResult = CategoryModel[]
-  export type LoadByIdResult = CategoryModel
+  export type LoadResult = CategoryRepoModel[]
+  export type LoadByIdResult = CategoryRepoModel
   export type AddParams = {
     description: string
     tournamentId: string
     numberAthletesRegistration: string
     numberAthletes?: string
   }
-  export type AddResult = CategoryModel
+  export type AddResult = CategoryRepoModel
   export type UpdateParams = CategoryModel
-  export type UpdateResult = CategoryModel
+  export type UpdateResult = CategoryRepoModel
 }
 
 export const dataModelToDbModelMap = (category: ICategoryRepository.AddParams): any => {

@@ -6,7 +6,9 @@ import { LogPostgresRepository } from '@/infra/database/postgres/log/log-reposit
 import { LoadCategoriesByTournamentIdController } from '@/presentation/controllers/category/load-category-by-tournamentId-controller'
 
 export const makeLoadCategoriesByTournamentIdController = (): Controller => {
-  const addCategoryController = new LoadCategoriesByTournamentIdController(makeLoadCategoriesByTournamentIdValidation(), makeDbLoadCategories())
+  const addCategoryController = new LoadCategoriesByTournamentIdController(
+    makeLoadCategoriesByTournamentIdValidation(), makeDbLoadCategories()
+  )
   const logPostgresRepository = new LogPostgresRepository()
   return new LogControllerDecorator(addCategoryController, logPostgresRepository)
 }

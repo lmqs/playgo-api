@@ -1,4 +1,12 @@
-import { CategoryModel } from '@/domain/models/category'
+
+export type CategoryRepoModel = {
+  id: string
+  description: string
+  tournamentId: string
+  numberAthletes: string
+  numberAthletesRegistration: string
+  deleted: boolean
+}
 
 export type InputDbCategoryModel = {
   description: string
@@ -17,7 +25,7 @@ export type OutputDbCategoryModel = {
   deleted: boolean
 }
 
-export const dbModelToDataModelMap = (dbCategoryModel: OutputDbCategoryModel): CategoryModel => {
+export const dbModelToDataModelMap = (dbCategoryModel: OutputDbCategoryModel): CategoryRepoModel => {
   return (
     dbCategoryModel && {
       id: dbCategoryModel.id,

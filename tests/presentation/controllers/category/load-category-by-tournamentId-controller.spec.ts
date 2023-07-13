@@ -5,22 +5,27 @@ import { RequiredFieldValidation, ValidationComposite } from '@/presentation/val
 import { CategoryPostgresRepository } from '@/infra/database/postgres/category/category-repository'
 import { ICategoryRepository } from '@/data/protocols/db'
 import { Validation } from '@/presentation/protocols'
-import { ILoadCategoriesByTournamentId } from '@/domain/usecases/category/load-categories-by-tournamentId'
+import { ILoadCategoriesByTournamentId } from '@/domain/usecases/category/load-categories-by-tournament-id'
 import { DbLoadCategoriesUseCase } from '@/data/usescases/category'
 import { categoryModelMock, requestCategoryLoadByTournamentMock } from './category-mock'
+import { IRegistrationsRepository } from '@/data/protocols/db/registrations-repository'
+import { RegistrationsPostgresRepository } from '@/infra/database/postgres/registrations/registrations-repository'
 jest.mock('@/infra/database/postgres/category/category-repository')
 
 describe('LoadCategoriesByTournamentId Controller', () => {
   let categoryRepo: ICategoryRepository
   let loadCatByTournamentIdUseCase: ILoadCategoriesByTournamentId
   let loadValidation: Validation
+  let registrationsRepo: IRegistrationsRepository
 
   beforeEach(() => {
     categoryRepo = new CategoryPostgresRepository()
     const validations: Validation[] = []
 
     loadValidation = new ValidationComposite(validations)
-    loadCatByTournamentIdUseCase = new DbLoadCategoriesUseCase(categoryRepo)
+    registrationsRepo = new RegistrationsPostgresRepository()
+
+    loadCatByTournamentIdUseCase = new DbLoadCategoriesUseCase(categoryRepo, registrationsRepo)
   })
 
   afterEach(() => {
@@ -73,10 +78,10 @@ describe('LoadCategoriesByTournamentId Controller', () => {
   })
 
   test('Should return 200 if valid data is provider', async () => {
-    jest.spyOn(loadCatByTournamentIdUseCase, 'load').mockReturnValueOnce(Promise.resolve([categoryModelMock, categoryModelMock]))
+    jest.spyOn(loadCatByTournamentIdUseCase, 'load').mockReturnValueOnce(Promise.resolve(categoryModelMock))
 
     const controller = new LoadCategoriesByTournamentIdController(loadValidation, loadCatByTournamentIdUseCase)
     const httpResponse = await controller.handle(requestCategoryLoadByTournamentMock)
-    expect(httpResponse).toEqual(ok([categoryModelMock, categoryModelMock]))
+    expect(httpResponse).toEqual(ok(categoryModelMock))
   })
 })

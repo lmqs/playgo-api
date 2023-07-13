@@ -1,5 +1,5 @@
 export * from './db-add-category'
-export * from './load-categories-by-tournamentId'
+export * from './load-categories-by-tournament-id'
 export * from './load-category-by-id'
 export * from './db-remove-category'
 export * from './db-update-category'

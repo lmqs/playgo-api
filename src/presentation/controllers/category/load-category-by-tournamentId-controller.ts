@@ -1,4 +1,4 @@
-import { ILoadCategoriesByTournamentId } from '@/domain/usecases/category/load-categories-by-tournamentId'
+import { ILoadCategoriesByTournamentId } from '@/domain/usecases/category/load-categories-by-tournament-id'
 import { badRequest, serverError, ok, noContent } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 export class LoadCategoriesByTournamentIdController implements Controller {

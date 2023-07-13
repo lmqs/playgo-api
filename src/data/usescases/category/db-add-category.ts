@@ -17,7 +17,7 @@ export class AddCategoryUseCase implements IAddCategory {
       throw new ParamInUseError('description')
     }
     categoryData.numberAthletes = categoryData.numberAthletes ?? CONSTANTS.category.numberAthletesDefault
-    const category = await this.addCategoryRepository.add(categoryData)
-    return category
+    const categoryResult = await this.addCategoryRepository.add(categoryData)
+    return { ...categoryResult, numberRegistration: 0 }
   }
 }

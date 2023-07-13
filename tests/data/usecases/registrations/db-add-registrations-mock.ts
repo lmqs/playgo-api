@@ -1,5 +1,5 @@
 import { TournamentRepoModel } from '@/data/models/tournament'
-import { CategoryModel } from '@/domain/models/category'
+import { ICategoryRepository } from '@/data/protocols/db'
 import { IAddRegistrations } from '@/domain/usecases/registration/add-registrations'
 
 export const registrationsAddParamsMock: IAddRegistrations.Params = {
@@ -12,7 +12,7 @@ export const registrationsAddParamsInvalidAthletesMock: IAddRegistrations.Params
   athletesId: '3,4,8,70'
 }
 
-export const categoryNotActivatedMock: CategoryModel = {
+export const categoryNotActivatedMock: ICategoryRepository.LoadByIdResult = {
   id: '1',
   description: 'Dupla Mista A',
   tournamentId: '10',
@@ -21,7 +21,7 @@ export const categoryNotActivatedMock: CategoryModel = {
   deleted: true
 }
 
-export const categoryActivatedMock: CategoryModel = {
+export const categoryActivatedMock: ICategoryRepository.LoadByIdResult = {
   id: '15',
   description: 'Dupla Mista A',
   tournamentId: '10',
