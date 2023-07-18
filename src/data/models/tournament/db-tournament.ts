@@ -6,10 +6,10 @@ export type InputDbTournamentModel = {
   organization: string
   city_id: string
   sport_id: string
-  dt_start_tournament: Date
-  dt_final_tournament: Date
-  dt_start_registration: Date
-  dt_final_registration: Date
+  dt_start_tournament?: Date
+  dt_final_tournament?: Date
+  dt_start_registration?: Date
+  dt_final_registration?: Date
   other_information?: string
   deleted?: boolean
 }

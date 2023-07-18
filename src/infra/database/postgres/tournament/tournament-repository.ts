@@ -5,6 +5,7 @@ import {
   RemoveTournamentRepository, UpdateTournamentRepository, dataModelToDbModelMap
 } from '@/data/protocols/db/tournament'
 import { dbModelToDataModelMap, InputDbTournamentModel, OutputDbTournamentModel } from '@/data/models/tournament/db-tournament'
+import { DateHandler } from '@/infra/gateways/date/date-handler'
 export class TournamentPostgresRepository extends BaseRepository<InputDbTournamentModel, OutputDbTournamentModel>
   implements LoadTournamentByIdRepository, AddTournamentRepository, UpdateTournamentRepository, LoadTournamentByDescriptionRepository,
   LoadTournamentsRepository, RemoveTournamentRepository {
@@ -20,7 +21,23 @@ export class TournamentPostgresRepository extends BaseRepository<InputDbTourname
   }
 
   async updateTournament (data: UpdateTournamentRepository.Params): Promise<UpdateTournamentRepository.Result> {
-    const result = await this.update(data, { id: data.id })
+    const dateClass = new DateHandler()
+
+    const dataMap = {
+      id: data.id,
+      description: data.description,
+      organization: data.organization,
+      city_id: data.cityId,
+      sport_id: data.sportId,
+      dt_start_tournament: data.dtStartTournament && data.dtStartTournament !== '' ? dateClass.format(data.dtStartTournament) : undefined,
+      dt_final_tournament: data.dtFinalTournament && data.dtFinalTournament !== '' ? dateClass.format(data.dtFinalTournament) : undefined,
+      dt_start_registration:
+        data.dtStartRegistration && data.dtStartRegistration !== '' ? dateClass.format(data.dtStartRegistration) : undefined,
+      dt_final_registration:
+        data.dtFinalRegistration && data.dtFinalRegistration !== '' ? dateClass.format(data.dtFinalRegistration) : undefined,
+      other_information: data.otherInformation
+    }
+    const result = await this.update(dataMap, { id: data.id })
     return dbModelToDataModelMap(result)
   }
 

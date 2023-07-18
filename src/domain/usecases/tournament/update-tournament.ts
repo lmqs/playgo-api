@@ -1,10 +1,8 @@
 import { TournamentModel } from '@/domain/models/tournament'
-
-export interface UpdateTournamentRepository {
-  updateTournament: (data: UpdateTournamentRepository.Params) => Promise<UpdateTournamentRepository.Result>
+export interface IUpdateTournament {
+  update: (data: IUpdateTournament.Params) => Promise<IUpdateTournament.Result | undefined>
 }
-
-export namespace UpdateTournamentRepository {
+export namespace IUpdateTournament {
   export type Params = {
     id: string
     description: string
@@ -16,7 +14,6 @@ export namespace UpdateTournamentRepository {
     dtStartRegistration?: string
     dtFinalRegistration?: string
     otherInformation?: string
-    deleted?: boolean
   }
   export type Result = TournamentModel
 }
