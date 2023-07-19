@@ -1,1 +1,5 @@
 export * from './db-add-tournament-sponsor'
+export * from './db-update-tournament-sponsor'
+export * from './db-remove-tournament-sponsor'
+export * from './db-load-by-id-tournament-sponsor'
+export * from './db-load-by-tournament-id-tournament-sponsor'

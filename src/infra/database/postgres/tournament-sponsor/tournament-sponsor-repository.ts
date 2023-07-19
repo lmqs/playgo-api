@@ -29,4 +29,9 @@ export class TournamentSponsorPostgresRepository
   async remove (id: string): Promise<void> {
     await this.delete(id)
   }
+
+  async updateSponsor (data: ITournamentSponsorRepository.UpdateParams): Promise<ITournamentSponsorRepository.Result> {
+    const result = await this.update(dataModelToDbModelMapTournamentSponsor(data), { id: data.id })
+    return dbModelToDataModelMapTournamentSponsor(result)
+  }
 }

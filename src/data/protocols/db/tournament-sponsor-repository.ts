@@ -5,10 +5,18 @@ export interface ITournamentSponsorRepository {
   loadByTournamentId: (tournamentId: string) => Promise<ITournamentSponsorRepository.LoadResult>
   loadById: (id: string) => Promise<ITournamentSponsorRepository.Result | undefined>
   remove: (id: string) => Promise<void>
+  updateSponsor: (data: ITournamentSponsorRepository.UpdateParams) => Promise<ITournamentSponsorRepository.Result>
 }
 
 export namespace ITournamentSponsorRepository {
   export type AddParams = {
+    tournamentId: string
+    name: string
+    photo?: string
+    otherInformation?: string
+  }
+  export type UpdateParams = {
+    id: string
     tournamentId: string
     name: string
     photo?: string
