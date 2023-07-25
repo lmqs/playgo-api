@@ -2,25 +2,28 @@ import { MissingParamError } from '@/presentation/errors'
 import { badRequest, serverError, noContent } from '@/presentation/helpers/http/http-helper'
 import { RequiredFieldValidation, ValidationComposite } from '@/presentation/validation/validators'
 import { CategoryPostgresRepository } from '@/infra/database/postgres/category/category-repository'
+import { RegistrationsPostgresRepository } from '@/infra/database/postgres/registrations/registrations-repository'
 import { ICategoryRepository } from '@/data/protocols/db'
 import { Validation } from '@/presentation/protocols'
 import { RemoveCategoryUseCase } from '@/data/usescases/category'
 import { IRemoveCategory } from '@/domain/usecases/category/remove-category'
 import { RemoveCategoryController } from '@/presentation/controllers/category'
 import { requestRemoveCategoryMock } from './category-mock'
-jest.mock('@/infra/database/postgres/category/category-repository')
+import { IRegistrationsRepository } from '@/data/protocols/db/registrations-repository'
 
 describe('RemoveCategoryController Controller', () => {
   let categoryRepo: ICategoryRepository
+  let registrationsRepo: IRegistrationsRepository
   let removeCategoryUseCase: IRemoveCategory
   let removeValidation: Validation
 
   beforeEach(() => {
     categoryRepo = new CategoryPostgresRepository()
+    registrationsRepo = new RegistrationsPostgresRepository()
     const validations: Validation[] = []
 
     removeValidation = new ValidationComposite(validations)
-    removeCategoryUseCase = new RemoveCategoryUseCase(categoryRepo)
+    removeCategoryUseCase = new RemoveCategoryUseCase(categoryRepo, registrationsRepo)
   })
 
   afterEach(() => {
@@ -29,6 +32,8 @@ describe('RemoveCategoryController Controller', () => {
   })
 
   test('Should call validation.validate with correct values', async () => {
+    jest.spyOn(removeCategoryUseCase, 'remove').mockResolvedValueOnce()
+
     const controller = new RemoveCategoryController(removeValidation, removeCategoryUseCase)
     const validationSpy = jest.spyOn(removeValidation, 'validate')
 
@@ -48,10 +53,10 @@ describe('RemoveCategoryController Controller', () => {
   })
 
   test('Should call remove with correct values', async () => {
+    const removeSpy = jest.spyOn(removeCategoryUseCase, 'remove').mockResolvedValueOnce()
     const controller = new RemoveCategoryController(removeValidation, removeCategoryUseCase)
-    const loadSpy = jest.spyOn(removeCategoryUseCase, 'remove')
     await controller.handle(requestRemoveCategoryMock)
-    expect(loadSpy).toHaveBeenCalledWith('valid_id')
+    expect(removeSpy).toHaveBeenCalledWith('valid_id')
   })
 
   test('Should return 500 if remove throws', async () => {
@@ -65,8 +70,8 @@ describe('RemoveCategoryController Controller', () => {
   })
 
   test('Should return 204 if success delete', async () => {
+    jest.spyOn(removeCategoryUseCase, 'remove').mockResolvedValueOnce()
     const controller = new RemoveCategoryController(removeValidation, removeCategoryUseCase)
-    jest.spyOn(removeCategoryUseCase, 'remove')
 
     const httpResponse = await controller.handle(requestRemoveCategoryMock)
     expect(httpResponse).toEqual(noContent())

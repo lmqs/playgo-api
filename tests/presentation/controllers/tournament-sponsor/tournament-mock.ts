@@ -1,5 +1,5 @@
 import { TournamentSponsorModel } from '@/domain/models/tournament_sponsor'
-import { AddTournamentSponsorController, RemoveTournamentSponsorController } from '@/presentation/controllers/tournament-sponsor'
+import { AddTournamentSponsorController, RemoveTournamentSponsorController, UpdateTournamentSponsorController } from '@/presentation/controllers/tournament-sponsor'
 import { LoadCategoriesByTournamentIdController } from '../category'
 
 export const requestAddTournamentSponsorControllerMock: AddTournamentSponsorController.Request = {
@@ -22,4 +22,10 @@ export const tournamentSponsorMock: TournamentSponsorModel = {
   photo: undefined,
   otherInformation: undefined,
   deleted: true
+}
+
+export const requestUpdateTournamentSponsorControllerMock: UpdateTournamentSponsorController.Request = {
+  id: '1',
+  tournamentId: 'valid_tournament',
+  name: 'valid_name'
 }

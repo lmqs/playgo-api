@@ -27,3 +27,16 @@ export const categoryResultModelMock: ILoadCategoriesByTournamentId.Result = [{
   numberRegistration: 0,
   deleted: false
 }]
+
+export const registrationsByCategoryMock = [{
+  id: '43',
+  categoryId: '12',
+  registrationDate: '20/10/2023',
+  deleted: false
+},
+{
+  id: '44',
+  categoryId: '12',
+  registrationDate: '20/10/2023',
+  deleted: false
+}]
