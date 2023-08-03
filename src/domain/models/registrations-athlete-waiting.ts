@@ -1,6 +1,6 @@
 export type RegistrationsAthleteWaitingModel = {
   id: string
-  registrationWaitingId: string
+  registrationsWaitingId: string
   athleteId: string
   deleted?: boolean
 }

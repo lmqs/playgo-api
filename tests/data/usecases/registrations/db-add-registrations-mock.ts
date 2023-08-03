@@ -190,14 +190,14 @@ export const registrationsWaitingModelMock = {
 
 export const registrationsAthleteWaitingModelMock = {
   id: '1',
-  registrationWaitingId: '1',
+  registrationsWaitingId: '1',
   athleteId: '3',
   deleted: false
 }
 
 export const registrationsAthleteWaiting2ModelMock = {
   id: '2',
-  registrationWaitingId: '1',
+  registrationsWaitingId: '1',
   athleteId: '4',
   deleted: false
 }

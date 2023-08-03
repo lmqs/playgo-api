@@ -19,7 +19,7 @@ export const dbModelToDataModelMapRegistrationsAthleteWaiting =
   return (
     dbRegistrationsAthleteWaiting && {
       id: dbRegistrationsAthleteWaiting.id,
-      registrationWaitingId: dbRegistrationsAthleteWaiting.registrations_waiting_id,
+      registrationsWaitingId: dbRegistrationsAthleteWaiting.registrations_waiting_id,
       athleteId: dbRegistrationsAthleteWaiting.athlete_id,
       deleted: dbRegistrationsAthleteWaiting.deleted
     }
