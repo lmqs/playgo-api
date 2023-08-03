@@ -21,7 +21,7 @@ import { IRegistrationsWaitingRepository } from '@/data/protocols/db/registratio
 import { ITournamentRepository } from '@/data/protocols/db/tournament-repository'
 jest.useFakeTimers().setSystemTime(new Date('2023-06-30 00:00:00'))
 
-describe.only('DbAddCategory UseCase', () => {
+describe('DbAddCategory UseCase', () => {
   let categoryRepo: ICategoryRepository
   let tournamentRepo: ITournamentRepository
   let accountRepo: IAccountRepository

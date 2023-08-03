@@ -5,12 +5,12 @@ import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 
 export class AddCategoryUseCase implements IAddCategory {
   constructor (
-    private readonly loadCategoryByDescriptionAndIdRepository: ICategoryRepository,
+    private readonly categoryRepository: ICategoryRepository,
     private readonly addCategoryRepository: ICategoryRepository
   ) {}
 
   async add (categoryData: IAddCategory.Params): Promise<IAddCategory.Result> {
-    const isDescriptionValid = await this.loadCategoryByDescriptionAndIdRepository.loadByDescriptionAndId(
+    const isDescriptionValid = await this.categoryRepository.loadByDescriptionAndId(
       categoryData.description, categoryData.tournamentId
     )
     if (isDescriptionValid?.length) {

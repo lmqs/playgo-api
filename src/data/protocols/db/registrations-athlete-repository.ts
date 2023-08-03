@@ -5,7 +5,7 @@ export interface IRegistrationsAthleteRepository {
   loadById: (id: string) => Promise<IRegistrationsAthleteRepository.Result | undefined>
   loadByRegistrations: (registrationsId: string) => Promise<IRegistrationsAthleteRepository.LoadResult>
   loadByCategoryAndUser: (data: IRegistrationsAthleteRepository.LoadByCategoryAndUserParams) => Promise<any[]>
-  loadByCategory: (categoryId: string) => Promise<IRegistrationsAthleteRepository.LoadCategoryResult[]>
+  loadByCategory: (categoryId: string) => Promise<IRegistrationsAthleteRepository.LoadCategoryResult>
   remove: (id: string) => Promise<void>
   removeByRegistration: (registrationId: string) => Promise<void>
 }
@@ -22,7 +22,7 @@ export namespace IRegistrationsAthleteRepository {
     categoryId: string
     athleteId: string
   }
-  export type LoadCategoryResult = RegistrationsAthleteModel
+  export type LoadCategoryResult = RegistrationsAthleteModel[]
 }
 
 export const dataModelToDbModelMapRegistrationsAthlete = (

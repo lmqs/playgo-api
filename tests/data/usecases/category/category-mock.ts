@@ -9,6 +9,12 @@ export const addCategoryModelMock: IAddCategory.Params = {
   numberAthletesRegistration: 'valid_numberAthletesRegistration'
 }
 
+export const addCategoryIncompleteMock: IAddCategory.Params = {
+  description: 'cat A',
+  tournamentId: '1',
+  numberAthletesRegistration: '1'
+}
+
 export const categoryModelMock: CategoryRepoModel = {
   id: 'valid_id',
   description: 'valid_description',

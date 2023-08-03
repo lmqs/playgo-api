@@ -19,7 +19,7 @@ export class RegistrationsAthletePostgresRepository extends BaseRepository<Input
     return dbModelToDataModelMapRegistrationsAthlete(result[0])
   }
 
-  async loadByCategory (categoryId: string): Promise<IRegistrationsAthleteRepository.LoadCategoryResult[]> {
+  async loadByCategory (categoryId: string): Promise<IRegistrationsAthleteRepository.LoadCategoryResult> {
     const result = await this.findWithJoin('registrations', 'registrations_id', 'id',
       [
         { field: 'registrations.deleted', value: 'false' },

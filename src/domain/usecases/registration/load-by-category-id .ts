@@ -17,5 +17,6 @@ export namespace ILoadRegistrationByCategoryId {
     }
     isPay: boolean
     deleted?: boolean
+    canDeleted: boolean
   }
 }
