@@ -1,5 +1,5 @@
 import { RegistrationsWaitingModel } from '@/domain/models/registrations-waiting'
-import { DateHandler } from '@/infra/gateways/date/date-handler'
+import { DateHandler } from '@/helpers/date-handler'
 
 export type InputDbRegistrationsWaiting = {
   category_id: string
@@ -22,7 +22,7 @@ export const dbModelToDataModelMapRegistrationsWaiting =
       id: dbRegistrationsWaiting.id,
       categoryId: dbRegistrationsWaiting.category_id,
       deleted: dbRegistrationsWaiting.deleted,
-      date: dateClass.formatDateToString(dbRegistrationsWaiting.date)
+      date: dateClass.formatDateToString({ input: dbRegistrationsWaiting.date })
     }
   )
 }

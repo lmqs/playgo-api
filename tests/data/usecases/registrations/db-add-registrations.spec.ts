@@ -1,7 +1,6 @@
 import { IAccountRepository, ICategoryRepository } from '@/data/protocols/db'
 import { CategoryPostgresRepository } from '@/infra/database/postgres/category/category-repository'
 import { AddRegistrationsUseCase } from '@/data/usescases/registrations/db-add-registrations'
-import { LoadTournamentByIdRepository } from '@/data/protocols/db/tournament'
 import { IRegistrationsRepository } from '@/data/protocols/db/registrations-repository'
 import { IRegistrationsAthleteRepository } from '@/data/protocols/db/registrations-athlete-repository'
 import { TournamentPostgresRepository } from '@/infra/database/postgres/tournament/tournament-repository'
@@ -19,11 +18,12 @@ import { RegistrationsWaitingPostgresRepository } from '@/infra/database/postgre
 import { RegistrationsAthleteWaitingPostgresRepository } from '@/infra/database/postgres/registrations/registrations-athlete-waiting-repository'
 import { IRegistrationsAthleteWaitingRepository } from '@/data/protocols/db/registrations-athlete-waiting-repository'
 import { IRegistrationsWaitingRepository } from '@/data/protocols/db/registrations-waiting-repository'
+import { ITournamentRepository } from '@/data/protocols/db/tournament-repository'
 jest.useFakeTimers().setSystemTime(new Date('2023-06-30 00:00:00'))
 
-describe('DbAddCategory UseCase', () => {
+describe.only('DbAddCategory UseCase', () => {
   let categoryRepo: ICategoryRepository
-  let tournamentRepo: LoadTournamentByIdRepository
+  let tournamentRepo: ITournamentRepository
   let accountRepo: IAccountRepository
   let registrationsRepo: IRegistrationsRepository
   let registrationsAthleteRepo: IRegistrationsAthleteRepository

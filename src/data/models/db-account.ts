@@ -1,5 +1,5 @@
 import { AccountModel } from '@/domain/models/account'
-import { DateHandler } from '@/infra/gateways/date/date-handler'
+import { DateHandler } from '@/helpers/date-handler'
 
 export type InputDbAccountModel = {
   name: string
@@ -37,7 +37,7 @@ export const dbModelToDataModelMapCategory = (dbAccountModel: OutputDbAccountMod
     dbAccountModel && {
       phoneNumber: dbAccountModel.phone_number,
       cityId: dbAccountModel.city_id,
-      dateBirthday: dateClass.formatDateToString(dbAccountModel.date_birthday).toString(),
+      dateBirthday: dateClass.formatDateToString({ input: dbAccountModel.date_birthday }).toString(),
       accessToken: dbAccountModel.access_token,
       id: dbAccountModel.id,
       name: dbAccountModel.name,

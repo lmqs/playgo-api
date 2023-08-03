@@ -1,4 +1,4 @@
-import { TournamentRepoModel } from '@/data/models/tournament'
+import { TournamentRepoModel } from '@/data/models/tournament/db-tournament'
 import { ICategoryRepository } from '@/data/protocols/db'
 import { IAddRegistrations } from '@/domain/usecases/registration/add-registrations'
 
@@ -40,6 +40,10 @@ export const tournamentNotActivatedMock: TournamentRepoModel = {
   dtFinalTournament: '26/07/2023',
   dtStartRegistration: '25/06/2023',
   dtFinalRegistration: '27/06/2023',
+  dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtStartRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtFinalTournamentFormatted: 'Domingo, 25 de Junho de 2023',
+  dtStartTournamentFormatted: 'Domingo, 25 de Junho de 2023',
   otherInformation: 'any_information',
   deleted: true
 }
@@ -55,6 +59,10 @@ export const tournamentDateInvalidMock: TournamentRepoModel = {
   dtStartRegistration: '25/06/2023',
   dtFinalRegistration: '27/06/2023',
   otherInformation: 'any_information',
+  dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtStartRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtFinalTournamentFormatted: 'Domingo, 25 de Junho de 2023',
+  dtStartTournamentFormatted: 'Domingo, 25 de Junho de 2023',
   deleted: false
 }
 
@@ -64,10 +72,14 @@ export const tournamentValidMock = {
   organization: 'Playgo organização',
   cityId: '100',
   sportId: '1',
-  dtStartTournament: '25/07/2023',
-  dtFinalTournament: '26/07/2023',
-  dtStartRegistration: '25/06/2023',
-  dtFinalRegistration: '01/07/2023',
+  dtStartTournament: '25/08/2023',
+  dtFinalTournament: '25/08/2023',
+  dtStartRegistration: '25/07/2023',
+  dtFinalRegistration: '25/07/2023',
+  dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Julho de 2023',
+  dtStartRegistrationFormatted: 'Quinta-feira, 25 de Julho de 2023',
+  dtFinalTournamentFormatted: 'Domingo, 25 de Agosto de 2023',
+  dtStartTournamentFormatted: 'Domingo, 25 de Agosto de 2023',
   otherInformation: 'any_information',
   deleted: false
 }

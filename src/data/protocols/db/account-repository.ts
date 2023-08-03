@@ -1,6 +1,6 @@
 import { InputDbAccountModel } from '@/data/models/db-account'
 import { AccountModel } from '@/domain/models/account'
-import { DateHandler } from '@/infra/gateways/date/date-handler'
+import { DateHandler } from '@/helpers/date-handler'
 
 export interface IAccountRepository {
   add: (data: IAccountRepository.AddParams) => Promise<IAccountRepository.Result>
