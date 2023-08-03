@@ -16,7 +16,8 @@ import {
   addTournamentSponsorPath,
   addRegistrationsPath,
   loadRegistrationsByCategoryPath,
-  loadTournamentByIdPath
+  loadTournamentByIdPath,
+  loadByFilterDateTournamentsPath
 } from './paths/'
 
 export default {
@@ -30,6 +31,7 @@ export default {
   '/tournament': addTournamentPath,
   '/tournament/loadById': loadTournamentByIdPath,
   '/tournaments': loadTournamentPath,
+  '/tournaments/filterDate': loadByFilterDateTournamentsPath,
   '/tournament/{id}': removeTournamentPath,
   '/tournament-sponsor': addTournamentSponsorPath,
   '/tournament-sponsor/load-by-tournament': loadTournamentSponsorPath,
