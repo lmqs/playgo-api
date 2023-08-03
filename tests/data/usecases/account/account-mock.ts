@@ -1,3 +1,5 @@
+import { IAccountRepository } from '@/data/protocols/db'
+
 export const dbAccountModelMock = {
   id: 'valid_id',
   name: 'valid_name',
@@ -63,3 +65,57 @@ export const accountFromLoadByIdModelMock = {
   photo: 'valid_photo',
   dateBirthday: '20/10/2020'
 }
+
+export const loadByNameArrayMock: IAccountRepository.Result[] = [
+  {
+    id: '1',
+    name: 'Luciana',
+    gender: 'F',
+    password: 'hashed_password',
+    email: 'valid_email',
+    cityId: 1,
+    phoneNumber: 'valid_number',
+    photo: 'valid_photo',
+    dateBirthday: '20/10/2020',
+    deleted: true,
+    accessToken: 'aAQe3454vcxz',
+    role: undefined
+  },
+  {
+    id: '1',
+    name: 'Lucia',
+    gender: 'F',
+    password: 'hashed_password',
+    email: 'valid_email',
+    cityId: 1,
+    phoneNumber: 'valid_number',
+    photo: 'valid_photo',
+    dateBirthday: '20/10/2020',
+    deleted: true,
+    accessToken: 'jUIgvV385BC',
+    role: undefined
+  }
+]
+
+export const loadByNameResultMock = [
+  {
+    id: '1',
+    name: 'Luciana',
+    gender: 'F',
+    email: 'valid_email',
+    cityId: 1,
+    phoneNumber: 'valid_number',
+    photo: 'valid_photo',
+    dateBirthday: '20/10/2020'
+  },
+  {
+    id: '1',
+    name: 'Lucia',
+    gender: 'F',
+    email: 'valid_email',
+    cityId: 1,
+    phoneNumber: 'valid_number',
+    photo: 'valid_photo',
+    dateBirthday: '20/10/2020'
+  }
+]
