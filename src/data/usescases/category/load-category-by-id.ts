@@ -3,10 +3,10 @@ import { ILoadCategoryById } from '@/domain/usecases/category/load-category-by-i
 
 export class DbLoadCategoryByIdUseCase implements ILoadCategoryById {
   constructor (
-    private readonly loadByIdRepository: ICategoryRepository
+    private readonly categoryRepository: ICategoryRepository
   ) {}
 
   async loadById (id: string): Promise<ILoadCategoryById.Result | undefined> {
-    return await this.loadByIdRepository.loadById(id)
+    return await this.categoryRepository.loadById(id)
   }
 }

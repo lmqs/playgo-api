@@ -21,7 +21,7 @@ export class AddRegistrationsUseCase implements IAddRegistrations {
 
   async add (data: IAddRegistrations.Params): Promise<IAddRegistrations.ResultObj> {
     const category = await this.categoryRepo.loadById(data.categoryId)
-    if (category.deleted) throw new Error('Categoria não existente')
+    if (!category || category.deleted) throw new Error('Categoria não existente')
 
     const tournament = await this.tournamentRepo.loadById(category.tournamentId)
     if (!tournament || tournament.deleted) throw new Error('Torneio não existente')
