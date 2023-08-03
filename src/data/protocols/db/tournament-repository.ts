@@ -6,7 +6,7 @@ export interface ITournamentRepository {
   add: (data: ITournamentRepository.AddParams) => Promise<ITournamentRepository.Result>
   loadById: (id: string) => Promise<ITournamentRepository.Result | undefined>
   loadFilter: (filter: ITournamentRepository.LoadFilterParams) => Promise<ITournamentRepository.Results>
-  loadByDescription: (description: string) => Promise<ITournamentRepository.Result | undefined>
+  loadByDescription: (description: string) => Promise<ITournamentRepository.Results>
   remove: (id: string) => Promise<void>
   updateTournament: (data: ITournamentRepository.UpdateParams) => Promise<ITournamentRepository.Result>
   loadAll: () => Promise<ITournamentRepository.Results | undefined>

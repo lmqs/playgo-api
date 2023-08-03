@@ -16,7 +16,7 @@ export class DbAddTournament implements AddTournament {
 
   async add (data: AddTournament.Params): Promise<AddTournament.Result | undefined> {
     const isDescriptionUsed = await this.tournamentRepository.loadByDescription(data.description)
-    if (isDescriptionUsed) throw new ParamInUseError(this.descriptionError)
+    if (isDescriptionUsed.length) throw new ParamInUseError(this.descriptionError)
 
     const isValidRegistrationDate =
       moment(data.dtStartRegistration.toString(), 'DD/MM/YYYY') <= moment(data.dtFinalRegistration.toString(), 'DD/MM/YYYY')

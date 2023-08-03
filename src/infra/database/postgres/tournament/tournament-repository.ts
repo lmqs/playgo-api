@@ -36,9 +36,9 @@ export class TournamentPostgresRepository extends BaseRepository<InputDbTourname
     return TournamentRepoModel.toModel(result)
   }
 
-  async loadByDescription (description: string): Promise<ITournamentRepository.Result | undefined> {
+  async loadByDescription (description: string): Promise<ITournamentRepository.Results> {
     const tournaments = await this.findGeneric({ description })
-    return TournamentRepoModel.mapCollection(tournaments)[0]
+    return TournamentRepoModel.mapCollection(tournaments)
   }
 
   async loadById (id: string): Promise<ITournamentRepository.Result | undefined> {

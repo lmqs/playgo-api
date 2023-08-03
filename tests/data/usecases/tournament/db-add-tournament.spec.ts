@@ -14,7 +14,7 @@ describe('DbAddTournament UseCase', () => {
   })
 
   test('Should return tournament object', async () => {
-    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce(undefined)
+    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce([])
     jest.spyOn(tournamentRepositoryStub, 'add').mockResolvedValueOnce(loadByIdTournamentObjectMock)
 
     const useCase = new DbAddTournament(tournamentRepositoryStub)
@@ -33,7 +33,7 @@ describe('DbAddTournament UseCase', () => {
   })
 
   test('Should return InvalidDateError if validRegistrationDate is invalid', async () => {
-    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce(undefined)
+    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce([])
 
     const addTournamentRepositorySpy = jest.spyOn(tournamentRepositoryStub, 'add')
     const useCase = new DbAddTournament(tournamentRepositoryStub)
@@ -49,7 +49,7 @@ describe('DbAddTournament UseCase', () => {
   })
 
   test('Should return InvalidDateError if validTournamentDate is invalid', async () => {
-    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce(undefined)
+    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce([])
     const addTournamentRepositorySpy = jest.spyOn(tournamentRepositoryStub, 'add')
 
     const useCase = new DbAddTournament(tournamentRepositoryStub)
@@ -66,9 +66,7 @@ describe('DbAddTournament UseCase', () => {
 
   test('Should return ParamInUseError if TournamentRepository.loadByDescription not return empty', async () => {
     const useCase = new DbAddTournament(tournamentRepositoryStub)
-    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockReturnValueOnce(
-      new Promise(resolve => { resolve(loadByIdTournamentObjectMock) })
-    )
+    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce([loadByIdTournamentObjectMock])
     const addTournamentRepositorySpy = jest.spyOn(tournamentRepositoryStub, 'add')
 
     const promise = useCase.add(mockAddTournamentParams())
@@ -78,7 +76,7 @@ describe('DbAddTournament UseCase', () => {
   })
 
   test('Should throw if add throws', async () => {
-    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce(undefined)
+    jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce([])
     jest.spyOn(tournamentRepositoryStub, 'add').mockImplementationOnce(() => {
       throw new Error('fake error')
     })

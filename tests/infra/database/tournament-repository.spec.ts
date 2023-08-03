@@ -86,6 +86,33 @@ describe('Tournament Postgres Repository', () => {
     })
   })
 
+  describe('loadByDescription()', () => {
+    test('Should return a tournament list by description filter', async () => {
+      const repository = new TournamentPostgresRepository()
+      repository.findGeneric = jest.fn().mockReturnValue(outputDbArrayMock)
+
+      const tournaments = await repository.loadByDescription('any_tournament')
+      expect(tournaments).toEqual(listAllOutputMock)
+    })
+
+    test('Should return undefined when tournament filter is empty', async () => {
+      const repository = new TournamentPostgresRepository()
+      repository.findGeneric = jest.fn().mockReturnValue([])
+
+      const tournaments = await repository.loadByDescription('any_tournament')
+      expect(tournaments.length).toBe(0)
+    })
+
+    test('Should return throws if repository.loadByDescription fails', async () => {
+      const repository = new TournamentPostgresRepository()
+      repository.findGeneric = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = repository.loadByDescription('any_tournament')
+      await expect(promise).rejects.toThrow()
+    })
+  })
+
   describe('remove()', () => {
     test('Should remove tournament success', async () => {
       const repository = new TournamentPostgresRepository()
