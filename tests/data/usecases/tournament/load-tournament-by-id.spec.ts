@@ -1,55 +1,45 @@
-import { LoadTournamentByIdRepository } from '@/data/protocols/db/tournament'
 import { DbLoadTournamentById } from '@/data/usescases/tournament/load-tournament-by-id'
-import { DateHandler } from '@/infra/gateways/date/date-handler'
 import { TournamentPostgresRepository } from '@/infra/database/postgres/tournament/tournament-repository'
-import { dbLoadByIdMock, loadByIdTournamentObjectMock } from './tournament-mock'
-
-type SutTypes = {
-  sut: DbLoadTournamentById
-  tournamentRepositoryStub: LoadTournamentByIdRepository
-}
-
-const makeSut = (): SutTypes => {
-  const tournamentRepositoryStub = new TournamentPostgresRepository()
-  const dateHelper = new DateHandler()
-  const sut = new DbLoadTournamentById(tournamentRepositoryStub, dateHelper)
-  return {
-    sut,
-    tournamentRepositoryStub
-  }
-}
+import { loadByIdTournamentObjectMock } from './tournament-mock'
+import { ITournamentRepository } from '@/data/protocols/db/tournament-repository'
 
 describe('DbLoadTournamentById UseCase', () => {
-  test('Should call LoadTournamentByIdRepository with correct values', async () => {
-    const { sut, tournamentRepositoryStub } = makeSut()
-    const loadTournamentByIdRepositorySpy =
-      jest.spyOn(tournamentRepositoryStub, 'loadById').mockReturnValueOnce(Promise.resolve(dbLoadByIdMock))
+  let tournamentRepositoryStub: ITournamentRepository
+  beforeEach(() => {
+    tournamentRepositoryStub = new TournamentPostgresRepository()
+  })
 
-    await sut.load('valid_id')
+  test('Should call LoadTournamentByIdRepository with correct values', async () => {
+    const useCase = new DbLoadTournamentById(tournamentRepositoryStub)
+
+    const loadTournamentByIdRepositorySpy =
+      jest.spyOn(tournamentRepositoryStub, 'loadById').mockReturnValueOnce(Promise.resolve(loadByIdTournamentObjectMock))
+
+    await useCase.load('valid_id')
     expect(loadTournamentByIdRepositorySpy).toHaveBeenCalledWith('valid_id')
   })
 
   test('Should return undefined if LoadTournamentByIdRepository return empty', async () => {
-    const { sut, tournamentRepositoryStub } = makeSut()
+    const useCase = new DbLoadTournamentById(tournamentRepositoryStub)
     jest.spyOn(tournamentRepositoryStub, 'loadById').mockReturnValueOnce(Promise.resolve(undefined))
-    const tournament = await sut.load('valid_id')
+    const result = await useCase.load('valid_id')
 
-    expect(tournament).toBeUndefined()
+    expect(result).toBeUndefined()
   })
 
   test('Should throw if loadTournamentByIdRepository throws', async () => {
-    const { sut, tournamentRepositoryStub } = makeSut()
+    const useCase = new DbLoadTournamentById(tournamentRepositoryStub)
     jest.spyOn(tournamentRepositoryStub, 'loadById').mockReturnValueOnce(Promise.reject(new Error()))
 
-    const promise = sut.load('valid_id')
+    const promise = useCase.load('valid_id')
     await expect(promise).rejects.toThrow()
   })
 
   test('Should return an tournament on success', async () => {
-    const { sut, tournamentRepositoryStub } = makeSut()
-    jest.spyOn(tournamentRepositoryStub, 'loadById').mockReturnValueOnce(Promise.resolve(dbLoadByIdMock))
+    const useCase = new DbLoadTournamentById(tournamentRepositoryStub)
+    jest.spyOn(tournamentRepositoryStub, 'loadById').mockReturnValueOnce(Promise.resolve(loadByIdTournamentObjectMock))
 
-    const account = await sut.load('valid_id')
-    expect(account).toEqual(loadByIdTournamentObjectMock)
+    const result = await useCase.load('valid_id')
+    expect(result).toEqual(loadByIdTournamentObjectMock)
   })
 })

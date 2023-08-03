@@ -4,14 +4,14 @@ import { IRegistrationsAthleteRepository } from '@/data/protocols/db/registratio
 import { IRegistrationsAthleteWaitingRepository } from '@/data/protocols/db/registrations-athlete-waiting-repository'
 import { IRegistrationsRepository } from '@/data/protocols/db/registrations-repository'
 import { IRegistrationsWaitingRepository } from '@/data/protocols/db/registrations-waiting-repository'
-import { LoadTournamentByIdRepository } from '@/data/protocols/db/tournament'
+import { ITournamentRepository } from '@/data/protocols/db/tournament-repository'
 import { IAddRegistrations } from '@/domain/usecases/registration/add-registrations'
-import { DateHandler } from '@/infra/gateways/date/date-handler'
+import { DateHandler } from '@/helpers/date-handler'
 
 export class AddRegistrationsUseCase implements IAddRegistrations {
   constructor (
     private readonly categoryRepo: ICategoryRepository,
-    private readonly tournamentRepo: LoadTournamentByIdRepository,
+    private readonly tournamentRepo: ITournamentRepository,
     private readonly accountRepo: IAccountRepository,
     private readonly registrationsRepo: IRegistrationsRepository,
     private readonly registrationsAthleteRepo: IRegistrationsAthleteRepository,
@@ -24,10 +24,10 @@ export class AddRegistrationsUseCase implements IAddRegistrations {
     if (category.deleted) throw new Error('Categoria não existente')
 
     const tournament = await this.tournamentRepo.loadById(category.tournamentId)
-    if (tournament!.deleted) throw new Error('Torneio não existente')
+    if (!tournament || tournament.deleted) throw new Error('Torneio não existente')
 
-    const dtFinalRegistrationTournament = new DateHandler().format(tournament!.dtFinalRegistration)
-    const nowString = new DateHandler().formatDateToString(new Date())
+    const dtFinalRegistrationTournament = new DateHandler().format(tournament.dtFinalRegistration)
+    const nowString = new DateHandler().formatDateToString({ input: new Date() })
     const nowDate = new DateHandler().format(nowString)
     if (nowDate > dtFinalRegistrationTournament) throw new Error('Inscrições finalizadas')
 

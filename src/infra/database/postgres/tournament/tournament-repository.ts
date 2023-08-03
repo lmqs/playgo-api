@@ -1,26 +1,21 @@
 
 import { BaseRepository } from '@/infra/service/base-repository-service'
-import {
-  AddTournamentRepository, LoadTournamentByDescriptionRepository, LoadTournamentByIdRepository, LoadTournamentsRepository,
-  RemoveTournamentRepository, UpdateTournamentRepository, dataModelToDbModelMap
-} from '@/data/protocols/db/tournament'
-import { dbModelToDataModelMap, InputDbTournamentModel, OutputDbTournamentModel } from '@/data/models/tournament/db-tournament'
-import { DateHandler } from '@/infra/gateways/date/date-handler'
+import { InputDbTournamentModel, OutputDbTournamentModel, domainToDbAddModelMap } from '@/infra/model/db-tournament'
+import { DateHandler } from '@/helpers/date-handler'
+import { ITournamentRepository } from '@/data/protocols/db/tournament-repository'
+import { TournamentRepoModel } from '@/data/models/tournament/db-tournament'
 export class TournamentPostgresRepository extends BaseRepository<InputDbTournamentModel, OutputDbTournamentModel>
-  implements LoadTournamentByIdRepository, AddTournamentRepository, UpdateTournamentRepository, LoadTournamentByDescriptionRepository,
-  LoadTournamentsRepository, RemoveTournamentRepository {
-  constructor (
-    public readonly tableName: string = 'tournaments'
-  ) {
+  implements ITournamentRepository {
+  constructor (public readonly tableName: string = 'tournaments') {
     super(tableName)
   }
 
-  async add (data: AddTournamentRepository.Params): Promise<AddTournamentRepository.Result> {
-    const result = await this.create(dataModelToDbModelMap(data))
-    return dbModelToDataModelMap(result)
+  async add (data: ITournamentRepository.AddParams): Promise<ITournamentRepository.Result> {
+    const result = await this.create(domainToDbAddModelMap(data))
+    return TournamentRepoModel.toModel(result)
   }
 
-  async updateTournament (data: UpdateTournamentRepository.Params): Promise<UpdateTournamentRepository.Result> {
+  async updateTournament (data: ITournamentRepository.UpdateParams): Promise<ITournamentRepository.Result> {
     const dateClass = new DateHandler()
 
     const dataMap = {
@@ -38,24 +33,27 @@ export class TournamentPostgresRepository extends BaseRepository<InputDbTourname
       other_information: data.otherInformation
     }
     const result = await this.update(dataMap, { id: data.id })
-    return dbModelToDataModelMap(result)
+    return TournamentRepoModel.toModel(result)
   }
 
-  async loadByDescription (description: string): Promise<LoadTournamentByDescriptionRepository.Result | undefined> {
+  async loadByDescription (description: string): Promise<ITournamentRepository.Result | undefined> {
     const tournaments = await this.findGeneric({ description })
-    return dbModelToDataModelMap(tournaments[0])
+    return TournamentRepoModel.mapCollection(tournaments)[0]
   }
 
-  async loadById (id: string): Promise<LoadTournamentByIdRepository.Result | undefined> {
+  async loadById (id: string): Promise<ITournamentRepository.Result | undefined> {
     const tournaments = await this.findGeneric({ id })
-    return dbModelToDataModelMap(tournaments[0])
+    return TournamentRepoModel.mapCollection(tournaments)[0]
   }
 
-  async loadAll (): Promise<LoadTournamentsRepository.Result | undefined> {
+  async loadAll (): Promise<ITournamentRepository.Results | undefined> {
     const tournaments = await this.findAll()
-    return tournaments.map((tournament) => {
-      return dbModelToDataModelMap(tournament)
-    })
+    return TournamentRepoModel.mapCollection(tournaments)
+  }
+
+  async loadFilter ({ date, operator }: ITournamentRepository.LoadFilterParams): Promise<ITournamentRepository.Results> {
+    const tournaments = await this.findWhereGeneric(`dt_final_tournament ${operator} ${date}`, 'dt_start_tournament desc')
+    return TournamentRepoModel.mapCollection(tournaments)
   }
 
   async remove (id: string): Promise<void> {

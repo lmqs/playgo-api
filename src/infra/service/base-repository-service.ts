@@ -38,6 +38,16 @@ export abstract class BaseRepository<T, U> implements Reader<U>, Writer<T, U> {
     return result
   }
 
+  async findWhereGeneric (whereFieldsAndValues: any, orderByRaw?: any): Promise<U[]> {
+    const query = this.knex(this.tableName)
+      .select('*')
+      .whereRaw(whereFieldsAndValues)
+      .orderByRaw(orderByRaw)
+      .toString()
+    const result = await this.runSql(query)
+    return result
+  }
+
   async findAll (): Promise<U[]> {
     const query = this.knex(this.tableName)
       .select('*')

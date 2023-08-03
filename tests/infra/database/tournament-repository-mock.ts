@@ -1,6 +1,6 @@
-import { OutputDbTournamentModel } from '@/data/models/tournament/db-tournament'
-import { LoadTournamentByIdRepository, LoadTournamentsRepository, UpdateTournamentRepository } from '@/data/protocols/db/tournament'
+import { OutputDbTournamentModel } from '@/infra/model/db-tournament'
 import { AddTournament } from '@/domain/usecases/tournament'
+import { ITournamentRepository } from '@/data/protocols/db/tournament-repository'
 
 export const outputDbMock: OutputDbTournamentModel = {
   id: 'valid_id',
@@ -30,7 +30,43 @@ export const addInputMock: AddTournament.Params = {
   otherInformation: 'any_information'
 }
 
-export const addOutputMock: AddTournament.Result = {
+export const addOutputMock: ITournamentRepository.Result = {
+  id: 'valid_id',
+  description: 'valid_description',
+  cityId: 'valid_city',
+  sportId: 'valid_sportId',
+  dtStartTournament: '25/05/2023',
+  dtFinalTournament: '25/05/2023',
+  dtStartRegistration: '25/05/2023',
+  dtFinalRegistration: '25/05/2023',
+  dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtFinalTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtStartRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtStartTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  otherInformation: 'any_information',
+  organization: 'organization',
+  deleted: true
+}
+
+export const loadByIdOutputMock: ITournamentRepository.Result = {
+  id: 'valid_id',
+  description: 'valid_description',
+  cityId: 'valid_city',
+  sportId: 'valid_sportId',
+  dtStartTournament: '25/05/2023',
+  dtFinalTournament: '25/05/2023',
+  dtStartRegistration: '25/05/2023',
+  dtFinalRegistration: '25/05/2023',
+  dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtFinalTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtStartRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtStartTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  otherInformation: 'any_information',
+  organization: 'organization',
+  deleted: true
+}
+
+export const updateInputMock: ITournamentRepository.UpdateParams = {
   id: 'valid_id',
   description: 'valid_description',
   cityId: 'valid_city',
@@ -44,7 +80,7 @@ export const addOutputMock: AddTournament.Result = {
   deleted: true
 }
 
-export const loadByIdOutputMock: LoadTournamentByIdRepository.Result = {
+export const updateOutputMock: ITournamentRepository.Result = {
   id: 'valid_id',
   description: 'valid_description',
   cityId: 'valid_city',
@@ -55,38 +91,14 @@ export const loadByIdOutputMock: LoadTournamentByIdRepository.Result = {
   dtFinalRegistration: '25/05/2023',
   otherInformation: 'any_information',
   organization: 'organization',
+  dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtFinalTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtStartRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+  dtStartTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
   deleted: true
 }
 
-export const updateInputMock: UpdateTournamentRepository.Params = {
-  id: 'valid_id',
-  description: 'valid_description',
-  cityId: 'valid_city',
-  sportId: 'valid_sportId',
-  dtStartTournament: '25/05/2023',
-  dtFinalTournament: '25/05/2023',
-  dtStartRegistration: '25/05/2023',
-  dtFinalRegistration: '25/05/2023',
-  otherInformation: 'any_information',
-  organization: 'organization',
-  deleted: true
-}
-
-export const updateOutputMock: UpdateTournamentRepository.Result = {
-  id: 'valid_id',
-  description: 'valid_description',
-  cityId: 'valid_city',
-  sportId: 'valid_sportId',
-  dtStartTournament: '25/05/2023',
-  dtFinalTournament: '25/05/2023',
-  dtStartRegistration: '25/05/2023',
-  dtFinalRegistration: '25/05/2023',
-  otherInformation: 'any_information',
-  organization: 'organization',
-  deleted: true
-}
-
-export const listAllOutputMock: LoadTournamentsRepository.Result =
+export const listAllOutputMock: ITournamentRepository.Results =
 [
   {
     id: 'valid_id',
@@ -97,6 +109,10 @@ export const listAllOutputMock: LoadTournamentsRepository.Result =
     dtFinalTournament: '25/05/2023',
     dtStartRegistration: '25/05/2023',
     dtFinalRegistration: '25/05/2023',
+    dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtFinalTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtStartRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtStartTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
     otherInformation: 'any_information',
     organization: 'organization',
     deleted: true
@@ -109,6 +125,10 @@ export const listAllOutputMock: LoadTournamentsRepository.Result =
     dtStartTournament: '25/05/2023',
     dtFinalTournament: '25/05/2023',
     dtStartRegistration: '25/05/2023',
+    dtFinalRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtFinalTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtStartRegistrationFormatted: 'Quinta-feira, 25 de Maio de 2023',
+    dtStartTournamentFormatted: 'Quinta-feira, 25 de Maio de 2023',
     dtFinalRegistration: '25/05/2023',
     otherInformation: 'any_information',
     organization: 'organization',

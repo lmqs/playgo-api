@@ -1,54 +1,52 @@
-import { mockLoadTournamentsModel } from '@/tests/domain/mocks'
-import { LoadTournamentsRepository } from '@/data/protocols/db/tournament'
 import { DbLoadTournaments } from '@/data/usescases/tournament/load-tournaments'
-import { mockLoadTournamentsRepository } from '@/tests/data/mocks'
-import { mockLoadCityByIdRepository } from '../../mocks/mock-db-city'
-import { mockLoadSportByIdRepository } from '../../mocks/mock-db-sport'
-import { LoadCityByIdRepository } from '@/data/protocols/db/city'
 import { LoadSportByIdRepository } from '@/data/usescases/sport'
-
-type SutTypes = {
-  sut: DbLoadTournaments
-  loadTournamentsRepositoryStub: LoadTournamentsRepository
-  loadCityByIdRepositoryStub: LoadCityByIdRepository
-  loadSportByIdRepositoryStub: LoadSportByIdRepository
-}
-
-const makeSut = (): SutTypes => {
-  const loadTournamentsRepositoryStub = mockLoadTournamentsRepository()
-  const loadCityByIdRepositoryStub = mockLoadCityByIdRepository()
-  const loadSportByIdRepositoryStub = mockLoadSportByIdRepository()
-
-  const sut = new DbLoadTournaments(loadTournamentsRepositoryStub, loadCityByIdRepositoryStub, loadSportByIdRepositoryStub)
-  return {
-    sut,
-    loadTournamentsRepositoryStub,
-    loadCityByIdRepositoryStub,
-    loadSportByIdRepositoryStub
-  }
-}
+import { ITournamentRepository } from '@/data/protocols/db/tournament-repository'
+import { TournamentPostgresRepository } from '@/infra/database/postgres/tournament/tournament-repository'
+import { SportPostgresRepository } from '@/infra/database/postgres/sport/sport-repository'
+import { CityPostgresRepository } from '@/infra/database/postgres/city/city-repository'
+import { cityModelMock, loadTournamentsModelMock, loadTournamentsRepositoryMock, sportModelMock } from './load-tournament-mock'
+import { LoadCityByIdRepository } from '@/data/protocols/db/city'
 
 describe('DbLoadTournaments UseCase', () => {
-  test('Should return undefined if LoadTournamentByIdRepository return empty', async () => {
-    const { sut, loadTournamentsRepositoryStub } = makeSut()
-    jest.spyOn(loadTournamentsRepositoryStub, 'loadAll').mockReturnValueOnce(Promise.resolve(undefined))
-    const tournaments = await sut.load()
+  let tournamentsRepositoryStub: ITournamentRepository
+  let loadCityByIdRepositoryStub: LoadCityByIdRepository
+  let loadSportByIdRepositoryStub: LoadSportByIdRepository
+
+  beforeEach(() => {
+    loadCityByIdRepositoryStub = new CityPostgresRepository()
+    loadSportByIdRepositoryStub = new SportPostgresRepository()
+    tournamentsRepositoryStub = new TournamentPostgresRepository()
+  })
+  test('Should return undefined if loadAll return empty', async () => {
+    jest.spyOn(tournamentsRepositoryStub, 'loadAll').mockReturnValueOnce(Promise.resolve(undefined))
+    const useCase = new DbLoadTournaments(tournamentsRepositoryStub, loadCityByIdRepositoryStub, loadSportByIdRepositoryStub)
+
+    const tournaments = await useCase.load()
 
     expect(tournaments).toBeUndefined()
   })
 
   test('Should throw if loadTournamentsRepository throws', async () => {
-    const { sut, loadTournamentsRepositoryStub } = makeSut()
-    jest.spyOn(loadTournamentsRepositoryStub, 'loadAll').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
+    const useCase = new DbLoadTournaments(tournamentsRepositoryStub, loadCityByIdRepositoryStub, loadSportByIdRepositoryStub)
+    jest.spyOn(tournamentsRepositoryStub, 'loadAll').mockImplementation(() => { throw new Error() })
 
-    const promise = sut.load()
+    const promise = useCase.load()
     await expect(promise).rejects.toThrow()
   })
 
   test('Should return a tournament list on success', async () => {
-    const { sut } = makeSut()
+    jest.spyOn(tournamentsRepositoryStub, 'loadAll').mockReturnValueOnce(Promise.resolve(loadTournamentsRepositoryMock))
+    jest.spyOn(loadCityByIdRepositoryStub, 'loadById').mockResolvedValueOnce(cityModelMock)
+    jest.spyOn(loadCityByIdRepositoryStub, 'loadById').mockResolvedValueOnce(cityModelMock)
+    jest.spyOn(loadSportByIdRepositoryStub, 'loadById').mockResolvedValueOnce(sportModelMock)
+    jest.spyOn(loadSportByIdRepositoryStub, 'loadById').mockResolvedValueOnce(sportModelMock)
 
-    const tournaments = await sut.load()
-    expect(tournaments).toEqual(mockLoadTournamentsModel())
+    const useCase = new DbLoadTournaments(tournamentsRepositoryStub, loadCityByIdRepositoryStub, loadSportByIdRepositoryStub)
+
+    const tournaments = await useCase.load()
+    expect(tournaments).toEqual(loadTournamentsModelMock)
+    expect(tournamentsRepositoryStub.loadAll).toHaveBeenCalledTimes(1)
+    expect(loadCityByIdRepositoryStub.loadById).toHaveBeenCalledTimes(2)
+    expect(loadSportByIdRepositoryStub.loadById).toHaveBeenCalledTimes(2)
   })
 })
