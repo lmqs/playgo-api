@@ -4,5 +4,5 @@ import { DbUpdateTournament } from '@/data/usescases/tournament/db-update'
 
 export const makeDbUpdateTournament = (): IUpdateTournament => {
   const tournamentPostgresRepository = new TournamentPostgresRepository()
-  return new DbUpdateTournament(tournamentPostgresRepository, tournamentPostgresRepository)
+  return new DbUpdateTournament(tournamentPostgresRepository)
 }

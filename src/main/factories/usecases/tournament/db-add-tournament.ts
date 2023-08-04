@@ -4,5 +4,5 @@ import { AddTournament } from '@/domain/usecases/tournament/add-tournament'
 
 export const makeDbAddTournament = (): AddTournament => {
   const tournamentPostgresRepository = new TournamentPostgresRepository()
-  return new DbAddTournament(tournamentPostgresRepository, tournamentPostgresRepository)
+  return new DbAddTournament(tournamentPostgresRepository)
 }
