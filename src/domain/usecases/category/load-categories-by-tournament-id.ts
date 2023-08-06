@@ -1,6 +1,6 @@
 
 export interface ILoadCategoriesByTournamentId {
-  load: (tournamentId: string) => Promise<ILoadCategoriesByTournamentId.Result | undefined>
+  load: (tournamentId: string) => Promise<ILoadCategoriesByTournamentId.Result>
 }
 
 export namespace ILoadCategoriesByTournamentId {
