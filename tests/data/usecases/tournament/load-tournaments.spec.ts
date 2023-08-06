@@ -1,16 +1,16 @@
 import { DbLoadTournaments } from '@/data/usescases/tournament/load-tournaments'
-import { LoadSportByIdRepository } from '@/data/usescases/sport'
 import { ITournamentRepository } from '@/data/protocols/db/tournament-repository'
 import { TournamentPostgresRepository } from '@/infra/database/postgres/tournament/tournament-repository'
 import { SportPostgresRepository } from '@/infra/database/postgres/sport/sport-repository'
 import { CityPostgresRepository } from '@/infra/database/postgres/city/city-repository'
 import { cityModelMock, loadTournamentsModelMock, loadTournamentsRepositoryMock, sportModelMock } from './load-tournament-mock'
 import { LoadCityByIdRepository } from '@/data/protocols/db/city'
+import { ISportRepository } from '@/data/protocols/db'
 
 describe('DbLoadTournaments UseCase', () => {
   let tournamentsRepositoryStub: ITournamentRepository
   let loadCityByIdRepositoryStub: LoadCityByIdRepository
-  let loadSportByIdRepositoryStub: LoadSportByIdRepository
+  let loadSportByIdRepositoryStub: ISportRepository
 
   beforeEach(() => {
     loadCityByIdRepositoryStub = new CityPostgresRepository()

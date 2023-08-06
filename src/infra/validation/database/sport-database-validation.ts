@@ -1,10 +1,10 @@
-import { LoadSportByIdRepository } from '@/data/protocols/db/sport'
+import { LoadSportById } from '@/domain/usecases/sport'
 import { InvalidParamError } from '@/presentation/errors'
 import { Validation } from '@/presentation/protocols'
 
 export class SportDatabaseValidation implements Validation {
   constructor (
-    private readonly loadSportByIdRepository: LoadSportByIdRepository,
+    private readonly loadSportByIdRepository: LoadSportById,
     private readonly fieldName: string
   ) {}
 

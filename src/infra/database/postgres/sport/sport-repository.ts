@@ -1,30 +1,28 @@
 import { BaseRepository } from '@/infra/service/base-repository-service'
 import { SportModel } from '@/domain/models/sport'
-import { AddSportRepository, LoadSportByDescription, LoadSportByDescriptionRepository, LoadSportByIdRepository, LoadSportsRepository } from '@/data/usescases/sport'
+import { ISportRepository } from '@/data/protocols/db'
 
-export class SportPostgresRepository extends BaseRepository<AddSportRepository.Params, SportModel>
-  implements AddSportRepository, LoadSportByDescriptionRepository, LoadSportByIdRepository,
-  LoadSportsRepository {
+export class SportPostgresRepository extends BaseRepository<ISportRepository.AddParams, SportModel>
+  implements ISportRepository {
   constructor (
     public readonly tableName: string = 'sports'
   ) {
     super(tableName)
   }
 
-  async add (data: AddSportRepository.Params): Promise<AddSportRepository.Result> {
+  async add (data: ISportRepository.AddParams): Promise<ISportRepository.Result> {
     return await this.create(data)
   }
 
-  async loadByDescription (description: string): Promise<LoadSportByDescription.Result | undefined> {
-    return await this.findOne('description', description)
+  async loadByDescription (description: string): Promise<ISportRepository.Results> {
+    return await this.findGeneric({ description })
   }
 
-  async loadById (id: string): Promise<LoadSportByIdRepository.Result | undefined> {
-    const sports = await this.findGeneric({ id })
-    return sports[0]
+  async loadById (id: string): Promise<ISportRepository.Result | undefined> {
+    return await this.findOne('id', id)
   }
 
-  async loadAll (): Promise<LoadSportsRepository.Result | undefined> {
+  async loadAll (): Promise<ISportRepository.Results> {
     return await this.findAll()
   }
 }

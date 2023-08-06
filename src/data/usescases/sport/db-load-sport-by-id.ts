@@ -1,12 +1,11 @@
 
-import { LoadSportById, LoadSportByIdRepository } from '.'
+import { ISportRepository } from '@/data/protocols/db'
+import { LoadSportById } from '@/domain/usecases/sport'
 
 export class DbLoadSportById implements LoadSportById {
-  constructor (
-    private readonly loadSportByIdRepository: LoadSportByIdRepository
-  ) {}
+  constructor (private readonly sportRepository: ISportRepository) {}
 
   async loadById (id: string): Promise<LoadSportById.Result | undefined> {
-    return await this.loadSportByIdRepository.loadById(id)
+    return await this.sportRepository.loadById(id)
   }
 }

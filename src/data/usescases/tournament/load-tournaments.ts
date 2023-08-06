@@ -1,13 +1,13 @@
+import { ISportRepository } from '@/data/protocols/db'
 import { LoadCityByIdRepository } from '@/data/protocols/db/city'
 import { ITournamentRepository } from '@/data/protocols/db/tournament-repository'
-import { LoadSportByIdRepository } from '@/data/usescases/sport'
 import { LoadTournaments } from '@/domain/usecases/tournament'
 
 export class DbLoadTournaments implements LoadTournaments {
   constructor (
     private readonly tournamentRepository: ITournamentRepository,
     private readonly loadCityByIdRepository: LoadCityByIdRepository,
-    private readonly loadSportByIdRepository: LoadSportByIdRepository
+    private readonly sportByIdRepository: ISportRepository
   ) {}
 
   async load (): Promise<LoadTournaments.Result | undefined> {
@@ -18,7 +18,7 @@ export class DbLoadTournaments implements LoadTournaments {
     }))
 
     const promisesSports = tournaments && await Promise.all(tournaments?.map(async (item) => {
-      return await this.loadSportByIdRepository.loadById(item.sportId)
+      return await this.sportByIdRepository.loadById(item.sportId)
     }))
     const [cities, sports] = await Promise.all([promisesCities, promisesSports])
     return tournaments?.map((item, index) => {

@@ -1,5 +1,5 @@
 
-import { LoadSports } from '@/data/usescases/sport'
+import { LoadSports } from '@/domain/usecases/sport'
 import { SportPostgresRepository } from '@/infra/database/postgres/sport/sport-repository'
 import { DbLoadSports } from '@/data/usescases/sport/db-load-sports'
 

@@ -1,9 +1,9 @@
 import { SportModel } from '@/domain/models/sport'
 
 export interface LoadSportByDescription {
-  loadByDescription: (description: string) => Promise<LoadSportByDescription.Result | undefined>
+  loadByDescription: (description: string) => Promise<LoadSportByDescription.Result>
 }
 
 export namespace LoadSportByDescription {
-  export type Result = SportModel
+  export type Result = SportModel[]
 }

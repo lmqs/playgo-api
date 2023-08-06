@@ -1,15 +1,13 @@
-import { AddSport, AddSportRepository, LoadSportByDescriptionRepository } from '.'
+import { ISportRepository } from '@/data/protocols/db'
+import { AddSport } from '@/domain/usecases/sport'
 
 export class DbAddSport implements AddSport {
-  constructor (
-    private readonly addSportRepository: AddSportRepository,
-    private readonly loadSportByDescriptionRepository: LoadSportByDescriptionRepository
-  ) { }
+  constructor (private readonly sportRepository: ISportRepository) { }
 
   async add (data: AddSport.Params): Promise<AddSport.Result | undefined> {
-    const sport = await this.loadSportByDescriptionRepository.loadByDescription(data.description)
-    if (!sport) {
-      const newSport = await this.addSportRepository.add(data)
+    const sport = await this.sportRepository.loadByDescription(data.description)
+    if (!sport.length) {
+      const newSport = await this.sportRepository.add(data)
       return newSport
     }
   }

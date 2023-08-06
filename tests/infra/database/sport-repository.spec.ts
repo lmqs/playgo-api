@@ -1,111 +1,79 @@
-import { mockAddSportParams, mockSportAllModel, mockSportModel } from '@/tests/domain/mocks/mock-sport'
 import { SportPostgresRepository } from '@/infra/database/postgres/sport/sport-repository'
-
-type SutTypes = {
-  sut: SportPostgresRepository
-}
-
-const makeSut = (): SutTypes => {
-  const sut = new SportPostgresRepository()
-  return {
-    sut
-  }
-}
+import { sportAddParamsMock, sportMock, sportsMock } from './sport-repository-mock'
 
 describe('Sport Postgres Repository', () => {
   describe('add()', () => {
     test('Should return a sport on add success', async () => {
-      const { sut } = makeSut()
-      sut.create = jest.fn().mockReturnValue(mockSportModel())
-      const sport = await sut.add(mockAddSportParams())
+      const repository = new SportPostgresRepository()
+      repository.create = jest.fn().mockReturnValue(sportMock)
+      const sport = await repository.add(sportAddParamsMock)
 
-      expect(sport).toEqual({
-        id: 'any_id',
-        description: 'any_description',
-        deleted: false
-      })
+      expect(sport).toEqual(sportMock)
     })
 
     test('Should return undefined if add fails', async () => {
-      const { sut } = makeSut()
-      sut.create = jest.fn().mockImplementationOnce(() => {
+      const repository = new SportPostgresRepository()
+      repository.create = jest.fn().mockImplementation(() => {
         throw new Error()
       })
-      const promise = sut.add(mockAddSportParams())
+      const promise = repository.add(sportAddParamsMock)
       await expect(promise).rejects.toThrow()
     })
   })
 
   describe('loadByDescription()', () => {
     test('Should return a sport on add success', async () => {
-      const { sut } = makeSut()
-      sut.findOne = jest.fn().mockReturnValue(mockSportModel())
+      const repository = new SportPostgresRepository()
+      repository.findGeneric = jest.fn().mockReturnValue(sportsMock)
 
-      const sport = await sut.loadByDescription('any_description')
-      expect(sport).toEqual({
-        id: 'any_id',
-        description: 'any_description',
-        deleted: false
-      })
+      const sport = await repository.loadByDescription('tennis')
+      expect(sport).toEqual(sportsMock)
     })
 
     test('Should return undefined if loadByDescription fails', async () => {
-      const { sut } = makeSut()
-      sut.findOne = jest.fn().mockImplementationOnce(() => {
+      const repository = new SportPostgresRepository()
+      repository.findGeneric = jest.fn().mockImplementation(() => {
         throw new Error()
       })
-      const promise = sut.loadByDescription('any_description')
+      const promise = repository.loadByDescription('tennis')
       await expect(promise).rejects.toThrow()
     })
   })
 
   describe('loadById()', () => {
     test('Should return a sport on loadById success', async () => {
-      const { sut } = makeSut()
-      sut.findGeneric = jest.fn().mockReturnValue([mockSportModel()])
+      const repository = new SportPostgresRepository()
+      repository.findOne = jest.fn().mockReturnValue(sportMock)
 
-      const sport = await sut.loadById('any_id')
-      expect(sport).toEqual({
-        id: 'any_id',
-        description: 'any_description',
-        deleted: false
-      })
+      const sport = await repository.loadById('2')
+      expect(sport).toEqual(sportMock)
     })
 
     test('Should return undefined if loadById fails', async () => {
-      const { sut } = makeSut()
-      sut.findGeneric = jest.fn().mockImplementationOnce(() => {
+      const repository = new SportPostgresRepository()
+      repository.findOne = jest.fn().mockImplementation(() => {
         throw new Error()
       })
-      const promise = sut.loadById('any_id')
+      const promise = repository.loadById('any_id')
       await expect(promise).rejects.toThrow()
     })
   })
 
   describe('loadAll()', () => {
     test('Should return a sport on loadAll success', async () => {
-      const { sut } = makeSut()
-      sut.findAll = jest.fn().mockReturnValue(mockSportAllModel())
+      const repository = new SportPostgresRepository()
+      repository.findAll = jest.fn().mockReturnValue(sportsMock)
 
-      const sport = await sut.loadAll()
-      expect(sport).toEqual([{
-        id: 'any_id',
-        description: 'any_description',
-        deleted: false
-      },
-      {
-        id: 'other_id',
-        description: 'any_description',
-        deleted: false
-      }])
+      const sport = await repository.loadAll()
+      expect(sport).toEqual(sportsMock)
     })
 
     test('Should return undefined if loadAll fails', async () => {
-      const { sut } = makeSut()
-      sut.findAll = jest.fn().mockImplementationOnce(() => {
+      const repository = new SportPostgresRepository()
+      repository.findAll = jest.fn().mockImplementationOnce(() => {
         throw new Error()
       })
-      const promise = sut.loadAll()
+      const promise = repository.loadAll()
       await expect(promise).rejects.toThrow()
     })
   })

@@ -1,66 +1,44 @@
-import { mockAddSportParams, mockSportModel } from '@/../tests/domain/mocks/mock-sport'
-import { AddSportRepository, LoadSportByDescriptionRepository } from '@/data/usescases/sport'
+import { ISportRepository } from '@/data/protocols/db'
 import { DbAddSport } from '@/data/usescases/sport/db-add-sport'
-import { mockAddSportRepository, mockEmptyLoadSportByDescriptionRepository } from '@/tests/data/mocks/mock-db-sport'
-
-type SutTypes = {
-  sut: DbAddSport
-  addSportRepositoryStub: AddSportRepository
-  loadSportByDescriptionRepositoryStub: LoadSportByDescriptionRepository
-}
-
-const makeSut = (): SutTypes => {
-  const addSportRepositoryStub = mockAddSportRepository()
-  const loadSportByDescriptionRepositoryStub = mockEmptyLoadSportByDescriptionRepository()
-  const sut = new DbAddSport(addSportRepositoryStub, loadSportByDescriptionRepositoryStub)
-  return {
-    sut,
-    loadSportByDescriptionRepositoryStub,
-    addSportRepositoryStub
-  }
-}
+import { SportPostgresRepository } from '@/infra/database/postgres/sport/sport-repository'
+import { addParamsMock, sportMock, sportsListMock } from './sport-mock'
 
 describe('DbAddSport UseCase', () => {
-  test('Should call LoadCategoryByTournamentIdRepository with correct values', async () => {
-    const { sut, loadSportByDescriptionRepositoryStub } = makeSut()
-    const addSpy = jest.spyOn(loadSportByDescriptionRepositoryStub, 'loadByDescription')
+  let sportRepositoryStub: ISportRepository
 
-    await sut.add(mockAddSportParams())
-    expect(addSpy).toHaveBeenCalledWith('any_description')
+  beforeEach(() => {
+    sportRepositoryStub = new SportPostgresRepository()
   })
 
   test('Should return undefined if loadByDescription not return empty', async () => {
-    const { sut, loadSportByDescriptionRepositoryStub } = makeSut()
-    jest.spyOn(loadSportByDescriptionRepositoryStub, 'loadByDescription').mockReturnValueOnce(Promise.resolve(mockSportModel()))
-    const accessToken = await sut.add(mockAddSportParams())
+    jest.spyOn(sportRepositoryStub, 'loadByDescription').mockResolvedValueOnce(sportsListMock)
+    jest.spyOn(sportRepositoryStub, 'add')
+    const useCase = new DbAddSport(sportRepositoryStub)
+    const result = await useCase.add(addParamsMock)
 
-    expect(accessToken).toBeUndefined()
+    expect(result).toBeUndefined()
+    expect(sportRepositoryStub.loadByDescription).toHaveBeenCalledWith('tennis')
+    expect(sportRepositoryStub.add).toHaveBeenCalledTimes(0)
   })
 
-  test('Should call AddSportRepository with correct values', async () => {
-    const { sut, addSportRepositoryStub } = makeSut()
-    const addSpy = jest.spyOn(addSportRepositoryStub, 'add')
+  test('Should throw if add throws', async () => {
+    jest.spyOn(sportRepositoryStub, 'loadByDescription').mockResolvedValueOnce([])
+    jest.spyOn(sportRepositoryStub, 'add').mockImplementation(() => { throw new Error() })
+    const useCase = new DbAddSport(sportRepositoryStub)
 
-    await sut.add(mockSportModel())
-    expect(addSpy).toHaveBeenCalledWith({
-      id: 'any_id',
-      description: 'any_description',
-      deleted: false
-    })
-  })
-
-  test('Should throw if AddSportRepository throws', async () => {
-    const { sut, addSportRepositoryStub } = makeSut()
-    jest.spyOn(addSportRepositoryStub, 'add').mockReturnValueOnce(Promise.reject(new Error()))
-
-    const promise = sut.add(mockSportModel())
+    const promise = useCase.add(addParamsMock)
     await expect(promise).rejects.toThrow()
+    expect(sportRepositoryStub.loadByDescription).toHaveBeenCalledWith('tennis')
+    expect(sportRepositoryStub.add).toHaveBeenCalledWith(addParamsMock)
   })
 
-  test('Should return a sport on sucess', async () => {
-    const { sut } = makeSut()
+  test('Should return a sport on success', async () => {
+    jest.spyOn(sportRepositoryStub, 'loadByDescription').mockResolvedValueOnce([])
+    jest.spyOn(sportRepositoryStub, 'add').mockResolvedValueOnce(sportMock)
+    const useCase = new DbAddSport(sportRepositoryStub)
 
-    const account = await sut.add(mockAddSportParams())
-    expect(account).toEqual(mockSportModel())
+    const result = await useCase.add(addParamsMock)
+    expect(result).toEqual(sportMock)
+    expect(sportRepositoryStub.add).toHaveBeenCalledWith(addParamsMock)
   })
 })

@@ -1,35 +1,29 @@
-import { mockSportModel } from '@/tests/domain/mocks/mock-sport'
-import { LoadSportById } from '@/data/usescases/sport'
-import { mockLoadSportByIdRepository } from '@/tests/data/mocks/mock-db-sport'
+
 import { DbLoadSportById } from '@/data/usescases/sport/db-load-sport-by-id'
-
-type SutTypes = {
-  sut: LoadSportById
-  loadSportByIdRepositoryStub: LoadSportById
-}
-
-const makeSut = (): SutTypes => {
-  const loadSportByIdRepositoryStub = mockLoadSportByIdRepository()
-  const sut = new DbLoadSportById(loadSportByIdRepositoryStub)
-  return {
-    sut,
-    loadSportByIdRepositoryStub
-  }
-}
+import { sportMock } from './sport-mock'
+import { SportPostgresRepository } from '@/infra/database/postgres/sport/sport-repository'
+import { ISportRepository } from '@/data/protocols/db'
 
 describe('DbLoadSportById UseCase', () => {
-  test('Should throw if LoadSportByIdRepository throws', async () => {
-    const { sut, loadSportByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadSportByIdRepositoryStub, 'loadById').mockReturnValueOnce(Promise.reject(new Error()))
+  let sportRepositoryStub: ISportRepository
 
-    const promise = sut.loadById('any_id')
+  beforeEach(() => {
+    sportRepositoryStub = new SportPostgresRepository()
+  })
+
+  test('Should throw if loadById throws', async () => {
+    jest.spyOn(sportRepositoryStub, 'loadById').mockImplementation(() => { throw new Error() })
+    const useCase = new DbLoadSportById(sportRepositoryStub)
+
+    const promise = useCase.loadById('any_id')
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return a sport on Sucess', async () => {
-    const { sut } = makeSut()
-
-    const account = await sut.loadById('any_id')
-    expect(account).toEqual(mockSportModel())
+  test('Should return a sport on success', async () => {
+    jest.spyOn(sportRepositoryStub, 'loadById').mockResolvedValueOnce(sportMock)
+    const useCase = new DbLoadSportById(sportRepositoryStub)
+    const account = await useCase.loadById('any_id')
+    expect(account).toEqual(sportMock)
+    expect(sportRepositoryStub.loadById).toHaveBeenCalledWith('any_id')
   })
 })

@@ -1,2 +1,2 @@
-export * from '@/presentation/controllers/category'
-export * from '@/data/usescases/sport'
+export * from './add-sport-controller'
+export * from './load-sports-controller'

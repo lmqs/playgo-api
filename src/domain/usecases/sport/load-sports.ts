@@ -1,7 +1,7 @@
 import { SportModel } from '@/domain/models/sport'
 
 export interface LoadSports {
-  load: () => Promise<LoadSports.Result | undefined>
+  load: () => Promise<LoadSports.Result>
 }
 
 export namespace LoadSports {
