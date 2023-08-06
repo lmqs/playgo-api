@@ -1,7 +1,7 @@
 import { CityModel } from '@/domain/models/city'
 
 export interface ILoadAllCities {
-  load: () => Promise<ILoadAllCities.Result | undefined>
+  load: () => Promise<ILoadAllCities.Result>
 }
 
 export namespace ILoadAllCities {

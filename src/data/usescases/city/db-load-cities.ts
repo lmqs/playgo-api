@@ -6,7 +6,7 @@ export class DbLoadCitiesUseCase implements ILoadAllCities {
     private readonly loadCitiesRepository: ICityRepository
   ) {}
 
-  async load (): Promise<ILoadAllCities.Result | undefined> {
+  async load (): Promise<ILoadAllCities.Result> {
     return await this.loadCitiesRepository.loadAll()
   }
 }

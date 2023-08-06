@@ -10,7 +10,7 @@ export class LoadAllCitiesController implements Controller {
   async handle (): Promise<HttpResponse> {
     try {
       const cities = await this.loadCitiesUseCase.load()
-      return cities?.length ? ok(cities) : noContent()
+      return cities.length ? ok(cities) : noContent()
     } catch (error: unknown) {
       return serverError(error as Error)
     }
