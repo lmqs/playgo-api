@@ -2,7 +2,7 @@ import { CityModel } from '@/domain/models/city'
 import { SportModel } from '@/domain/models/sport'
 
 export interface LoadTournaments {
-  load: () => Promise<LoadTournaments.Result | undefined>
+  load: () => Promise<LoadTournaments.Result>
 }
 export namespace LoadTournaments {
   export type Result = Array<{

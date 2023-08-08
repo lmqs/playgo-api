@@ -17,13 +17,13 @@ describe('DbLoadTournaments UseCase', () => {
     loadSportByIdRepositoryStub = new SportPostgresRepository()
     tournamentsRepositoryStub = new TournamentPostgresRepository()
   })
-  test('Should return undefined if loadAll return empty', async () => {
-    jest.spyOn(tournamentsRepositoryStub, 'loadAll').mockReturnValueOnce(Promise.resolve(undefined))
+  test('Should return [] if loadAll return empty', async () => {
+    jest.spyOn(tournamentsRepositoryStub, 'loadAll').mockReturnValueOnce(Promise.resolve([]))
     const useCase = new DbLoadTournaments(tournamentsRepositoryStub, loadCityByIdRepositoryStub, loadSportByIdRepositoryStub)
 
     const tournaments = await useCase.load()
 
-    expect(tournaments).toBeUndefined()
+    expect(tournaments.length).toBe(0)
   })
 
   test('Should throw if loadTournamentsRepository throws', async () => {
