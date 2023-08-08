@@ -1,5 +1,5 @@
 import { TournamentSponsorPostgresRepository } from '@/infra/database/postgres/tournament-sponsor/tournament-sponsor-repository'
-import { addTournamentSponsorModelMock, dbAddTournamentSponsorModelMock } from './tournament-sponsor-repository-mock'
+import { addTournamentSponsorModelMock, dbAddTournamentSponsorModelMock, dbTournamentSponsorModelMock, dbUpdateTournamentSponsorModelMock, updateTournamentSponsorModelMock } from './tournament-sponsor-repository-mock'
 
 describe('Tournament-Sponsor Postgres Repository', () => {
   describe('add()', () => {
@@ -112,6 +112,25 @@ describe('Tournament-Sponsor Postgres Repository', () => {
         throw new Error()
       })
       const promise = tournamentSponsorRepository.remove('valid_id')
+      await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('updateSponsor()', () => {
+    test('Should return a tournament-sponsor model on add success', async () => {
+      const tournamentSponsorRepository = new TournamentSponsorPostgresRepository()
+      tournamentSponsorRepository.update = jest.fn().mockReturnValue(dbUpdateTournamentSponsorModelMock)
+
+      const result = await tournamentSponsorRepository.updateSponsor(updateTournamentSponsorModelMock)
+      expect(result).toEqual(dbTournamentSponsorModelMock)
+    })
+
+    test('Should rethrow if update fails', async () => {
+      const tournamentSponsorRepository = new TournamentSponsorPostgresRepository()
+      tournamentSponsorRepository.update = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = tournamentSponsorRepository.updateSponsor(updateTournamentSponsorModelMock)
       await expect(promise).rejects.toThrow()
     })
   })
