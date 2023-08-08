@@ -13,9 +13,9 @@ export class DbUpdateTournament implements IUpdateTournament {
     private readonly invalidTournamentDateError = errorsConstant.invalidTournamentDate
   ) {}
 
-  async update (data: IUpdateTournament.Params): Promise<IUpdateTournament.Result | undefined> {
-    const isDescriptionUsed = await this.tournamentRepository.loadByDescription(data.description)
-    if (isDescriptionUsed && data.id.toString() !== isDescriptionUsed[0].id.toString()) throw new ParamInUseError(this.descriptionError)
+  async update (data: IUpdateTournament.Params): Promise<IUpdateTournament.Result> {
+    const tournamentsUsed = await this.tournamentRepository.loadByDescription(data.description)
+    if (tournamentsUsed.length && data.id.toString() !== tournamentsUsed[0].id.toString()) throw new ParamInUseError(this.descriptionError)
 
     const isValidRegistrationDate = data.dtStartRegistration && data.dtFinalRegistration &&
       moment(data.dtStartRegistration.toString(), 'DD/MM/YYYY') <= moment(data.dtFinalRegistration.toString(), 'DD/MM/YYYY')

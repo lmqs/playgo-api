@@ -1,6 +1,6 @@
 import { TournamentModel } from '@/domain/models/tournament'
 export interface IUpdateTournament {
-  update: (data: IUpdateTournament.Params) => Promise<IUpdateTournament.Result | undefined>
+  update: (data: IUpdateTournament.Params) => Promise<IUpdateTournament.Result>
 }
 export namespace IUpdateTournament {
   export type Params = {

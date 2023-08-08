@@ -1,4 +1,3 @@
-import { mockAddTournamentParams } from '@/tests/domain/mocks'
 import { DbAddTournament } from '@/data/usescases/tournament/db-add-tournament'
 import { errorsConstant } from '@/data/constants/errors'
 import { ParamInUseError } from '@/domain/errors/param-in-use-error'
@@ -19,16 +18,16 @@ describe('DbAddTournament UseCase', () => {
 
     const useCase = new DbAddTournament(tournamentRepositoryStub)
 
-    await useCase.add(mockAddTournamentParams())
+    await useCase.add(addTournamentObjectMock)
     expect(tournamentRepositoryStub.loadByDescription).toHaveBeenCalledWith('valid_description')
-    expect(tournamentRepositoryStub.add).toHaveBeenCalledWith(mockAddTournamentParams())
+    expect(tournamentRepositoryStub.add).toHaveBeenCalledWith(addTournamentObjectMock)
   })
 
   test('Should throw if loadByDescription throws', async () => {
     jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockReturnValueOnce(Promise.reject(new Error()))
     const useCase = new DbAddTournament(tournamentRepositoryStub)
 
-    const promise = useCase.add(mockAddTournamentParams())
+    const promise = useCase.add(addTournamentObjectMock)
     await expect(promise).rejects.toThrow()
   })
 
@@ -69,7 +68,7 @@ describe('DbAddTournament UseCase', () => {
     jest.spyOn(tournamentRepositoryStub, 'loadByDescription').mockResolvedValueOnce([loadByIdTournamentObjectMock])
     const addTournamentRepositorySpy = jest.spyOn(tournamentRepositoryStub, 'add')
 
-    const promise = useCase.add(mockAddTournamentParams())
+    const promise = useCase.add(addTournamentObjectMock)
     await expect(promise).rejects.toThrow(new ParamInUseError(errorsConstant.description))
 
     expect(addTournamentRepositorySpy).not.toBeCalled()
@@ -83,7 +82,7 @@ describe('DbAddTournament UseCase', () => {
 
     const useCase = new DbAddTournament(tournamentRepositoryStub)
 
-    const promise = useCase.add(mockAddTournamentParams())
+    const promise = useCase.add(addTournamentObjectMock)
     await expect(promise).rejects.toThrow()
   })
 })
