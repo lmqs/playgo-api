@@ -80,6 +80,29 @@ export const updateInputMock: ITournamentRepository.UpdateParams = {
   deleted: true
 }
 
+export const updateInputIncompleteMock: ITournamentRepository.UpdateParams = {
+  id: 'valid_id',
+  description: 'valid_description',
+  cityId: 'valid_city',
+  sportId: 'valid_sportId',
+  otherInformation: 'any_information',
+  organization: 'organization',
+  deleted: true
+}
+
+export const updateInputDbIncompleteMock = {
+  id: 'valid_id',
+  description: 'valid_description',
+  city_id: 'valid_city',
+  sport_id: 'valid_sportId',
+  other_information: 'any_information',
+  organization: 'organization',
+  dt_start_tournament: undefined,
+  dt_final_tournament: undefined,
+  dt_start_registration: undefined,
+  dt_final_registration: undefined
+}
+
 export const updateOutputMock: ITournamentRepository.Result = {
   id: 'valid_id',
   description: 'valid_description',

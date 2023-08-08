@@ -1,5 +1,5 @@
 import { TournamentPostgresRepository } from '@/infra/database/postgres/tournament/tournament-repository'
-import { outputDbMock, addInputMock, addOutputMock, loadByIdOutputMock, updateInputMock, updateOutputMock, outputDbArrayMock, listAllOutputMock } from './tournament-repository-mock'
+import { outputDbMock, addInputMock, addOutputMock, loadByIdOutputMock, updateInputMock, updateOutputMock, outputDbArrayMock, listAllOutputMock, updateInputIncompleteMock, updateInputDbIncompleteMock } from './tournament-repository-mock'
 jest.useFakeTimers().setSystemTime(new Date('2023-05-25 00:00:00'))
 
 describe('Tournament Postgres Repository', () => {
@@ -49,12 +49,23 @@ describe('Tournament Postgres Repository', () => {
   })
 
   describe('update()', () => {
-    test('Should return an Tournament on update success', async () => {
+    test('Should return an tournament on update success', async () => {
       const repository = new TournamentPostgresRepository()
       repository.update = jest.fn().mockReturnValue(outputDbMock)
       const tournament = await repository.updateTournament(updateInputMock)
 
       expect(tournament).toEqual(updateOutputMock)
+    })
+
+    test('Should not date update when dt start and dt final is not provider', async () => {
+      const repository = new TournamentPostgresRepository()
+      repository.update = jest.fn().mockReturnValue(outputDbMock)
+      const tournament = await repository.updateTournament(updateInputIncompleteMock)
+
+      expect(tournament).toEqual(updateOutputMock)
+      expect(repository.update).toHaveBeenCalledWith(updateInputDbIncompleteMock,
+        { id: updateInputIncompleteMock.id }
+      )
     })
 
     test('Should return throws if create fails', async () => {
@@ -126,6 +137,33 @@ describe('Tournament Postgres Repository', () => {
         throw new Error()
       })
       const promise = repository.remove('valid_id')
+      await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('loadFilter()', () => {
+    test('Should return a tournament list by description filter', async () => {
+      const repository = new TournamentPostgresRepository()
+      repository.findWhereGeneric = jest.fn().mockReturnValue(outputDbArrayMock)
+
+      const tournaments = await repository.loadFilter({ date: '08/08/2023', operator: '<=' })
+      expect(tournaments).toEqual(listAllOutputMock)
+    })
+
+    test('Should return [] when tournament filter is empty', async () => {
+      const repository = new TournamentPostgresRepository()
+      repository.findWhereGeneric = jest.fn().mockReturnValue([])
+
+      const tournaments = await repository.loadFilter({ date: '08/08/2023', operator: '<=' })
+      expect(tournaments.length).toBe(0)
+    })
+
+    test('Should return throws if repository.loadFilter fails', async () => {
+      const repository = new TournamentPostgresRepository()
+      repository.findWhereGeneric = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = repository.loadFilter({ date: '08/08/2023', operator: '<=' })
       await expect(promise).rejects.toThrow()
     })
   })
