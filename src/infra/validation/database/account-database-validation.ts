@@ -10,8 +10,6 @@ export class AccountDatabaseValidation implements Validation {
 
   async validate (input: any): Promise<Error | undefined> {
     const isValid = await this.loadAccountRepo.loadById(input[this.fieldName])
-    if (!isValid) {
-      return new InvalidParamError(this.fieldName)
-    }
+    if (!isValid) return new InvalidParamError(this.fieldName)
   }
 }
