@@ -12,16 +12,16 @@ export class DbLoadTournaments implements LoadTournaments {
 
   async load (): Promise<LoadTournaments.Result> {
     const tournaments = await this.tournamentRepository.loadAll()
-    if (!tournaments) return []
-    const promisesCities = tournaments && await Promise.all(tournaments?.map(async (item) => {
+    if (!tournaments.length) return []
+    const promisesCities = tournaments && await Promise.all(tournaments.map(async (item) => {
       return await this.loadCityByIdRepository.loadById(item.cityId)
     }))
 
-    const promisesSports = tournaments && await Promise.all(tournaments?.map(async (item) => {
+    const promisesSports = tournaments && await Promise.all(tournaments.map(async (item) => {
       return await this.sportByIdRepository.loadById(item.sportId)
     }))
     const [cities, sports] = await Promise.all([promisesCities, promisesSports])
-    return tournaments?.map((item, index) => {
+    return tournaments.map((item, index) => {
       return {
         id: item.id,
         description: item.description,

@@ -9,7 +9,7 @@ export interface ITournamentRepository {
   loadByDescription: (description: string) => Promise<ITournamentRepository.Results>
   remove: (id: string) => Promise<void>
   updateTournament: (data: ITournamentRepository.UpdateParams) => Promise<ITournamentRepository.Result>
-  loadAll: () => Promise<ITournamentRepository.Results | undefined>
+  loadAll: () => Promise<ITournamentRepository.Results>
 }
 
 export namespace ITournamentRepository {
