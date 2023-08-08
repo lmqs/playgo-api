@@ -12,7 +12,7 @@ describe('DbAddCategory UseCase', () => {
     categoryRepo = new CategoryPostgresRepository()
   })
 
-  test('Should call LoadCategoryByTournamentIdRepository with correct values', async () => {
+  test('Should call loadByDescriptionAndId with correct values', async () => {
     const loadSpy = jest.spyOn(categoryRepo, 'loadByDescriptionAndId')
 
     const addCategoryUseCase = new AddCategoryUseCase(categoryRepo, categoryRepo)

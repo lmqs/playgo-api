@@ -1,4 +1,3 @@
-import { CONSTANTS } from '@/helpers/enumHelper'
 import { ICategoryRepository } from '@/data/protocols/db'
 import { ParamInUseError } from '@/domain/errors/param-in-use-error'
 import { IUpdateCategory } from '@/domain/usecases/category/update-category'
@@ -12,13 +11,12 @@ export class UpdateCategoryUseCase implements IUpdateCategory {
   async update (categoryData: IUpdateCategory.Params): Promise<IUpdateCategory.Result> {
     const categorySaved = await this.categoryRepository.loadByDescriptionAndId(categoryData.description, categoryData.tournamentId)
 
-    const isSameRecord = categorySaved.length && parseInt(categorySaved[0]?.id) === parseInt(categoryData.id)
+    const isSameRecord = categorySaved.length && parseInt(categorySaved[0].id) === parseInt(categoryData.id)
     const isDataDeleted = !isSameRecord && categorySaved[0]?.deleted
     const isDescriptionValid = !categorySaved.length || isSameRecord || isDataDeleted
     if (!isDescriptionValid) {
       throw new ParamInUseError('description')
     }
-    categoryData.numberAthletes = categoryData.numberAthletes ?? CONSTANTS.category.numberAthletesDefault
     return await this.updateCategoryRepository.updateData(categoryData)
   }
 }

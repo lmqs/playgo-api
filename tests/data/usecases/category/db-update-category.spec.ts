@@ -17,8 +17,8 @@ describe('DbUpdateCategory UseCase', () => {
     jest.resetModules()
   })
 
-  test('Should call LoadCategoryByTournamentIdRepository with correct values', async () => {
-    const loadSpy = jest.spyOn(categoryRepo, 'loadByDescriptionAndId').mockResolvedValueOnce(Promise.resolve([]))
+  test('Should call loadByDescriptionAndId with correct values', async () => {
+    const loadSpy = jest.spyOn(categoryRepo, 'loadByDescriptionAndId').mockResolvedValueOnce([])
     const updateCategoryUseCase = new UpdateCategoryUseCase(categoryRepo, categoryRepo)
 
     await updateCategoryUseCase.update(categoryModelMock)
@@ -33,7 +33,7 @@ describe('DbUpdateCategory UseCase', () => {
     await expect(promise).rejects.toThrow(new ParamInUseError('description'))
   })
 
-  test('Should return a category o success update', async () => {
+  test('Should return a category on success update', async () => {
     jest.spyOn(categoryRepo, 'updateData').mockResolvedValueOnce(categoryModelMock)
     jest.spyOn(categoryRepo, 'loadByDescriptionAndId').mockResolvedValueOnce(Promise.resolve([]))
 
