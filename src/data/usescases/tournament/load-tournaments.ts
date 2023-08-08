@@ -10,9 +10,9 @@ export class DbLoadTournaments implements LoadTournaments {
     private readonly sportByIdRepository: ISportRepository
   ) {}
 
-  async load (): Promise<LoadTournaments.Result | undefined> {
+  async load (): Promise<LoadTournaments.Result> {
     const tournaments = await this.tournamentRepository.loadAll()
-    if (!tournaments) return undefined
+    if (!tournaments) return []
     const promisesCities = tournaments && await Promise.all(tournaments?.map(async (item) => {
       return await this.loadCityByIdRepository.loadById(item.cityId)
     }))

@@ -6,8 +6,8 @@ import { AccountPostgresRepository } from '@/infra/database/postgres/account/acc
 import { AccessDeniedError } from '@/presentation/errors'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware'
-import { ILoadAccountByToken } from '@/presentation/middlewares/auth-middleware-protocols'
 import { accountModelMock } from './middleware-mock'
+import { ILoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
 
 describe('Auth Middleware', () => {
   let accountRepoStub: IAccountRepository

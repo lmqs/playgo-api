@@ -1,4 +1,4 @@
-import { AccountModel } from '../middlewares/auth-middleware-protocols'
+import { AccountModel } from '@/domain/models/account'
 
 export const accountModelMock: AccountModel = {
   id: 'valid_id',
