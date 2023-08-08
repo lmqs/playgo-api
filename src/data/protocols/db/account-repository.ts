@@ -5,7 +5,7 @@ import { DateHandler } from '@/helpers/date-handler'
 export interface IAccountRepository {
   add: (data: IAccountRepository.AddParams) => Promise<IAccountRepository.Result>
   loadById: (id: string) => Promise<AccountModel | undefined>
-  loadByName: (name: string) => Promise<IAccountRepository.Result[]>
+  loadByName: (name: string) => Promise<IAccountRepository.Results>
   loadByEmail: (user: string) => Promise<IAccountRepository.Result | undefined>
   loadByToken: (token: string, role?: string) => Promise<IAccountRepository.Result | undefined>
   updateAccessToken: (id: string, token: string) => Promise<void>
@@ -39,6 +39,7 @@ export namespace IAccountRepository {
     role?: string
   }
   export type Result = AccountModel
+  export type Results = AccountModel[]
 }
 
 export const dataModelToDbModelMapCategory = (accountModel: IAccountRepository.AddParams): InputDbAccountModel => {

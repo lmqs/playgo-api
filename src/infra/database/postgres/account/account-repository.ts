@@ -39,7 +39,7 @@ export class AccountPostgresRepository extends BaseRepository<InputDbAccountMode
     return dbModelToDataModelMapCategory(result)
   }
 
-  async loadByName (name: string): Promise<IAccountRepository.Result[]> {
+  async loadByName (name: string): Promise<IAccountRepository.Results> {
     const result = await this.findLike('name', name)
     return result.map((account) => {
       return dbModelToDataModelMapCategory(account)

@@ -1,5 +1,5 @@
 import { AccountPostgresRepository } from '@/infra/database/postgres/account/account-repository'
-import { addAccountParamsMock, dbAccountModelMock, dbAccountModelWithoutRoleMock, dbAddAccountModelMock, updateAccountParamsMock } from './account-repository-mock'
+import { addAccountParamsMock, dbAccountModelMock, dbAccountModelWithoutRoleMock, dbAddAccountModelMock, dbArrayAccountModelMock, dbArrayAccountReturnMock, updateAccountParamsMock } from './account-repository-mock'
 
 describe('Account Postgres Repository', () => {
   describe('add()', () => {
@@ -71,6 +71,25 @@ describe('Account Postgres Repository', () => {
         throw new Error()
       })
       const promise = accountRepository.loadByEmail('valid_email')
+      await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('updateAccessToken()', () => {
+    test('Should return an account on update success', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.update = jest.fn().mockReturnValue(dbAddAccountModelMock)
+
+      await accountRepository.updateAccessToken('1', 'aVzQrE')
+      expect(accountRepository.update).toHaveBeenCalledWith({ access_token: 'aVzQrE' }, { id: '1' })
+    })
+
+    test('Should rethrow if update fails', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.update = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = accountRepository.updateAccessToken('1', 'aVzQrE')
       await expect(promise).rejects.toThrow()
     })
   })
@@ -209,6 +228,34 @@ describe('Account Postgres Repository', () => {
 
       const account = await accountRepository.loadById('any_id')
       expect(account).toBeUndefined()
+    })
+  })
+
+  describe('loadByName()', () => {
+    test('Should return an account on loadById success', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.findLike = jest.fn().mockReturnValue(dbArrayAccountModelMock)
+
+      const account = await accountRepository.loadByName('lu')
+      expect(account).toEqual(dbArrayAccountReturnMock)
+      expect(accountRepository.findLike).toHaveBeenCalledWith('name', 'lu')
+    })
+
+    test('Should rethrow if loadByName fails', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.findLike = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = accountRepository.loadByName('any_token')
+      await expect(promise).rejects.toThrow()
+    })
+
+    test('Should return undefined on loadById if account is not exists', async () => {
+      const accountRepository = new AccountPostgresRepository()
+      accountRepository.findLike = jest.fn().mockReturnValue([])
+
+      const result = await accountRepository.loadByName('any_id')
+      expect(result.length).toBe(0)
     })
   })
 })

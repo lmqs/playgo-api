@@ -70,3 +70,65 @@ export const dbAccountModelWithoutRoleMock: OutputDbAccountModel = {
   role: undefined,
   access_token: 'any_token'
 }
+
+export const dbArrayAccountModelMock: OutputDbAccountModel[] = [
+  {
+    id: '1',
+    name: 'lucia',
+    gender: 'valid_gender',
+    password: 'valid_password',
+    email: 'valid_email',
+    city_id: 1,
+    phone_number: 'valid_number',
+    photo: 'valid_photo',
+    date_birthday: new Date('2023-06-13 17:40:00'),
+    deleted: false,
+    role: undefined,
+    access_token: 'any_token'
+  },
+  {
+    id: '2',
+    name: 'luciana',
+    gender: 'valid_gender',
+    password: 'valid_password',
+    email: 'valid_email',
+    city_id: 1,
+    phone_number: 'valid_number',
+    photo: 'valid_photo',
+    date_birthday: new Date('2023-06-13 17:40:00'),
+    deleted: false,
+    role: undefined,
+    access_token: 'any_token'
+  }
+]
+
+export const dbArrayAccountReturnMock: IAccountRepository.Results = [
+  {
+    id: '1',
+    name: 'lucia',
+    gender: 'valid_gender',
+    password: 'valid_password',
+    email: 'valid_email',
+    cityId: 1,
+    phoneNumber: 'valid_number',
+    photo: 'valid_photo',
+    dateBirthday: '13/06/2023',
+    deleted: false,
+    role: undefined,
+    accessToken: 'any_token'
+  },
+  {
+    id: '2',
+    name: 'luciana',
+    gender: 'valid_gender',
+    password: 'valid_password',
+    email: 'valid_email',
+    cityId: 1,
+    phoneNumber: 'valid_number',
+    photo: 'valid_photo',
+    dateBirthday: '13/06/2023',
+    deleted: false,
+    role: undefined,
+    accessToken: 'any_token'
+  }
+]
