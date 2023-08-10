@@ -1,5 +1,5 @@
 export interface ILoadRegistrationByCategoryId {
-  loadByCategoryId: (data: ILoadRegistrationByCategoryId.Params) => Promise<ILoadRegistrationByCategoryId.Result[]>
+  loadByCategoryId: (data: ILoadRegistrationByCategoryId.Params) => Promise<ILoadRegistrationByCategoryId.Result>
 }
 
 export namespace ILoadRegistrationByCategoryId {
@@ -7,16 +7,17 @@ export namespace ILoadRegistrationByCategoryId {
     categoryId: string
     accountId: string
   }
-  export type Result = {
+
+  export type Result = Array<{
     id: string
-    registrationsId: string
-    athleteId: {
-      id: string
-      name: string
-      photo?: string
-    }
-    isPay: boolean
-    deleted?: boolean
+    athletes: AthleteData[]
+  }>
+
+  type AthleteData = {
+    id: string
+    name: string
+    photo?: string
     canDeleted: boolean
+    isPay: boolean
   }
 }

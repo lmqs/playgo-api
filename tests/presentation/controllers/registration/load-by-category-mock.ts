@@ -6,27 +6,21 @@ export const requestMock: LoadRegistrationsByCategoryController.Request = {
   accountId: '1'
 }
 
-export const loadByCategoryIdMock: ILoadRegistrationByCategoryId.Result[] = [
+export const loadByCategoryIdMock: ILoadRegistrationByCategoryId.Result = [
   {
     id: '20',
-    registrationsId: '10',
-    athleteId: {
+    athletes: [{
       id: '3',
       name: 'Claudia',
-      photo: undefined
+      photo: undefined,
+      isPay: false,
+      canDeleted: false
     },
-    isPay: false,
-    deleted: false,
-    canDeleted: false
-  }, {
-    id: '21',
-    registrationsId: '10',
-    athleteId: {
+    {
       id: '4',
       name: 'Ana',
-      photo: undefined
-    },
-    isPay: false,
-    deleted: false,
-    canDeleted: false
+      photo: undefined,
+      isPay: false,
+      canDeleted: false
+    }]
   }]

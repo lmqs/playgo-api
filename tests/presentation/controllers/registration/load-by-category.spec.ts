@@ -1,7 +1,7 @@
 import { MissingParamError } from '@/presentation/errors'
 import { badRequest, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { Validation } from '@/presentation/protocols'
-import { IAccountRepository } from '@/data/protocols/db'
+import { IAccountRepository, IRegistrationsRepository } from '@/data/protocols/db'
 import { ValidationComposite } from '@/presentation/validation/validators'
 import { RegistrationsAthletePostgresRepository } from '@/infra/database/postgres/registrations/registrations-athlete-repository'
 import { IRegistrationsAthleteRepository } from '@/data/protocols/db/registrations-athlete-repository'
@@ -10,20 +10,23 @@ import { LoadRegistrationByCategoryIdUseCase } from '@/data/usescases/registrati
 import { ILoadRegistrationByCategoryId } from '@/domain/usecases/registration/load-by-category-id '
 import { loadByCategoryIdMock, requestMock } from './load-by-category-mock'
 import { LoadRegistrationsByCategoryController } from '@/presentation/controllers/registration/load-by-category-controller'
+import { RegistrationsPostgresRepository } from '@/infra/database/postgres/registrations/registrations-repository'
 
 describe('LoadRegistrationsByCategoryController Controller', () => {
   let registrationsAthleteRepository: IRegistrationsAthleteRepository
+  let registrationsRepository: IRegistrationsRepository
   let accountRepository: IAccountRepository
   let useCase: ILoadRegistrationByCategoryId
   let validation: Validation
 
   beforeEach(async () => {
     registrationsAthleteRepository = new RegistrationsAthletePostgresRepository()
+    registrationsRepository = new RegistrationsPostgresRepository()
     accountRepository = new AccountPostgresRepository()
     const validations: Validation[] = []
 
     validation = new ValidationComposite(validations)
-    useCase = new LoadRegistrationByCategoryIdUseCase(registrationsAthleteRepository, accountRepository)
+    useCase = new LoadRegistrationByCategoryIdUseCase(registrationsRepository, registrationsAthleteRepository, accountRepository)
   })
 
   test('Should call validation.validate with correct values', async () => {
