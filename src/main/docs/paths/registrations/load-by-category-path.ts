@@ -21,7 +21,7 @@ export const loadRegistrationsByCategoryPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/registrationsListSchema'
+              $ref: '#/schemas/registrationsByCategorySchema'
             }
           }
         }

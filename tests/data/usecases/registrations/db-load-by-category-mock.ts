@@ -15,7 +15,7 @@ export const loadRegistrationsByCategoryMock: IRegistrationsRepository.LoadResul
 }]
 
 export const accountAthlete1 = {
-  id: '3',
+  id: '1',
   name: 'Claudia',
   gender: 'F',
   password: 'passw01ard',
@@ -27,11 +27,35 @@ export const accountAthlete1 = {
 }
 
 export const accountAthlete2 = {
-  id: '4',
+  id: '2',
   name: 'Ana',
   gender: 'F',
   password: 'passw0rd',
   email: 'ana@email.com',
+  cityId: 1,
+  phoneNumber: '7993123953',
+  dateBirthday: '20/10/1992',
+  deleted: false
+}
+
+export const accountAthlete3 = {
+  id: '3',
+  name: 'Maria',
+  gender: 'F',
+  password: 'passw01ard',
+  email: 'mama@email.com',
+  cityId: 1,
+  phoneNumber: '7993123953',
+  dateBirthday: '20/10/1992',
+  deleted: false
+}
+
+export const accountAthlete4 = {
+  id: '4',
+  name: 'Neide',
+  gender: 'F',
+  password: 'passw01ard',
+  email: 'nene@email.com',
   cityId: 1,
   phoneNumber: '7993123953',
   dateBirthday: '20/10/1992',
@@ -56,12 +80,12 @@ export const loadRegistrationAthleteByRegistrationModelMock2: IRegistrationsAthl
   {
     id: '1',
     registrationsId: '21',
-    athleteId: '3',
+    athleteId: '1',
     isPay: false
   }, {
     id: '2',
     registrationsId: '21',
-    athleteId: '4',
+    athleteId: '2',
     isPay: false
   }
 ]
@@ -70,13 +94,13 @@ export const loadByCategoryResultMock: ILoadRegistrationByCategoryId.Result = [
   {
     id: '20',
     athletes: [{
-      id: '3',
+      id: '1',
       name: 'Claudia',
       photo: undefined,
       isPay: false,
-      canDeleted: false
+      canDeleted: true
     }, {
-      id: '4',
+      id: '2',
       name: 'Ana',
       photo: undefined,
       isPay: false,
@@ -87,13 +111,13 @@ export const loadByCategoryResultMock: ILoadRegistrationByCategoryId.Result = [
     id: '21',
     athletes: [{
       id: '3',
-      name: 'Claudia',
+      name: 'Maria',
       photo: undefined,
       isPay: false,
       canDeleted: false
     }, {
       id: '4',
-      name: 'Ana',
+      name: 'Neide',
       photo: undefined,
       isPay: false,
       canDeleted: false

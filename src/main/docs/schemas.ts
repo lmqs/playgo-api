@@ -21,7 +21,8 @@ import {
   tournamentSponsorParamsSchema,
   registrationsParamsSchema,
   registrationsListSchema,
-  registrationSchema
+  registrationSchema,
+  registrationsByCategorySchema
 } from './schemas/'
 
 export default {
@@ -47,5 +48,6 @@ export default {
   sports: sportsSchema,
   registrationsParamsSchema,
   registrationsListSchema,
-  registration: registrationSchema
+  registration: registrationSchema,
+  registrationsByCategorySchema
 }
