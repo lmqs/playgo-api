@@ -17,8 +17,6 @@ export type OutputDbTournamentSponsorModel = {
   deleted?: boolean
 }
 
-// export type OutputDbTournamentSponsorModel = TournamentSponsorModel
-
 export const dbModelToDataModelMapTournamentSponsor = (dbTournamentSponsor: OutputDbTournamentSponsorModel): TournamentSponsorModel => {
   return (
     dbTournamentSponsor && {
