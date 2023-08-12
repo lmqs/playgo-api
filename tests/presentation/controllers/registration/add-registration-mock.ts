@@ -5,7 +5,8 @@ export const requestMock: AddRegistrationsController.Request = {
   categoryId: '1',
   registrationDate: '03/08/2023',
   athletesId: '1',
-  isPay: false
+  isPay: false,
+  accountId: '1'
 }
 
 export const addResultMock: IAddRegistrations.ResultObj = [

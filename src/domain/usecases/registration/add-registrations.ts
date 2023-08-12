@@ -8,6 +8,7 @@ export namespace IAddRegistrations {
     athletesId: string
     registrationDate?: string
     isPay?: boolean
+    accountId: string
   }
 
   export type ResultObj = Array<{

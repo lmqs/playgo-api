@@ -32,6 +32,7 @@ export class AddRegistrationsUseCase implements IAddRegistrations {
     if (nowDate > dtFinalRegistrationTournament) throw new Error('Inscrições finalizadas')
 
     const athletes = data.athletesId.split(',')
+    athletes.push(data.accountId)
     const isAmountAthletes = athletes.length > parseInt(category.numberAthletesRegistration)
     if (isAmountAthletes) throw new Error('Quantidade de atletas maior que o permitido para essa categoria.')
 
@@ -57,7 +58,7 @@ export class AddRegistrationsUseCase implements IAddRegistrations {
     const unionUsersRegistered = usersRegistered.flat()
     if (unionUsersRegistered.length) {
       const userRegister = await this.accountRepo.loadById(unionUsersRegistered[0].athlete_id)
-      throw new Error(`Usuário ${userRegister!.name} já cadastrado nessa categoria.`)
+      throw new Error(`Usuário ${userRegister!.name} já cadastrada(o) nessa categoria.`)
     }
 
     const registration = await this.registrationsRepo.add({ categoryId: data.categoryId, registrationDate: 'now()' })

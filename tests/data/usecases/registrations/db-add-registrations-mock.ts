@@ -4,12 +4,14 @@ import { IAddRegistrations } from '@/domain/usecases/registration/add-registrati
 
 export const registrationsAddParamsMock: IAddRegistrations.Params = {
   categoryId: '15',
-  athletesId: '3,4'
+  athletesId: '4',
+  accountId: '3'
 }
 
 export const registrationsAddParamsInvalidAthletesMock: IAddRegistrations.Params = {
   categoryId: '15',
-  athletesId: '3,4,8,70'
+  athletesId: '4,8,70',
+  accountId: '3'
 }
 
 export const categoryNotActivatedMock: ICategoryRepository.LoadByIdResult = {
