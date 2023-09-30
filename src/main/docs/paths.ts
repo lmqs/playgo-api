@@ -38,6 +38,6 @@ export default {
   '/tournament-sponsor/{id}': removeTournamentSponsorPath,
   '/sport': addSportPath,
   '/sports': sportPath,
-  '/registrations': addRegistrationsPath,
-  '/registrations/loadByCategory': loadRegistrationsByCategoryPath
+  '/registerTeam': addRegistrationsPath,
+  '/teamsRegisteredByCategory': loadRegistrationsByCategoryPath
 }
