@@ -20,3 +20,31 @@ export const outputMock: ITournamentPaymentsRepository.Result = {
   value: '120',
   indexPayment: '1'
 }
+
+export const outputListDbMock: OutputDBTournamentPayments[] = [
+  {
+    id: '1',
+    tournament_id: '1',
+    value: '120',
+    index_payment: '1'
+  }, {
+    id: '2',
+    tournament_id: '1',
+    value: '120',
+    index_payment: '2'
+  }
+]
+
+export const outputListMock: ITournamentPaymentsRepository.Results = [
+  {
+    id: '1',
+    tournamentId: '1',
+    value: '120',
+    indexPayment: '1'
+  }, {
+    id: '2',
+    tournamentId: '1',
+    value: '120',
+    indexPayment: '2'
+  }
+]

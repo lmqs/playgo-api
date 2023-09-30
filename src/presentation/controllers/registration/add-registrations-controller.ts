@@ -32,5 +32,6 @@ export namespace AddRegistrationsController {
     registrationDate: string
     athletesId: string
     isPay?: boolean
+    accountId: string
   }
 }

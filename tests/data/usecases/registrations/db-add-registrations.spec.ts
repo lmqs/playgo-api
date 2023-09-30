@@ -176,10 +176,10 @@ describe('DbAddCategory UseCase', () => {
     jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountRegistrationModelMock))
     jest.spyOn(registrationsRepo, 'loadByCategory').mockReturnValueOnce(Promise.resolve(registrationsValidArrayMock))
 
-    const loadRegistrationAthleteSpy =
-      jest.spyOn(registrationsAthleteRepo, 'loadByCategoryAndUser').mockReturnValueOnce(Promise.resolve(registrationWithAthlete))
-    const load2RegistrationAthleteSpy =
-      jest.spyOn(registrationsAthleteRepo, 'loadByCategoryAndUser').mockReturnValueOnce(Promise.resolve([undefined]))
+    jest.spyOn(registrationsAthleteRepo, 'loadByCategoryAndUser')
+      .mockReturnValueOnce(Promise.resolve(registrationWithAthlete))
+      .mockReturnValueOnce(Promise.resolve([undefined]))
+
     const loadAccountByIdSpy = jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountRegistrationModelMock))
 
     const addRegistrationsUseCase = new AddRegistrationsUseCase(
@@ -187,9 +187,9 @@ describe('DbAddCategory UseCase', () => {
       registrationsWaitingRepo, registrationsAthleteWaitingRepo
     )
     const promise = addRegistrationsUseCase.add(registrationsAddParamsMock)
-    await expect(promise).rejects.toThrow('Usuário Ana já cadastrado nessa categoria.')
-    expect(loadRegistrationAthleteSpy).toHaveBeenCalledWith({ categoryId: '15', athleteId: '3' })
-    expect(load2RegistrationAthleteSpy).toHaveBeenCalledWith({ categoryId: '15', athleteId: '4' })
+    await expect(promise).rejects.toThrow('Usuário Ana já cadastrada(o) nessa categoria.')
+    expect(registrationsAthleteRepo.loadByCategoryAndUser).toHaveBeenCalledWith({ categoryId: '15', athleteId: '3' })
+    expect(registrationsAthleteRepo.loadByCategoryAndUser).toHaveBeenCalledWith({ categoryId: '15', athleteId: '4' })
     expect(loadAccountByIdSpy).toHaveBeenCalledWith('3')
   })
 

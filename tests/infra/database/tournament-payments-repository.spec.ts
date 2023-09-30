@@ -1,5 +1,5 @@
 import { TournamentPaymentsPostgresRepository } from '@/infra/database/postgres/tournament-payments/tournament-payments-repository'
-import { addParamsMock, outputDbMock, outputMock } from './tournament-payments-repository-mock'
+import { addParamsMock, outputDbMock, outputListDbMock, outputListMock, outputMock } from './tournament-payments-repository-mock'
 
 describe('Tournament-Payments Postgres Repository', () => {
   describe('add()', () => {
@@ -81,6 +81,33 @@ describe('Tournament-Payments Postgres Repository', () => {
       })
       const promise = repository.remove('1')
       await expect(promise).rejects.toThrow()
+    })
+  })
+  describe('loadByTournamentId()', () => {
+    test('Should return a tournament-payments on loadByTournament', async () => {
+      const repository = new TournamentPaymentsPostgresRepository()
+      repository.findWhereGeneric = jest.fn().mockReturnValue(outputListDbMock)
+
+      const results = await repository.loadByTournament('1')
+      expect(results).toEqual(outputListMock)
+      expect(repository.findWhereGeneric).toHaveBeenCalledWith('tournament_id =  1', 'index_payment asc')
+    })
+
+    test('Should return throws if loadByTournament fails', async () => {
+      const repository = new TournamentPaymentsPostgresRepository()
+      repository.findWhereGeneric = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = repository.loadByTournament('1')
+      await expect(promise).rejects.toThrow()
+    })
+
+    test('Should return undefined if loadById empty', async () => {
+      const repository = new TournamentPaymentsPostgresRepository()
+      repository.findOne = jest.fn().mockReturnValue(undefined)
+
+      const tournament = await repository.loadById('1')
+      expect(tournament).toBeUndefined()
     })
   })
 })
