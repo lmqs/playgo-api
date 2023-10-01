@@ -93,15 +93,15 @@ describe('Registrations Postgres Repository', () => {
   describe('remove()', () => {
     test('Should deleteByField register-category', async () => {
       const registrationsRepo = new RegistrationsPostgresRepository()
-      registrationsRepo.deleteByField = jest.fn().mockReturnValue({})
+      registrationsRepo.delete = jest.fn().mockReturnValue({})
 
       await registrationsRepo.remove('valid_id')
-      expect(registrationsRepo.deleteByField).toHaveBeenCalledWith({ id: 'valid_id' })
+      expect(registrationsRepo.delete).toHaveBeenCalledWith('valid_id')
     })
 
     test('Should rethrow if create fails', async () => {
       const registrationsRepo = new RegistrationsPostgresRepository()
-      registrationsRepo.deleteByField = jest.fn().mockImplementationOnce(() => {
+      registrationsRepo.delete = jest.fn().mockImplementationOnce(() => {
         throw new Error()
       })
       const promise = registrationsRepo.remove('valid_id')

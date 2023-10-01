@@ -27,6 +27,6 @@ export class RegistrationsPostgresRepository
   }
 
   async remove (id: string): Promise<void> {
-    await this.deleteByField({ id })
+    await this.delete(id)
   }
 }

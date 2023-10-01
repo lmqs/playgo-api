@@ -15,6 +15,7 @@ import {
   removeTournamentSponsorPath,
   addTournamentSponsorPath,
   addRegistrationsPath,
+  removeRegistrationsPath,
   loadRegistrationsByCategoryPath,
   loadTournamentByIdPath,
   loadByFilterDateTournamentsPath
@@ -39,5 +40,6 @@ export default {
   '/sport': addSportPath,
   '/sports': sportPath,
   '/registerTeam': addRegistrationsPath,
+  '/registerTeam/{id}': removeRegistrationsPath,
   '/teamsRegisteredByCategory': loadRegistrationsByCategoryPath
 }
