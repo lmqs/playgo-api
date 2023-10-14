@@ -31,8 +31,12 @@ export class AddRegistrationsUseCase implements IAddRegistrations {
     const nowDate = new DateHandler().format(nowString)
     if (nowDate > dtFinalRegistrationTournament) throw new Error('Inscrições finalizadas')
 
-    const athletes = data.athletesId.split(',')
+    let athletes = []
     athletes.push(data.accountId)
+    if (data.athletesId) {
+      athletes = [...athletes, ...data.athletesId.split(',')]
+    }
+
     const isAmountAthletes = athletes.length > parseInt(category.numberAthletesRegistration)
     if (isAmountAthletes) throw new Error('Quantidade de atletas maior que o permitido para essa categoria.')
 

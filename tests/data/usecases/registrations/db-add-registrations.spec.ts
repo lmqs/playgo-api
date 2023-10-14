@@ -8,11 +8,11 @@ import { AccountPostgresRepository } from '@/infra/database/postgres/account/acc
 import { RegistrationsPostgresRepository } from '@/infra/database/postgres/registrations/registrations-repository'
 import { RegistrationsAthletePostgresRepository } from '@/infra/database/postgres/registrations/registrations-athlete-repository'
 import {
-  accountModelMock, accountRegistrationModelMock, categoryActivatedMock, categoryNotActivatedMock, registrationModelMock,
-  registrationWithAthlete, registrations2AthleteModelMock, registrationsAddParamsInvalidAthletesMock, registrationsAddParamsMock,
-  registrationsAthleteModelMock, registrationsAthleteWaiting2ModelMock, registrationsAthleteWaitingModelMock,
-  registrationsInvalidArrayMock, registrationsValidArrayMock, registrationsWaitingModelMock, tournamentDateInvalidMock,
-  tournamentNotActivatedMock, tournamentValidMock
+  accountModelMock, accountRegistrationModelMock, categoryActivatedMock, categoryActivatedOneAthleteMock, categoryNotActivatedMock,
+  registrationModelMock, registrationWithAthlete, registrations2AthleteModelMock, registrationsAddOneAthleteParamsMock,
+  registrationsAddParamsInvalidAthletesMock, registrationsAddParamsMock, registrationsAthleteModelMock,
+  registrationsAthleteWaiting2ModelMock, registrationsAthleteWaitingModelMock, registrationsInvalidArrayMock,
+  registrationsValidArrayMock, registrationsWaitingModelMock, tournamentDateInvalidMock, tournamentNotActivatedMock, tournamentValidMock
 } from './db-add-registrations-mock'
 import { RegistrationsWaitingPostgresRepository } from '@/infra/database/postgres/registrations/registrations-waiting-repository'
 import { RegistrationsAthleteWaitingPostgresRepository } from '@/infra/database/postgres/registrations/registrations-athlete-waiting-repository'
@@ -256,6 +256,35 @@ describe('DbAddCategory UseCase', () => {
         deleted: false,
         registrationsId: '10',
         athlete: { id: '4', name: 'Ana' }
+      }
+    ])
+  })
+
+  test('Should successfully add the registration of only one athlete in the category', async () => {
+    jest.spyOn(categoryRepo, 'loadById').mockReturnValue(Promise.resolve(categoryActivatedOneAthleteMock))
+    jest.spyOn(tournamentRepo, 'loadById').mockReturnValueOnce(Promise.resolve(tournamentValidMock))
+    jest.spyOn(registrationsRepo, 'loadByCategory').mockReturnValueOnce(Promise.resolve(registrationsValidArrayMock))
+    jest.spyOn(accountRepo, 'loadById').mockReturnValueOnce(Promise.resolve(accountModelMock))
+
+    jest.spyOn(registrationsAthleteRepo, 'loadByCategoryAndUser').mockReturnValueOnce(Promise.resolve([]))
+    jest.spyOn(registrationsAthleteRepo, 'loadByCategoryAndUser').mockReturnValueOnce(Promise.resolve([]))
+
+    jest.spyOn(registrationsRepo, 'add').mockReturnValueOnce(Promise.resolve(registrationModelMock))
+    jest.spyOn(registrationsAthleteRepo, 'add').mockReturnValueOnce(Promise.resolve(registrationsAthleteModelMock))
+
+    const addRegistrationsUseCase = new AddRegistrationsUseCase(
+      categoryRepo, tournamentRepo, accountRepo, registrationsRepo, registrationsAthleteRepo,
+      registrationsWaitingRepo, registrationsAthleteWaitingRepo
+    )
+    const result = await addRegistrationsUseCase.add(registrationsAddOneAthleteParamsMock)
+    expect(registrationsRepo.add).toHaveBeenCalledWith({ categoryId: '33', registrationDate: 'now()' })
+    expect(result).toEqual([
+      {
+        id: '20',
+        isPay: false,
+        deleted: false,
+        registrationsId: '10',
+        athlete: { id: '3', name: 'Rick' }
       }
     ])
   })

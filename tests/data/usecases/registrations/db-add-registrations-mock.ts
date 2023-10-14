@@ -8,6 +8,11 @@ export const registrationsAddParamsMock: IAddRegistrations.Params = {
   accountId: '3'
 }
 
+export const registrationsAddOneAthleteParamsMock: IAddRegistrations.Params = {
+  categoryId: '33',
+  accountId: '3'
+}
+
 export const registrationsAddParamsInvalidAthletesMock: IAddRegistrations.Params = {
   categoryId: '15',
   athletesId: '4,8,70',
@@ -29,6 +34,15 @@ export const categoryActivatedMock: ICategoryRepository.LoadByIdResult = {
   tournamentId: '10',
   numberAthletes: '3',
   numberAthletesRegistration: '2',
+  deleted: false
+}
+
+export const categoryActivatedOneAthleteMock: ICategoryRepository.LoadByIdResult = {
+  id: '33',
+  description: 'Dupla Mista A',
+  tournamentId: '10',
+  numberAthletes: '20',
+  numberAthletesRegistration: '1',
   deleted: false
 }
 

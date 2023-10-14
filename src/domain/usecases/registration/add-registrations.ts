@@ -5,7 +5,7 @@ export interface IAddRegistrations {
 export namespace IAddRegistrations {
   export type Params = {
     categoryId: string
-    athletesId: string
+    athletesId?: string
     registrationDate?: string
     isPay?: boolean
     accountId: string
