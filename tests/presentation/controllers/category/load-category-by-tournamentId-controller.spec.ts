@@ -3,13 +3,14 @@ import { badRequest, serverError, ok, noContent } from '@/presentation/helpers/h
 import { LoadCategoriesByTournamentIdController } from '@/presentation/controllers/category/load-category-by-tournamentId-controller'
 import { RequiredFieldValidation, ValidationComposite } from '@/presentation/validation/validators'
 import { CategoryPostgresRepository } from '@/infra/database/postgres/category/category-repository'
-import { ICategoryRepository } from '@/data/protocols/db'
+import { ICategoryRepository, IRegistrationsAthleteRepository } from '@/data/protocols/db'
 import { Validation } from '@/presentation/protocols'
 import { ILoadCategoriesByTournamentId } from '@/domain/usecases/category/load-categories-by-tournament-id'
 import { DbLoadCategoriesUseCase } from '@/data/usescases/category'
 import { categoryModelMock, requestCategoryLoadByTournamentMock } from './category-mock'
 import { IRegistrationsRepository } from '@/data/protocols/db/registrations-repository'
 import { RegistrationsPostgresRepository } from '@/infra/database/postgres/registrations/registrations-repository'
+import { RegistrationsAthletePostgresRepository } from '@/infra/database/postgres/registrations/registrations-athlete-repository'
 jest.mock('@/infra/database/postgres/category/category-repository')
 
 describe('LoadCategoriesByTournamentId Controller', () => {
@@ -17,6 +18,7 @@ describe('LoadCategoriesByTournamentId Controller', () => {
   let loadCatByTournamentIdUseCase: ILoadCategoriesByTournamentId
   let loadValidation: Validation
   let registrationsRepo: IRegistrationsRepository
+  let registrationsAthleteRepo: IRegistrationsAthleteRepository
 
   beforeEach(() => {
     categoryRepo = new CategoryPostgresRepository()
@@ -24,8 +26,9 @@ describe('LoadCategoriesByTournamentId Controller', () => {
 
     loadValidation = new ValidationComposite(validations)
     registrationsRepo = new RegistrationsPostgresRepository()
+    registrationsAthleteRepo = new RegistrationsAthletePostgresRepository()
 
-    loadCatByTournamentIdUseCase = new DbLoadCategoriesUseCase(categoryRepo, registrationsRepo)
+    loadCatByTournamentIdUseCase = new DbLoadCategoriesUseCase(categoryRepo, registrationsRepo, registrationsAthleteRepo)
   })
 
   afterEach(() => {
@@ -38,7 +41,7 @@ describe('LoadCategoriesByTournamentId Controller', () => {
     const addSpy = jest.spyOn(loadValidation, 'validate')
 
     await controller.handle(requestCategoryLoadByTournamentMock)
-    expect(addSpy).toHaveBeenCalledWith({ tournamentId: 'valid_tournamentId' })
+    expect(addSpy).toHaveBeenCalledWith({ tournamentId: 'valid_tournamentId', accountId: '10' })
   })
 
   test('Should return 400 if Validation returns an error', async () => {
@@ -56,7 +59,7 @@ describe('LoadCategoriesByTournamentId Controller', () => {
     const controller = new LoadCategoriesByTournamentIdController(loadValidation, loadCatByTournamentIdUseCase)
     const loadSpy = jest.spyOn(loadCatByTournamentIdUseCase, 'load')
     await controller.handle(requestCategoryLoadByTournamentMock)
-    expect(loadSpy).toHaveBeenCalledWith('valid_tournamentId')
+    expect(loadSpy).toHaveBeenCalledWith({ tournamentId: 'valid_tournamentId', accountId: '10' })
   })
 
   test('Should return 500 if loadCategoriesByTournamentId throws', async () => {

@@ -1,9 +1,13 @@
 
 export interface ILoadCategoriesByTournamentId {
-  load: (tournamentId: string) => Promise<ILoadCategoriesByTournamentId.Result>
+  load: (input: ILoadCategoriesByTournamentId.Params) => Promise<ILoadCategoriesByTournamentId.Result>
 }
 
 export namespace ILoadCategoriesByTournamentId {
+  export type Params = {
+    tournamentId: string
+    accountId: string
+  }
   export type Result = Array<{
     id: string
     description: string
@@ -12,5 +16,6 @@ export namespace ILoadCategoriesByTournamentId {
     numberAthletesRegistration: string
     deleted: boolean
     numberRegistration: number
+    isUserLoggedRegistered: boolean
   }>
 }

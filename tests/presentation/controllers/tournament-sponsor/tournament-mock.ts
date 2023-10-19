@@ -12,7 +12,8 @@ export const requestRemoveTournamentSponsorControllerMock: RemoveTournamentSpons
 }
 
 export const requestLoadByTournamentIdTournamentSponsorControllerMock: LoadCategoriesByTournamentIdController.Request = {
-  tournamentId: 'valid_id'
+  tournamentId: 'valid_id',
+  accountId: '10'
 }
 
 export const tournamentSponsorMock: TournamentSponsorModel = {

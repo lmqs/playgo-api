@@ -29,7 +29,7 @@ describe('RemoveTournamentSponsor Controller', () => {
     const validationStub = jest.spyOn(validation, 'validate')
 
     await controller.handle(requestLoadByTournamentIdTournamentSponsorControllerMock)
-    expect(validationStub).toHaveBeenCalledWith({ tournamentId: 'valid_id' })
+    expect(validationStub).toHaveBeenCalledWith({ tournamentId: 'valid_id', accountId: '10' })
   })
 
   test('Should return 400 if Validation returns an error', async () => {

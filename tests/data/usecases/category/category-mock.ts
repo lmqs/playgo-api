@@ -31,7 +31,8 @@ export const categoryResultModelMock: ILoadCategoriesByTournamentId.Result = [{
   numberAthletes: 'valid_numberAthletes',
   numberAthletesRegistration: 'valid_numberAthletesRegistration',
   numberRegistration: 0,
-  deleted: false
+  deleted: false,
+  isUserLoggedRegistered: false
 }]
 
 export const registrationsByCategoryMock = [{

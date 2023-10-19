@@ -7,13 +7,13 @@ export class LoadCategoriesByTournamentIdController implements Controller {
     private readonly loadCategoriesByTournamentId: ILoadCategoriesByTournamentId
   ) {}
 
-  async handle (httpRequest: LoadCategoriesByTournamentIdController.Request): Promise<HttpResponse> {
+  async handle (request: LoadCategoriesByTournamentIdController.Request): Promise<HttpResponse> {
     try {
-      const error = await this.validation.validate(httpRequest)
-      if (error) {
-        return badRequest(error)
-      }
-      const categories = await this.loadCategoriesByTournamentId.load(httpRequest.tournamentId)
+      const error = await this.validation.validate(request)
+      if (error) return badRequest(error)
+
+      const { tournamentId, accountId } = request
+      const categories = await this.loadCategoriesByTournamentId.load({ tournamentId, accountId })
       return categories.length ? ok(categories) : noContent()
     } catch (error: unknown) {
       return serverError(error as Error)
@@ -23,5 +23,6 @@ export class LoadCategoriesByTournamentIdController implements Controller {
 export namespace LoadCategoriesByTournamentIdController {
   export type Request = {
     tournamentId: string
+    accountId: string
   }
 }

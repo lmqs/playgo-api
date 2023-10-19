@@ -22,7 +22,9 @@ import {
   registrationsParamsSchema,
   registrationsListSchema,
   registrationSchema,
-  registrationsByCategorySchema
+  registrationsByCategorySchema,
+  categoriesByTournamentIdSchema,
+  categoryByTournamentIdSchema
 } from './schemas/'
 
 export default {
@@ -49,5 +51,7 @@ export default {
   registrationsParamsSchema,
   registrationsListSchema,
   registration: registrationSchema,
-  registrationsByCategorySchema
+  registrationsByCategorySchema,
+  categoryByTournamentIdSchema,
+  categoriesByTournamentIdSchema
 }

@@ -1,10 +1,10 @@
-export const loadCategoryPath = {
+export const loadCategoryByTournamentPath = {
   get: {
     security: [{
       apiKeyAuth: []
     }],
     tags: ['Categoria'],
-    summary: 'Api para listar categorias',
+    summary: 'Api para listar categorias a partir de um torneio',
     description: 'Essa rota só pode ser executada por **usuários autenticados**',
     parameters: [{
       in: 'query',
@@ -21,7 +21,7 @@ export const loadCategoryPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/categories'
+              $ref: '#/schemas/categoriesByTournamentIdSchema'
             }
           }
         }

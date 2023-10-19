@@ -27,11 +27,13 @@ export const categoryModelMock: ILoadCategoriesByTournamentId.Result = [{
   numberAthletes: 'valid_numberAthletes',
   numberAthletesRegistration: 'valid_numberAthletesRegistration',
   numberRegistration: 10,
-  deleted: false
+  deleted: false,
+  isUserLoggedRegistered: false
 }]
 
 export const requestCategoryLoadByTournamentMock: LoadCategoriesByTournamentIdController.Request = {
-  tournamentId: 'valid_tournamentId'
+  tournamentId: 'valid_tournamentId',
+  accountId: '10'
 }
 
 export const requestRemoveCategoryMock: RemoveCategoryController.Request = {
